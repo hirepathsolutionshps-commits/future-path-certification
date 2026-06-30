@@ -45,7 +45,7 @@ export function Curriculum() {
       <div className="mx-auto max-w-4xl px-5 py-20 sm:px-8 sm:py-28">
         <Reveal className="mb-12 text-center">
           <p className="eyebrow text-gold">The Transcript · 6 Weeks</p>
-          <h2 className="mt-4 font-display text-3xl font-600 tracking-tight text-ink sm:text-4xl">
+          <h2 className="mt-4 font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
             What You&apos;ll Learn
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-graphite">
@@ -58,11 +58,11 @@ export function Curriculum() {
           {weeks.map((w, i) => (
             <Reveal as="li" key={w.week} delay={i * 0.06}>
               <div className="grid grid-cols-[auto_1fr] gap-x-5 gap-y-1 border-b border-border py-6 sm:gap-x-8">
-                <span className="font-data text-sm font-600 text-gold sm:text-base">
+                <span className="font-data text-sm font-semibold text-gold sm:text-base">
                   WK&nbsp;{w.week}
                 </span>
                 <div>
-                  <h3 className="font-display text-lg font-600 text-ink sm:text-xl">{w.title}</h3>
+                  <h3 className="font-display text-lg font-semibold text-ink sm:text-xl">{w.title}</h3>
                   <p className="mt-1.5 text-sm leading-relaxed text-graphite sm:text-base">
                     {w.detail}
                   </p>

@@ -30,7 +30,7 @@ export function Benefits() {
       <div className="mx-auto max-w-4xl px-5 py-20 sm:px-8 sm:py-28">
         <Reveal className="mb-12 text-center">
           <p className="eyebrow text-gold">Included in Your Enrollment</p>
-          <h2 className="mt-4 font-display text-3xl font-600 tracking-tight text-ink sm:text-4xl">
+          <h2 className="mt-4 font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
             You Will Get
           </h2>
         </Reveal>
@@ -41,7 +41,7 @@ export function Benefits() {
               <div className="flex items-start gap-4 border-b border-border/70 py-5 sm:gap-6">
                 <Seal size={34} withText={false} className="mt-0.5 shrink-0" />
                 <div>
-                  <h3 className="font-display text-lg font-600 text-ink">{b.title}</h3>
+                  <h3 className="font-display text-lg font-semibold text-ink">{b.title}</h3>
                   <p className="mt-1 text-sm leading-relaxed text-graphite sm:text-base">
                     {b.detail}
                   </p>

@@ -23,7 +23,7 @@ export function Pricing() {
       <div className="mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-28">
         <Reveal className="mb-10 text-center">
           <p className="eyebrow text-gold">Enrollment · Limited Cohort</p>
-          <h2 className="mt-4 font-display text-3xl font-600 tracking-tight text-ink sm:text-4xl">
+          <h2 className="mt-4 font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
             Secure Your Seat
           </h2>
         </Reveal>
@@ -42,15 +42,15 @@ export function Pricing() {
               </div>
 
               <p className="eyebrow mt-6 text-graphite">Certificate of Enrollment</p>
-              <h3 className="mt-2 font-display text-2xl font-600 text-ink">
+              <h3 className="mt-2 font-display text-2xl font-semibold text-ink">
                 Healthcare VA Program
               </h3>
 
               <div className="mt-7 flex items-end justify-center gap-3">
-                <span className="font-data text-lg font-400 text-graphite line-through decoration-gold/60">
+                <span className="font-data text-lg font-normal text-graphite line-through decoration-gold/60">
                   ₦100,000
                 </span>
-                <span className="font-data text-5xl font-700 tracking-tight text-ink">
+                <span className="font-data text-5xl font-bold tracking-tight text-ink">
                   ₦50,000
                 </span>
               </div>

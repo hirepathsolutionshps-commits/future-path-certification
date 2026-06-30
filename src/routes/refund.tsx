@@ -25,7 +25,7 @@ function Refund() {
         <Link to="/" className="font-data text-xs uppercase tracking-widest text-gold hover:underline">
           ← Back home
         </Link>
-        <h1 className="mt-6 font-display text-4xl font-600 tracking-tight text-ink">
+        <h1 className="mt-6 font-display text-4xl font-semibold tracking-tight text-ink">
           Refund &amp; Guarantee Policy
         </h1>
         <div className="mt-8 space-y-6 leading-relaxed text-graphite">
@@ -34,7 +34,7 @@ function Refund() {
             refunds.
           </p>
           <div>
-            <h2 className="font-display text-xl font-600 text-ink">Job-placement guarantee</h2>
+            <h2 className="font-display text-xl font-semibold text-ink">Job-placement guarantee</h2>
             <p className="mt-2">
               If you complete the full 6-week program and actively follow our placement process —
               submitting applications, attending interviews, and applying our guidance — we will
@@ -42,7 +42,7 @@ function Refund() {
             </p>
           </div>
           <div>
-            <h2 className="font-display text-xl font-600 text-ink">Refund eligibility</h2>
+            <h2 className="font-display text-xl font-semibold text-ink">Refund eligibility</h2>
             <p className="mt-2">
               Refund requests must be made within the first week of the cohort and before completing
               more than the first module of training. After substantial course materials have been
@@ -50,7 +50,7 @@ function Refund() {
             </p>
           </div>
           <div>
-            <h2 className="font-display text-xl font-600 text-ink">How to request a refund</h2>
+            <h2 className="font-display text-xl font-semibold text-ink">How to request a refund</h2>
             <p className="mt-2">
               Contact us on WhatsApp or by phone at +234 906 555 0142 with your name and enrollment
               details. We aim to respond to all requests within 5 business days.

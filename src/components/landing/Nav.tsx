@@ -13,7 +13,7 @@ export function Nav() {
             height={32}
             className="h-8 w-8 rounded-[7px]"
           />
-          <span className="font-display text-base font-600 tracking-tight text-ink sm:text-lg">
+          <span className="font-display text-base font-semibold tracking-tight text-ink sm:text-lg">
             Hire Path <span className="text-gold">Solutions</span>
           </span>
         </a>

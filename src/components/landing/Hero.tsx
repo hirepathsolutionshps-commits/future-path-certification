@@ -22,7 +22,7 @@ export function Hero() {
           </motion.p>
           <motion.h1
             {...fade(0.12)}
-            className="mt-5 font-display text-4xl font-600 leading-[1.05] tracking-tight text-ink sm:text-5xl lg:text-6xl"
+            className="mt-5 font-display text-4xl font-semibold leading-[1.05] tracking-tight text-ink sm:text-5xl lg:text-6xl"
           >
             Become a Healthcare Virtual Assistant
           </motion.h1>

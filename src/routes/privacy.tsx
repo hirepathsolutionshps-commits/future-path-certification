@@ -25,7 +25,7 @@ function Privacy() {
         <Link to="/" className="font-data text-xs uppercase tracking-widest text-gold hover:underline">
           ← Back home
         </Link>
-        <h1 className="mt-6 font-display text-4xl font-600 tracking-tight text-ink">
+        <h1 className="mt-6 font-display text-4xl font-semibold tracking-tight text-ink">
           Privacy Policy
         </h1>
         <div className="mt-8 space-y-6 leading-relaxed text-graphite">
@@ -34,7 +34,7 @@ function Privacy() {
             collect and how we use it.
           </p>
           <div>
-            <h2 className="font-display text-xl font-600 text-ink">Information we collect</h2>
+            <h2 className="font-display text-xl font-semibold text-ink">Information we collect</h2>
             <p className="mt-2">
               When you apply, we collect your name, phone number, email address, whether you have a
               laptop, and your preferred schedule. We use this solely to process your application and
@@ -42,21 +42,21 @@ function Privacy() {
             </p>
           </div>
           <div>
-            <h2 className="font-display text-xl font-600 text-ink">How we use your information</h2>
+            <h2 className="font-display text-xl font-semibold text-ink">How we use your information</h2>
             <p className="mt-2">
               We use your details to confirm your seat, communicate by phone, WhatsApp, or email, and
               deliver the training. We do not sell your personal information to third parties.
             </p>
           </div>
           <div>
-            <h2 className="font-display text-xl font-600 text-ink">Data security</h2>
+            <h2 className="font-display text-xl font-semibold text-ink">Data security</h2>
             <p className="mt-2">
               Your information is stored securely and access is restricted to our team. You may
               request that we update or delete your data at any time by contacting us.
             </p>
           </div>
           <div>
-            <h2 className="font-display text-xl font-600 text-ink">Contact</h2>
+            <h2 className="font-display text-xl font-semibold text-ink">Contact</h2>
             <p className="mt-2">
               For any privacy questions, reach us on WhatsApp or by phone at +234 906 555 0142.
             </p>

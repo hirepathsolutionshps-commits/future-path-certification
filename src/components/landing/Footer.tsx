@@ -12,7 +12,7 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
         <div className="flex flex-col items-center text-center">
           <Seal size={56} withText={false} />
-          <p className="mt-7 max-w-2xl font-display text-xl font-600 leading-snug tracking-tight text-background sm:text-2xl">
+          <p className="mt-7 max-w-2xl font-display text-xl font-semibold leading-snug tracking-tight text-background sm:text-2xl">
             Secure your future. Work from anywhere. Change your life.
           </p>
 

@@ -17,9 +17,9 @@ export function Stats() {
             delay={i * 0.12}
             className="px-2 text-center md:px-6 md:text-left"
           >
-            <div className="font-data text-3xl font-600 tracking-tight text-gold sm:text-4xl">
+            <div className="font-data text-3xl font-semibold tracking-tight text-gold sm:text-4xl">
               {s.value}
-              <span className="ml-1.5 font-data text-sm font-400 text-background/60">{s.unit}</span>
+              <span className="ml-1.5 font-data text-sm font-normal text-background/60">{s.unit}</span>
             </div>
             <div className="eyebrow mt-3 text-background/70">{s.label}</div>
           </Reveal>

@@ -31,7 +31,7 @@ export function Faq() {
       <div className="mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-28">
         <Reveal className="mb-10 text-center">
           <p className="eyebrow text-gold">Questions, Answered</p>
-          <h2 className="mt-4 font-display text-3xl font-600 tracking-tight text-ink sm:text-4xl">
+          <h2 className="mt-4 font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
             Frequently Asked
           </h2>
         </Reveal>
@@ -39,7 +39,7 @@ export function Faq() {
           <Accordion type="single" collapsible className="border-t border-border">
             {faqs.map((f) => (
               <AccordionItem key={f.q} value={f.q} className="border-b border-border">
-                <AccordionTrigger className="py-5 text-left font-display text-lg font-600 text-ink hover:text-gold hover:no-underline">
+                <AccordionTrigger className="py-5 text-left font-display text-lg font-semibold text-ink hover:text-gold hover:no-underline">
                   {f.q}
                 </AccordionTrigger>
                 <AccordionContent className="pb-5 text-base leading-relaxed text-graphite">
