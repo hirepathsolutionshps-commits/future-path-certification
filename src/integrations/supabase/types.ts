@@ -14,7 +14,71 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      cohorts: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          starts_on: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          starts_on?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          starts_on?: string | null
+        }
+        Relationships: []
+      }
+      students: {
+        Row: {
+          cohort_id: string | null
+          created_at: string
+          email: string
+          has_laptop: boolean
+          id: string
+          name: string
+          phone: string
+          schedule_type: string
+        }
+        Insert: {
+          cohort_id?: string | null
+          created_at?: string
+          email: string
+          has_laptop?: boolean
+          id?: string
+          name: string
+          phone: string
+          schedule_type?: string
+        }
+        Update: {
+          cohort_id?: string | null
+          created_at?: string
+          email?: string
+          has_laptop?: boolean
+          id?: string
+          name?: string
+          phone?: string
+          schedule_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "students_cohort_id_fkey"
+            columns: ["cohort_id"]
+            isOneToOne: false
+            referencedRelation: "cohorts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
