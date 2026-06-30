@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { CtaButton } from "./CtaButton";
+import { Seal } from "@/components/Seal";
 
 const trust = [
   { value: "6", label: "Week program" },
@@ -54,9 +55,17 @@ export function Hero() {
             </a>
           </motion.div>
 
+          {/* Seal — centered badge on mobile/tablet, hidden on large (shown floating right instead) */}
           <motion.div
             {...fade(0.42)}
-            className="mt-12 grid grid-cols-3 divide-x divide-border rounded-md border border-border bg-cream"
+            className="mt-10 flex justify-center lg:hidden"
+          >
+            <Seal size={96} withText draw />
+          </motion.div>
+
+          <motion.div
+            {...fade(0.5)}
+            className="mt-10 grid grid-cols-3 divide-x divide-border rounded-md border border-border bg-cream lg:mt-12"
           >
             {trust.map((t) => (
               <div key={t.label} className="px-4 py-5 text-center">
@@ -67,6 +76,17 @@ export function Hero() {
           </motion.div>
         </div>
       </div>
+
+      {/* Seal — floating right on large screens only */}
+      <motion.div
+        initial={reduce ? false : { opacity: 0, scale: 0.88 }}
+        animate={reduce ? undefined : { opacity: 1, scale: 1 }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.45 }}
+        className="pointer-events-none absolute right-6 top-1/2 hidden -translate-y-1/2 xl:block 2xl:right-12"
+      >
+        <Seal size={148} withText draw />
+      </motion.div>
+
       <div className="h-px w-full bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
     </section>
   );
