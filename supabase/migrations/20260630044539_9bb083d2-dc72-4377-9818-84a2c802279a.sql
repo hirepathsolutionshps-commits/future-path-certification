@@ -1,0 +1,1 @@
+DELETE FROM public.students WHERE email = 'teste2e@example.com';
