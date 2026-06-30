@@ -9,7 +9,7 @@ import {
 const faqs = [
   {
     q: "Do I need a laptop?",
-    a: "A laptop is strongly recommended to do client work professionally. If you don't have one yet, you can still apply — we'll guide you on affordable options and what's required before you start working with clients.",
+    a: "A laptop is strongly recommended to do client work professionally. If you don't have one yet, you can still apply. We'll guide you on affordable options and what's required before you start working with clients.",
   },
   {
     q: "Is this legit?",

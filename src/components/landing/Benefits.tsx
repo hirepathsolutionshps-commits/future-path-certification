@@ -20,7 +20,7 @@ const benefits = [
   },
   {
     title: "Guaranteed paying job",
-    detail: "We don't just train you — we help you land a real, paying client through our network.",
+    detail: "We don't just train you. We help you land a real, paying client through our network.",
   },
 ];
 

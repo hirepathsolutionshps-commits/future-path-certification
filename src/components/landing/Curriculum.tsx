@@ -35,7 +35,7 @@ const weeks = [
     week: "06",
     title: "Getting Hired & Getting Paid",
     detail:
-      "Where to find clients, how to interview, how to get paid in dollars from Lagos — and your guaranteed placement support.",
+      "Where to find clients, how to interview, how to get paid in dollars from Lagos, and your guaranteed placement support.",
   },
 ];
 
@@ -49,7 +49,7 @@ export function Curriculum() {
             What You&apos;ll Learn
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-graphite">
-            A genuine, sequential program — each week builds on the last, exactly like an official
+            A genuine, sequential program where each week builds on the last, exactly like an official
             course of study.
           </p>
         </Reveal>

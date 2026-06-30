@@ -30,7 +30,7 @@ export function Hero() {
             {...fade(0.2)}
             className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-graphite lg:mx-0 sm:text-lg"
           >
-            Train for six weeks, then work remotely with US &amp; UK healthcare clients — and get
+            Train for six weeks, then work remotely with US &amp; UK healthcare clients and get
             paid in dollars, right from Lagos. No experience required. We train you, place you, and
             stand behind you.
           </motion.p>
