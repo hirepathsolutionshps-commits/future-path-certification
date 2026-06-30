@@ -82,13 +82,14 @@ export function Seal({ size = 160, withText = true, draw = false, className }: S
         const angle = (i / 48) * Math.PI * 2;
         const r1 = 72;
         const r2 = 78;
+        const round = (n: number) => Number(n.toFixed(2));
         return (
           <motion.line
             key={i}
-            x1={100 + Math.cos(angle) * r1}
-            y1={100 + Math.sin(angle) * r1}
-            x2={100 + Math.cos(angle) * r2}
-            y2={100 + Math.sin(angle) * r2}
+            x1={round(100 + Math.cos(angle) * r1)}
+            y1={round(100 + Math.sin(angle) * r1)}
+            x2={round(100 + Math.cos(angle) * r2)}
+            y2={round(100 + Math.sin(angle) * r2)}
             stroke="var(--gold)"
             strokeWidth="1"
             initial={animate ? { opacity: 0 } : false}
