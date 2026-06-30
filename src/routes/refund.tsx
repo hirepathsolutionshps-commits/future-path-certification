@@ -52,7 +52,7 @@ function Refund() {
           <div>
             <h2 className="font-display text-xl font-semibold text-ink">How to request a refund</h2>
             <p className="mt-2">
-              Contact us on WhatsApp or by phone at +234 906 555 0142 with your name and enrollment
+              Contact us on WhatsApp or by phone at 08068579882 with your name and enrollment
               details. We aim to respond to all requests within 5 business days.
             </p>
           </div>

@@ -91,7 +91,7 @@ function buildHtml(data: ConfirmationEmailData): string {
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td align="center" style="padding:8px 0 28px;">
-                    <a href="https://wa.me/2349065550142" style="display:inline-block;background:#0A0A0A;color:#C9971C;font-size:13px;font-weight:700;text-decoration:none;padding:14px 32px;border-radius:4px;letter-spacing:0.5px;">
+                    <a href="https://wa.me/2348068579882" style="display:inline-block;background:#0A0A0A;color:#C9971C;font-size:13px;font-weight:700;text-decoration:none;padding:14px 32px;border-radius:4px;letter-spacing:0.5px;">
                       Message Us on WhatsApp
                     </a>
                   </td>
@@ -105,7 +105,7 @@ function buildHtml(data: ConfirmationEmailData): string {
             <td style="background:#F7F5F0;border-top:1px solid #E8E5DF;padding:24px 40px;text-align:center;">
               <p style="margin:0;font-size:12px;color:#888;line-height:1.6;">
                 Hire Path Solutions &middot; Lagos, Nigeria<br/>
-                +234 906 555 0142
+                08068579882
               </p>
             </td>
           </tr>

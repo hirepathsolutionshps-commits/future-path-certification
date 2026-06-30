@@ -1,8 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { Seal } from "@/components/Seal";
 
-const PHONE_DISPLAY = "+234 906 555 0142";
-const PHONE_DIGITS = "2349065550142";
+const PHONE_DISPLAY = "08068579882";
+const PHONE_DIGITS = "2348068579882";
 
 export function Footer() {
   return (

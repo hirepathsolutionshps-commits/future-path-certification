@@ -58,7 +58,7 @@ function Privacy() {
           <div>
             <h2 className="font-display text-xl font-semibold text-ink">Contact</h2>
             <p className="mt-2">
-              For any privacy questions, reach us on WhatsApp or by phone at +234 906 555 0142.
+              For any privacy questions, reach us on WhatsApp or by phone at 08068579882.
             </p>
           </div>
         </div>

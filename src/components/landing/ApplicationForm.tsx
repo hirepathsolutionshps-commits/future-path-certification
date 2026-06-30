@@ -230,7 +230,7 @@ export function ApplicationForm() {
                   will reach out on WhatsApp within 24 hours with your onboarding details.
                 </p>
                 <a
-                  href="https://wa.me/2349065550142"
+                  href="https://wa.me/2348068579882"
                   className="mt-6 inline-flex items-center gap-2 rounded-sm bg-ink px-5 py-3 text-sm font-semibold text-gold"
                 >
                   Message Us on WhatsApp
