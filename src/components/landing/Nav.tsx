@@ -1,4 +1,3 @@
-import logo from "@/assets/hire-path-logo.jpeg.asset.json";
 import { CtaButton } from "./CtaButton";
 
 export function Nav() {
@@ -7,7 +6,7 @@ export function Nav() {
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
         <a href="#top" className="flex items-center gap-2.5" aria-label="Hire Path Solutions home">
           <img
-            src={logo.url}
+            src="/logo.png"
             alt="Hire Path Solutions logo"
             width={32}
             height={32}

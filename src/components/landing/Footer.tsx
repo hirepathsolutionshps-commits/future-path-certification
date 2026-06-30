@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import logo from "@/assets/hire-path-logo.jpeg.asset.json";
 import { Seal } from "@/components/Seal";
 
 const PHONE_DISPLAY = "+234 906 555 0142";
@@ -38,7 +37,7 @@ export function Footer() {
         <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-background/15 pt-7 sm:flex-row">
           <div className="flex items-center gap-2.5">
             <img
-              src={logo.url}
+              src="/logo.png"
               alt="Hire Path Solutions logo"
               width={24}
               height={24}
