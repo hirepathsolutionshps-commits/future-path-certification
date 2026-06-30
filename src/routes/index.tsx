@@ -1,16 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import ogImage from "@/assets/og-image.jpg";
 import { Nav } from "@/components/landing/Nav";
 import { Hero } from "@/components/landing/Hero";
 import { Stats } from "@/components/landing/Stats";
-import { Curriculum } from "@/components/landing/Curriculum";
-import { Benefits } from "@/components/landing/Benefits";
-import { Pricing } from "@/components/landing/Pricing";
-import { ApplicationForm } from "@/components/landing/ApplicationForm";
-import { Testimonials } from "@/components/landing/Testimonials";
-import { Faq } from "@/components/landing/Faq";
-import { Footer } from "@/components/landing/Footer";
+
+const Curriculum = lazy(() => import("@/components/landing/Curriculum").then(m => ({ default: m.Curriculum })));
+const Benefits = lazy(() => import("@/components/landing/Benefits").then(m => ({ default: m.Benefits })));
+const Pricing = lazy(() => import("@/components/landing/Pricing").then(m => ({ default: m.Pricing })));
+const Testimonials = lazy(() => import("@/components/landing/Testimonials").then(m => ({ default: m.Testimonials })));
+const ApplicationForm = lazy(() => import("@/components/landing/ApplicationForm").then(m => ({ default: m.ApplicationForm })));
+const Faq = lazy(() => import("@/components/landing/Faq").then(m => ({ default: m.Faq })));
+const Footer = lazy(() => import("@/components/landing/Footer").then(m => ({ default: m.Footer })));
 
 const TITLE = "Hire Path Solutions | Become a Healthcare Virtual Assistant";
 const DESCRIPTION =
@@ -61,6 +63,10 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+function SectionFallback() {
+  return <div className="h-32" />;
+}
+
 function Index() {
   return (
     <div className="min-h-screen bg-background">
@@ -68,14 +74,28 @@ function Index() {
       <main>
         <Hero />
         <Stats />
-        <Curriculum />
-        <Benefits />
-        <Pricing />
-        <Testimonials />
-        <ApplicationForm />
-        <Faq />
+        <Suspense fallback={<SectionFallback />}>
+          <Curriculum />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <Benefits />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <Pricing />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <Testimonials />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <ApplicationForm />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <Faq />
+        </Suspense>
       </main>
-      <Footer />
+      <Suspense fallback={null}>
+        <Footer />
+      </Suspense>
       <Toaster position="top-center" />
     </div>
   );

@@ -13,6 +13,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RefundRouteImport } from './routes/refund'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiSendConfirmationRouteImport } from './routes/api/send-confirmation'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -34,18 +35,25 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiSendConfirmationRoute = ApiSendConfirmationRouteImport.update({
+  id: '/api/send-confirmation',
+  path: '/api/send-confirmation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/privacy': typeof PrivacyRoute
   '/refund': typeof RefundRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/api/send-confirmation': typeof ApiSendConfirmationRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/privacy': typeof PrivacyRoute
   '/refund': typeof RefundRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/api/send-confirmation': typeof ApiSendConfirmationRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,25 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/refund': typeof RefundRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/api/send-confirmation': typeof ApiSendConfirmationRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/privacy' | '/refund' | '/sitemap.xml'
+  fullPaths:
+    | '/'
+    | '/privacy'
+    | '/refund'
+    | '/sitemap.xml'
+    | '/api/send-confirmation'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/privacy' | '/refund' | '/sitemap.xml'
-  id: '__root__' | '/' | '/privacy' | '/refund' | '/sitemap.xml'
+  to: '/' | '/privacy' | '/refund' | '/sitemap.xml' | '/api/send-confirmation'
+  id:
+    | '__root__'
+    | '/'
+    | '/privacy'
+    | '/refund'
+    | '/sitemap.xml'
+    | '/api/send-confirmation'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +87,7 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   RefundRoute: typeof RefundRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  ApiSendConfirmationRoute: typeof ApiSendConfirmationRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +120,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/send-confirmation': {
+      id: '/api/send-confirmation'
+      path: '/api/send-confirmation'
+      fullPath: '/api/send-confirmation'
+      preLoaderRoute: typeof ApiSendConfirmationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +135,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   RefundRoute: RefundRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  ApiSendConfirmationRoute: ApiSendConfirmationRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

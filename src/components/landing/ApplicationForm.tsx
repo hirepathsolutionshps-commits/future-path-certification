@@ -1,11 +1,35 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Reveal } from "@/components/Reveal";
-import { Seal } from "@/components/Seal";
 import { CtaButton } from "./CtaButton";
+
+declare global {
+  interface Window {
+    PaystackPop: {
+      setup: (opts: {
+        key: string;
+        email: string;
+        amount: number;
+        currency: string;
+        ref: string;
+        firstname: string;
+        metadata?: Record<string, unknown>;
+        onClose: () => void;
+        callback: (response: { reference: string }) => void;
+      }) => { openIframe: () => void };
+    };
+  }
+}
+
+const PAYSTACK_KEY = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY as string;
+
+const PRICES: Record<"Regular" | "VIP", number> = {
+  Regular: 50000 * 100,
+  VIP: 100000 * 100,
+};
 
 const schema = z.object({
   name: z.string().trim().min(2, "Please enter your full name").max(120),
@@ -37,25 +61,44 @@ const empty: FormState = {
 };
 
 const inputCls =
-  "w-full rounded-sm border border-input bg-background px-4 py-3 text-ink placeholder:text-graphite/50 focus-visible:border-gold";
+  "w-full rounded-sm border border-input bg-background px-4 py-3 text-ink placeholder:text-graphite/50 focus-visible:border-gold focus-visible:outline-none";
+
+function usePaystackScript() {
+  const loaded = useRef(false);
+  useEffect(() => {
+    if (loaded.current || document.getElementById("paystack-js")) {
+      loaded.current = true;
+      return;
+    }
+    const s = document.createElement("script");
+    s.id = "paystack-js";
+    s.src = "https://js.paystack.co/v1/inline.js";
+    s.async = true;
+    document.head.appendChild(s);
+    loaded.current = true;
+  }, []);
+}
 
 export function ApplicationForm() {
+  usePaystackScript();
   const reduce = useReducedMotion();
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<FormState>(empty);
-  const [cohortId, setCohortId] = useState<string | null>(null);
+  const [cohort, setCohort] = useState<{ id: string; name: string } | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
 
   useEffect(() => {
     supabase
       .from("cohorts")
-      .select("id")
+      .select("id, name")
       .eq("is_active", true)
       .order("created_at", { ascending: false })
       .limit(1)
       .maybeSingle()
-      .then(({ data }) => setCohortId(data?.id ?? null));
+      .then(({ data }) => {
+        if (data) setCohort({ id: data.id, name: data.name });
+      });
   }, []);
 
   const set = (patch: Partial<FormState>) => setForm((f) => ({ ...f, ...patch }));
@@ -75,28 +118,77 @@ export function ApplicationForm() {
     setStep((s) => Math.min(s + 1, 2));
   };
 
-  const submit = async () => {
+  const handlePayAndSubmit = async () => {
     const parsed = schema.safeParse(form);
     if (!parsed.success) {
       toast.error(parsed.error.issues[0].message);
       return;
     }
-    setSubmitting(true);
-    const { error } = await supabase.from("students").insert({
-      name: parsed.data.name,
-      phone: parsed.data.phone,
-      email: parsed.data.email,
-      has_laptop: parsed.data.has_laptop,
-      schedule_type: parsed.data.schedule_type,
-      cohort_id: cohortId,
-    });
-    setSubmitting(false);
-    if (error) {
-      toast.error("Something went wrong. Please try again.");
+    if (!form.schedule_type) {
+      toast.error("Please choose a schedule");
       return;
     }
-    setDone(true);
-    toast.success("Application received!");
+
+    if (!window.PaystackPop) {
+      toast.error("Payment script not ready — please wait a moment and try again.");
+      return;
+    }
+
+    const ref = `hps-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+    const handler = window.PaystackPop.setup({
+      key: PAYSTACK_KEY,
+      email: parsed.data.email,
+      amount: PRICES[parsed.data.schedule_type],
+      currency: "NGN",
+      ref,
+      firstname: parsed.data.name.split(" ")[0],
+      metadata: { schedule_type: parsed.data.schedule_type },
+      onClose: () => {
+        toast.info("Payment cancelled — your progress is saved.");
+      },
+      callback: async (response) => {
+        setSubmitting(true);
+        try {
+          const { error } = await supabase.from("students").insert({
+            name: parsed.data.name,
+            phone: parsed.data.phone,
+            email: parsed.data.email,
+            has_laptop: parsed.data.has_laptop,
+            schedule_type: parsed.data.schedule_type,
+            cohort_id: cohort?.id ?? null,
+            payment_ref: response.reference,
+            paid: true,
+          });
+
+          if (error) {
+            console.error("[db]", error);
+            toast.error("Payment received but registration had an issue. Contact us on WhatsApp.");
+            setSubmitting(false);
+            return;
+          }
+
+          await fetch("/api/send-confirmation", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name: parsed.data.name,
+              email: parsed.data.email,
+              phone: parsed.data.phone,
+              scheduleType: parsed.data.schedule_type,
+              cohortName: cohort?.name ?? "Healthcare VA Program",
+            }),
+          });
+
+          setDone(true);
+          toast.success("You're in! Check your email for confirmation.");
+        } finally {
+          setSubmitting(false);
+        }
+      },
+    });
+
+    handler.openIframe();
   };
 
   const stepAnim = reduce
@@ -117,28 +209,35 @@ export function ApplicationForm() {
             Start Your Application
           </h2>
           <p className="mx-auto mt-4 max-w-md text-graphite">
-            Three quick steps. We&apos;ll reach out on phone or WhatsApp to confirm your seat.
+            Three quick steps, then pay securely with Paystack to confirm your seat.
           </p>
         </Reveal>
 
         <Reveal>
           <div className="rounded-md border border-border bg-card p-6 shadow-sm sm:p-9">
             {done ? (
-              <div className="py-6 text-center">
-                <div className="flex justify-center">
-                  <Seal size={90} draw withText={false} />
+              <div className="py-8 text-center">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gold/15">
+                  <svg className="h-8 w-8 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
                 </div>
                 <h3 className="mt-6 font-display text-2xl font-semibold text-ink">
-                  Application Received
+                  Payment Confirmed!
                 </h3>
                 <p className="mx-auto mt-3 max-w-sm text-graphite">
-                  Thank you, {form.name.split(" ")[0]}. Our team will contact you shortly to confirm
-                  your place in the new cohort.
+                  Welcome, {form.name.split(" ")[0]}! A confirmation email is on its way. Our team
+                  will reach out on WhatsApp within 24 hours with your onboarding details.
                 </p>
+                <a
+                  href="https://wa.me/2349065550142"
+                  className="mt-6 inline-flex items-center gap-2 rounded-sm bg-ink px-5 py-3 text-sm font-semibold text-gold"
+                >
+                  Message Us on WhatsApp
+                </a>
               </div>
             ) : (
               <>
-                {/* Progress */}
                 <div className="mb-8 flex items-center gap-2">
                   {[0, 1, 2].map((i) => (
                     <div
@@ -149,9 +248,7 @@ export function ApplicationForm() {
                     />
                   ))}
                 </div>
-                <p className="eyebrow mb-6 text-graphite">
-                  Step {step + 1} / 3
-                </p>
+                <p className="eyebrow mb-6 text-graphite">Step {step + 1} / 3</p>
 
                 <AnimatePresence mode="wait">
                   {step === 0 && (
@@ -226,11 +323,13 @@ export function ApplicationForm() {
                           {
                             val: "Regular" as const,
                             title: "Regular",
+                            price: "₦50,000",
                             desc: "Standard cohort pace and group sessions.",
                           },
                           {
                             val: "VIP" as const,
                             title: "VIP",
+                            price: "₦100,000",
                             desc: "Priority support and flexible 1-on-1 guidance.",
                           },
                         ].map((o) => (
@@ -247,13 +346,17 @@ export function ApplicationForm() {
                             <span className="mt-0.5 font-data text-gold">
                               {form.schedule_type === o.val ? "●" : "○"}
                             </span>
-                            <span>
+                            <span className="flex-1">
                               <span className="block text-sm font-semibold text-ink">{o.title}</span>
                               <span className="block text-sm text-graphite">{o.desc}</span>
                             </span>
+                            <span className="font-data text-sm font-bold text-gold">{o.price}</span>
                           </button>
                         ))}
                       </div>
+                      <p className="mt-4 text-center text-xs text-graphite/70">
+                        You will be taken to a secure Paystack payment page after clicking below.
+                      </p>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -276,11 +379,11 @@ export function ApplicationForm() {
                     </CtaButton>
                   ) : (
                     <CtaButton
-                      onClick={submit}
+                      onClick={handlePayAndSubmit}
                       variant="gold"
                       disabled={submitting || !form.schedule_type}
                     >
-                      {submitting ? "Submitting…" : "Submit Application"}
+                      {submitting ? "Processing…" : "Pay and Confirm Seat"}
                     </CtaButton>
                   )}
                 </div>
