@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
-const TITLE = "Refund & Guarantee Policy — Hire Path Solutions";
+const TITLE = "Refund & Guarantee Policy | Hire Path Solutions";
 const DESCRIPTION =
   "Our refund terms and job-placement guarantee for the Hire Path Solutions Healthcare Virtual Assistant training program.";
 
@@ -36,8 +36,8 @@ function Refund() {
           <div>
             <h2 className="font-display text-xl font-semibold text-ink">Job-placement guarantee</h2>
             <p className="mt-2">
-              If you complete the full 6-week program and actively follow our placement process —
-              submitting applications, attending interviews, and applying our guidance — we will
+              If you complete the full 6-week program and actively follow our placement process
+              (submitting applications, attending interviews, and applying our guidance), we will
               continue to support you until you secure a paying client.
             </p>
           </div>

@@ -8,7 +8,7 @@ interface SealProps {
 }
 
 /**
- * Circular certification seal — the signature "verified credibility" motif.
+ * Circular certification seal: the signature "verified credibility" motif.
  * When `draw` is true it traces its outlines in on mount (one of the two
  * standout animation moments). Small instances render static next to trust
  * signals. Respects prefers-reduced-motion.

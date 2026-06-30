@@ -1,7 +1,7 @@
 import { Reveal } from "@/components/Reveal";
 
 const stats = [
-  { value: "₦200K–₦800K+", unit: "/ month", label: "Earning potential" },
+  { value: "₦200K-₦800K+", unit: "/ month", label: "Earning potential" },
   { value: "100%", unit: "remote", label: "Work from anywhere" },
   { value: "US & UK", unit: "clients", label: "Paid in dollars" },
 ];

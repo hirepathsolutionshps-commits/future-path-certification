@@ -8,10 +8,11 @@ import { Curriculum } from "@/components/landing/Curriculum";
 import { Benefits } from "@/components/landing/Benefits";
 import { Pricing } from "@/components/landing/Pricing";
 import { ApplicationForm } from "@/components/landing/ApplicationForm";
+import { Testimonials } from "@/components/landing/Testimonials";
 import { Faq } from "@/components/landing/Faq";
 import { Footer } from "@/components/landing/Footer";
 
-const TITLE = "Hire Path Solutions — Become a Healthcare Virtual Assistant";
+const TITLE = "Hire Path Solutions | Become a Healthcare Virtual Assistant";
 const DESCRIPTION =
   "6-week training to become a remote Healthcare Virtual Assistant for US & UK clients. Work from anywhere, get paid in dollars from Lagos. No experience required.";
 
@@ -70,6 +71,7 @@ function Index() {
         <Curriculum />
         <Benefits />
         <Pricing />
+        <Testimonials />
         <ApplicationForm />
         <Faq />
       </main>

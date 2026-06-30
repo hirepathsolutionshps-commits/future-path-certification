@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
-const TITLE = "Privacy Policy — Hire Path Solutions";
+const TITLE = "Privacy Policy | Hire Path Solutions";
 const DESCRIPTION =
   "How Hire Path Solutions collects, uses, and protects the information you share when you apply to our Healthcare Virtual Assistant program.";
 
