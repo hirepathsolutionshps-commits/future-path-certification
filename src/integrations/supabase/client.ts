@@ -30,8 +30,16 @@ function createSupabaseFetch(supabaseKey: string): typeof fetch {
 function createSupabaseClient() {
   // Use import.meta.env for client-side (Vite build-time replacement)
   // Fall back to process.env for SSR (server-side rendering)
-  const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
-  const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_PUBLISHABLE_KEY;
+  // Note: VITE_SUPABASE_URL / VITE_SUPABASE_PUBLISHABLE_KEY may be swapped in some environments;
+  // prefer the server-side vars (SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY) which are always correct.
+  const SUPABASE_URL =
+    (import.meta.env.VITE_SUPABASE_URL?.startsWith("http") ? import.meta.env.VITE_SUPABASE_URL : null) ||
+    (import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY?.startsWith("http") ? import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY : null) ||
+    process.env.SUPABASE_URL;
+  const SUPABASE_PUBLISHABLE_KEY =
+    (import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY?.startsWith("http") ? null : import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY) ||
+    (import.meta.env.VITE_SUPABASE_URL?.startsWith("http") ? null : import.meta.env.VITE_SUPABASE_URL) ||
+    process.env.SUPABASE_PUBLISHABLE_KEY;
 
   if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
     const missing = [
