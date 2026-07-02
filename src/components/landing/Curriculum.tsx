@@ -44,7 +44,7 @@ export function Curriculum() {
     <section id="curriculum" className="bg-background">
       <div className="mx-auto max-w-4xl px-5 py-20 sm:px-8 sm:py-28">
         <Reveal className="mb-12 text-center">
-          <p className="eyebrow text-gold">The Transcript · 6 Weeks</p>
+          <p className="eyebrow text-gold">The Transcript, 6 Weeks</p>
           <h2 className="mt-4 font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
             What You&apos;ll Learn
           </h2>

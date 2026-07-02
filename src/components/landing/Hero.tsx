@@ -24,7 +24,7 @@ export function Hero() {
       <div className="mx-auto max-w-5xl px-5 py-16 sm:px-8 sm:py-24 lg:py-28">
         <div className="mx-auto max-w-3xl text-center">
           <motion.p {...fade(0.05)} className="eyebrow text-gold">
-            New Cohort · 6 Weeks
+            New Cohort, 6 Weeks
           </motion.p>
           <motion.h1
             {...fade(0.12)}

@@ -22,7 +22,7 @@ export function Pricing() {
     <section id="pricing" className="bg-background">
       <div className="mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-28">
         <Reveal className="mb-10 text-center">
-          <p className="eyebrow text-gold">Enrollment · Limited Cohort</p>
+          <p className="eyebrow text-gold">Enrollment, Limited Cohort</p>
           <h2 className="mt-4 font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
             Secure Your Seat
           </h2>
