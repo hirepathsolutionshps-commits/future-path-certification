@@ -407,18 +407,12 @@ function HomePage() {
                 </div>
                 <div className="space-y-5 text-base leading-relaxed text-graphite">
                   <p>
-                    HirePath Solutions is a career training company built for people who are ready
-                    to work but don't know where to start. We identify the most in-demand skills in
-                    the global job market and design practical programs around them.
-                  </p>
-                  <p>
-                    We don't just hand you a certificate. We help you build a real portfolio, sharpen
-                    your interview skills, and connect you with opportunities, remote and local, so
-                    you can start earning faster.
-                  </p>
-                  <p>
-                    Whether you're a fresh graduate, a career-switcher, or someone ready to earn in
-                    foreign currency, HirePath gives you the roadmap and the support to get there.
+                    HirePath Solutions is a career development and workforce solutions company that
+                    helps individuals build in-demand skills, strengthen their career profiles, and
+                    access better employment opportunities. We provide practical, industry-relevant
+                    training, along with CV optimization, job application support, interview
+                    preparation, and career coaching to help our participants achieve long-term
+                    career success.
                   </p>
                 </div>
               </div>
