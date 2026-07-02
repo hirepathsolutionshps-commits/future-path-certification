@@ -12,9 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as VaBlueprintRouteImport } from './routes/va-blueprint'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RefundRouteImport } from './routes/refund'
+import { Route as ProgramsRouteImport } from './routes/programs'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiSendConfirmationRouteImport } from './routes/api/send-confirmation'
+import { Route as ApiSendCareerAssessmentRouteImport } from './routes/api/send-career-assessment'
 
 const VaBlueprintRoute = VaBlueprintRouteImport.update({
   id: '/va-blueprint',
@@ -29,6 +31,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const RefundRoute = RefundRouteImport.update({
   id: '/refund',
   path: '/refund',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgramsRoute = ProgramsRouteImport.update({
+  id: '/programs',
+  path: '/programs',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -46,30 +53,41 @@ const ApiSendConfirmationRoute = ApiSendConfirmationRouteImport.update({
   path: '/api/send-confirmation',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiSendCareerAssessmentRoute = ApiSendCareerAssessmentRouteImport.update({
+  id: '/api/send-career-assessment',
+  path: '/api/send-career-assessment',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/privacy': typeof PrivacyRoute
+  '/programs': typeof ProgramsRoute
   '/refund': typeof RefundRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/va-blueprint': typeof VaBlueprintRoute
+  '/api/send-career-assessment': typeof ApiSendCareerAssessmentRoute
   '/api/send-confirmation': typeof ApiSendConfirmationRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/privacy': typeof PrivacyRoute
+  '/programs': typeof ProgramsRoute
   '/refund': typeof RefundRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/va-blueprint': typeof VaBlueprintRoute
+  '/api/send-career-assessment': typeof ApiSendCareerAssessmentRoute
   '/api/send-confirmation': typeof ApiSendConfirmationRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/privacy': typeof PrivacyRoute
+  '/programs': typeof ProgramsRoute
   '/refund': typeof RefundRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/va-blueprint': typeof VaBlueprintRoute
+  '/api/send-career-assessment': typeof ApiSendCareerAssessmentRoute
   '/api/send-confirmation': typeof ApiSendConfirmationRoute
 }
 export interface FileRouteTypes {
@@ -77,34 +95,42 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/privacy'
+    | '/programs'
     | '/refund'
     | '/sitemap.xml'
     | '/va-blueprint'
+    | '/api/send-career-assessment'
     | '/api/send-confirmation'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/privacy'
+    | '/programs'
     | '/refund'
     | '/sitemap.xml'
     | '/va-blueprint'
+    | '/api/send-career-assessment'
     | '/api/send-confirmation'
   id:
     | '__root__'
     | '/'
     | '/privacy'
+    | '/programs'
     | '/refund'
     | '/sitemap.xml'
     | '/va-blueprint'
+    | '/api/send-career-assessment'
     | '/api/send-confirmation'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PrivacyRoute: typeof PrivacyRoute
+  ProgramsRoute: typeof ProgramsRoute
   RefundRoute: typeof RefundRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   VaBlueprintRoute: typeof VaBlueprintRoute
+  ApiSendCareerAssessmentRoute: typeof ApiSendCareerAssessmentRoute
   ApiSendConfirmationRoute: typeof ApiSendConfirmationRoute
 }
 
@@ -131,6 +157,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RefundRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/programs': {
+      id: '/programs'
+      path: '/programs'
+      fullPath: '/programs'
+      preLoaderRoute: typeof ProgramsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/privacy': {
       id: '/privacy'
       path: '/privacy'
@@ -152,15 +185,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiSendConfirmationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/send-career-assessment': {
+      id: '/api/send-career-assessment'
+      path: '/api/send-career-assessment'
+      fullPath: '/api/send-career-assessment'
+      preLoaderRoute: typeof ApiSendCareerAssessmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PrivacyRoute: PrivacyRoute,
+  ProgramsRoute: ProgramsRoute,
   RefundRoute: RefundRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   VaBlueprintRoute: VaBlueprintRoute,
+  ApiSendCareerAssessmentRoute: ApiSendCareerAssessmentRoute,
   ApiSendConfirmationRoute: ApiSendConfirmationRoute,
 }
 export const routeTree = rootRouteImport

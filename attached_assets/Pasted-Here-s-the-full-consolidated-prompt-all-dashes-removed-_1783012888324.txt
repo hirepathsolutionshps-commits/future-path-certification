@@ -1,0 +1,75 @@
+Here's the full consolidated prompt, all dashes removed from copy (URL slugs like /programs/va-blueprint kept as is since those are technical identifiers, not stylistic dashes — flagging that in case you want those changed too):
+
+---
+
+**Prompt:**
+
+On the HirePath Solutions site, make the following changes without altering the navbar, footer, VA Blueprint program page, payment flow, or any other existing pages or components.
+
+**1. Homepage hero section**
+Replace the hero copy with:
+Headline: "Build Your Career. Increase Your Income. Access Better Opportunities."
+Subtext: "HirePath Solutions helps students, professionals, and job seekers acquire in demand skills, optimize their career profiles, and access better paying remote and physical job opportunities."
+Add a "Get Started" button (gold #F5A623 background, black #000000 text, appropriate hover state).
+Directly below the button, add a smaller text link "Learn about us" that routes to the About section.
+
+**2. Career Assessment form**
+The "Get Started" button opens a new Career Assessment form (route: /programs/career assessment or a modal, matching whatever pattern the site already uses for the VA Blueprint application form). Fields, grouped in logical steps:
+Personal info: full name, email, phone number, location (city, state)
+Education: highest level completed, field of study
+Work experience: current or most recent job title, years of experience, industry
+Skills: current skills (multi select or tags), skills they want to gain
+Career goals: target role or field, remote vs physical work preference, timeline to start
+Availability: preferred contact method, best time to reach
+Do not include current salary or expected salary fields.
+On submit, follow the same backend pattern used for the VA Blueprint application (Supabase table plus Resend email notification to admin, confirmation email to applicant). Create a new Supabase table, for example career assessments, rather than reusing the applications table.
+
+**3. New section after "Who We Are"**
+Headline: "Confused About Your Career Path?"
+Subtext: "We train you with in demand skills, build your CV and portfolio, prepare you for interviews, and help you get hired."
+Button: "Explore Programs" (same gold styling as "Get Started"), routing to a full new Programs page, not a modal.
+
+**4. New Programs page**
+Headline: "Programs built for the real world"
+Subtext: "Every program is hands on, market tested, and designed to get you job ready. Not just certified."
+Below it, a grid of 6 program cards, each with a status badge, title, description, and CTA button:
+
+Virtual Assistant Blueprint, badge "Enrolling Now": "Become a remote Healthcare VA serving US and UK clients. 6 week intensive. No experience needed." CTA "View Program" routes to the existing VA Blueprint program page.
+AI Automation, badge "Coming Soon": "Learn to build AI powered workflows and automations that businesses pay premium rates for." CTA "Join Waitlist"
+UI/UX Design, badge "Coming Soon": "Master product design from wireframes to high fidelity prototypes and land your first design job." CTA "Join Waitlist"
+Cybersecurity, badge "Coming Soon": "Enter one of the world's fastest growing fields. Learn threat analysis, ethical hacking, and more." CTA "Join Waitlist"
+Crypto, badge "Coming Soon": "Understand blockchain, DeFi, and crypto trading strategies from fundamentals to advanced practice." CTA "Join Waitlist"
+Faceless YouTube Automation, badge "Coming Soon": "Build a monetised YouTube channel without showing your face using AI tools and proven frameworks." CTA "Join Waitlist"
+
+"Enrolling Now" badge should be visually distinct (gold fill) from "Coming Soon" badges (outline or muted). "Join Waitlist" CTAs open a simple email capture form (name plus email) that saves to a program_waitlist Supabase table with a program_name column.
+
+**5. Replace "What We Offer" on the homepage with a new "The Process" section**
+Eyebrow: "THE PROCESS"
+Headline: "How HirePath Solutions Works"
+Subtext: "A streamlined path from where you are to where you want to be."
+Four numbered steps:
+01 Submit Your Profile: Share your profession, experience, salary expectations, and preferences. Upload your CV for review.
+02 Career Assessment: Our expert career coaches review your profile to identify gaps and opportunities in the market.
+03 Personalized Plan: Receive a tailored career roadmap, recommended services, and pricing specific to your goals.
+04 Start Your Journey: Begin training, receive application support, and start landing better paying placements.
+
+**6. Add a new section below The Process, "Our Expertise"**
+Eyebrow: "OUR EXPERTISE"
+Headline: "What We Offer"
+Subtext: "Comprehensive solutions to elevate your professional trajectory."
+Button: "View All Services" (reuse existing button pattern, route to a services page or anchor if one exists)
+Four cards:
+Career Assessment and Placement: Strategic evaluation of your skills and targeted placement into high paying roles.
+CV Optimization and Branding: Transform your resume, LinkedIn, and professional presence to attract top recruiters.
+Application and Interview Prep: End to end support for job applications and rigorous mock interview sessions.
+Skill Development Programs: Industry aligned training to bridge your skill gaps and make you highly hirable.
+
+**7. Site wide typography rule**
+Remove every hyphen and dash used as punctuation across all existing and new copy on the site (replace with a comma, period, or rephrase instead, e.g. "in demand" not "in demand", "end to end" not "end to end"). Do not touch hyphens inside code identifiers, file names, or URL slugs, those stay as is unless told otherwise.
+
+**8. Styling**
+Match existing typography, spacing, card styles, border radius, shadows, and hover states used elsewhere on the site exactly. Brand colors only: Black #000000, White #FFFFFF, Gold Yellow #F5A623.
+
+---
+
+Want the URL slugs (like /programs/va-blueprint) converted to no-hyphen versions too, or should those stay as is?
