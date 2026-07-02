@@ -228,22 +228,25 @@ function HomePage() {
             {/* Animated hamburger → X */}
             <button
               onClick={() => setMenuOpen((o) => !o)}
-              className="relative flex h-9 w-9 items-center justify-center rounded-md border border-border md:hidden"
+              className="flex h-9 w-9 items-center justify-center rounded-md border border-border md:hidden"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
               aria-expanded={menuOpen}
             >
-              <span className="flex h-4 w-5 flex-col justify-between">
+              <span className="flex h-[14px] w-5 flex-col justify-between">
                 <span
-                  className="block h-0.5 w-full rounded-full bg-ink origin-center transition-all duration-300"
-                  style={menuOpen ? { transform: "translateY(7px) rotate(45deg)" } : {}}
+                  className={`block h-0.5 w-full origin-center rounded-full bg-ink transition-transform duration-300 ease-in-out${
+                    menuOpen ? " translate-y-[6px] rotate-45" : ""
+                  }`}
                 />
                 <span
-                  className="block h-0.5 w-full rounded-full bg-ink transition-all duration-200"
-                  style={menuOpen ? { opacity: 0, transform: "scaleX(0)" } : {}}
+                  className={`block h-0.5 w-full rounded-full bg-ink transition-opacity duration-200 ease-in-out${
+                    menuOpen ? " opacity-0" : ""
+                  }`}
                 />
                 <span
-                  className="block h-0.5 w-full rounded-full bg-ink origin-center transition-all duration-300"
-                  style={menuOpen ? { transform: "translateY(-7px) rotate(-45deg)" } : {}}
+                  className={`block h-0.5 w-full origin-center rounded-full bg-ink transition-transform duration-300 ease-in-out${
+                    menuOpen ? " -translate-y-[6px] -rotate-45" : ""
+                  }`}
                 />
               </span>
             </button>
