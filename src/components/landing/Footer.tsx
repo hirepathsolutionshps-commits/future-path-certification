@@ -22,7 +22,6 @@ export function Footer() {
             >
               Call: {PHONE_DISPLAY}
             </a>
-            <span className="hidden text-background/30 sm:inline">·</span>
             <a
               href={`https://wa.me/${PHONE_DIGITS}`}
               target="_blank"
