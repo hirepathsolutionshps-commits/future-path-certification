@@ -20,7 +20,7 @@ export function Hero() {
         };
 
   return (
-    <section id="top" className="relative overflow-hidden bg-background">
+    <section id="top" className="relative overflow-hidden bg-background" style={{ backgroundImage: "radial-gradient(circle, rgba(201,151,28,0.06) 1px, transparent 1px)", backgroundSize: "28px 28px" }}>
       <div className="mx-auto max-w-5xl px-5 py-16 sm:px-8 sm:py-24 lg:py-28">
         <div className="mx-auto max-w-3xl text-center">
           <motion.p {...fade(0.05)} className="eyebrow inline-flex items-center justify-center gap-2 text-gold">

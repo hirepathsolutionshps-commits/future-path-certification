@@ -248,7 +248,7 @@ function HomePage() {
       </header>
 
       {/* ── HERO ── */}
-      <section className="relative overflow-hidden bg-background">
+      <section className="relative overflow-hidden bg-background" style={{ backgroundImage: "radial-gradient(circle, rgba(201,151,28,0.06) 1px, transparent 1px)", backgroundSize: "28px 28px" }}>
         {/* Ambient floating orbs */}
         <motion.div
           animate={{ y: [0, -28, 0], x: [0, 12, 0] }}
@@ -319,6 +319,29 @@ function HomePage() {
         </div>
         <div className="h-px w-full bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
       </section>
+
+      {/* ── MARQUEE ── */}
+      <div className="overflow-hidden border-y border-border bg-cream py-3.5">
+        <motion.div
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+          className="flex w-max gap-10 whitespace-nowrap"
+        >
+          {[
+            "VA Blueprint", "AI Automation", "UI/UX Design", "Cybersecurity",
+            "Crypto Trading", "YouTube Automation", "100% Remote", "No Experience Required",
+            "Get Hired Faster", "Earn in Dollars",
+            "VA Blueprint", "AI Automation", "UI/UX Design", "Cybersecurity",
+            "Crypto Trading", "YouTube Automation", "100% Remote", "No Experience Required",
+            "Get Hired Faster", "Earn in Dollars",
+          ].map((item, i) => (
+            <span key={i} className="inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-widest text-graphite/60">
+              {item}
+              <span className="h-1 w-1 rounded-full bg-gold/50" />
+            </span>
+          ))}
+        </motion.div>
+      </div>
 
       {/* ── ABOUT ── */}
       <section id="about" className="bg-cream">
