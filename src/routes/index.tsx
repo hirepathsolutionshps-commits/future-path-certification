@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { useState } from "react";
 
 const TITLE = "HirePath Solutions | Train Smart, Earn More";
 const DESCRIPTION =
@@ -91,67 +91,6 @@ const PROGRAMS = [
   },
 ];
 
-const ENROLLMENTS = [
-  { name: "Chidinma O.", time: "2 min ago" },
-  { name: "Oluwaseun A.", time: "11 min ago" },
-  { name: "Fatima B.", time: "28 min ago" },
-  { name: "Emeka N.", time: "44 min ago" },
-  { name: "Adaeze M.", time: "1 hr ago" },
-];
-
-function LiveNotification() {
-  const reduce = useReducedMotion();
-  const [index, setIndex] = useState(0);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const showTimer = setTimeout(() => setVisible(true), 3500);
-    return () => clearTimeout(showTimer);
-  }, []);
-
-  useEffect(() => {
-    if (!visible) return;
-    const hideTimer = setTimeout(() => setVisible(false), 5000);
-    return () => clearTimeout(hideTimer);
-  }, [visible, index]);
-
-  useEffect(() => {
-    if (visible) return;
-    const nextTimer = setTimeout(() => {
-      setIndex((i) => (i + 1) % ENROLLMENTS.length);
-      setVisible(true);
-    }, 9000);
-    return () => clearTimeout(nextTimer);
-  }, [visible]);
-
-  const person = ENROLLMENTS[index];
-
-  return (
-    <div className="pointer-events-none fixed bottom-6 left-4 z-50 sm:left-6">
-      <AnimatePresence>
-        {visible && (
-          <motion.div
-            initial={reduce ? false : { opacity: 0, y: 16, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.96 }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="flex items-center gap-3 rounded-xl border border-border bg-background px-4 py-3 shadow-lg"
-          >
-            <span className="relative flex h-2.5 w-2.5 shrink-0">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold opacity-60" />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-gold" />
-            </span>
-            <div className="text-xs leading-snug">
-              <span className="font-semibold text-ink">{person.name}</span>
-              <span className="text-graphite"> enrolled in VA Blueprint</span>
-              <span className="ml-1.5 text-graphite/60">{person.time}</span>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
 
 const NAV_LINKS = [
   { label: "Home", href: "#top" },
@@ -319,96 +258,6 @@ function HomePage() {
                 ))}
               </motion.div>
             </div>
-
-            {/* ── RIGHT: floating card composition — desktop only ── */}
-            <motion.div
-              {...fade(0.25)}
-              className="relative mt-14 hidden w-[400px] shrink-0 lg:block"
-              style={{ height: 400 }}
-            >
-              {/* Main profile card */}
-              <motion.div
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute right-0 top-10 z-10 w-72 rounded-2xl border border-border bg-white shadow-xl"
-              >
-                <div className="p-5">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-gold to-amber-700 text-sm font-bold text-white">
-                      CA
-                    </div>
-                    <div className="min-w-0">
-                      <p className="truncate text-sm font-semibold text-ink">Chidinma Adaeze</p>
-                      <p className="truncate text-xs text-graphite">Healthcare VA Blueprint</p>
-                    </div>
-                    <span className="ml-auto shrink-0 rounded-full border border-green-200 bg-green-50 px-2.5 py-0.5 text-[10px] font-semibold text-green-700">
-                      Placed
-                    </span>
-                  </div>
-                  <div className="mt-4 border-t border-border pt-4">
-                    <p className="text-[11px] uppercase tracking-wider text-graphite">Monthly income</p>
-                    <p className="mt-1 font-mono text-3xl font-bold text-ink">
-                      $800<span className="text-base font-normal text-graphite">/mo</span>
-                    </p>
-                    <p className="mt-1 text-xs text-gold">Placed within 3 weeks of graduating</p>
-                  </div>
-                </div>
-                <div className="flex divide-x divide-border border-t border-border">
-                  <div className="flex-1 px-4 py-3 text-center">
-                    <p className="text-[10px] text-graphite">Program</p>
-                    <p className="text-xs font-semibold text-ink">VA Blueprint</p>
-                  </div>
-                  <div className="flex-1 px-4 py-3 text-center">
-                    <p className="text-[10px] text-graphite">Location</p>
-                    <p className="text-xs font-semibold text-ink">Lagos, Remote</p>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Live enrollment badge — dark */}
-              <motion.div
-                animate={{ y: [0, 7, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute left-0 top-0 z-20 flex items-center gap-2.5 rounded-xl border border-gold/20 bg-ink px-4 py-3 shadow-lg"
-              >
-                <span className="relative flex h-2 w-2 shrink-0">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold opacity-70" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
-                </span>
-                <p className="text-xs font-medium text-background">
-                  <span className="font-bold text-gold">23</span> enrolled this month
-                </p>
-              </motion.div>
-
-              {/* Programs mini card */}
-              <motion.div
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-                className="absolute bottom-4 left-4 z-20 w-52 rounded-xl border border-border bg-white/95 p-4 shadow-lg backdrop-blur-sm"
-              >
-                <div className="flex items-center gap-2.5">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gold/15">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gold">
-                      <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
-                      <polyline points="22 4 12 14.01 9 11.01" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold text-ink">8 Career Programs</p>
-                    <p className="text-[10px] text-graphite">100% remote, no exp needed</p>
-                  </div>
-                </div>
-                <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-border">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: "82%" }}
-                    transition={{ duration: 1.2, delay: 0.8, ease: "easeOut" }}
-                    className="h-full rounded-full bg-gold"
-                  />
-                </div>
-                <p className="mt-1.5 text-[10px] text-graphite">82% placement rate</p>
-              </motion.div>
-            </motion.div>
 
           </div>
         </div>
@@ -633,7 +482,6 @@ function HomePage() {
         </div>
       </footer>
 
-      <LiveNotification />
     </div>
   );
 }
