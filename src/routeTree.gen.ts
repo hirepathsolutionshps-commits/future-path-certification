@@ -9,12 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VaBlueprintRouteImport } from './routes/va-blueprint'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RefundRouteImport } from './routes/refund'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiSendConfirmationRouteImport } from './routes/api/send-confirmation'
 
+const VaBlueprintRoute = VaBlueprintRouteImport.update({
+  id: '/va-blueprint',
+  path: '/va-blueprint',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -46,6 +52,7 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/refund': typeof RefundRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/va-blueprint': typeof VaBlueprintRoute
   '/api/send-confirmation': typeof ApiSendConfirmationRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/refund': typeof RefundRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/va-blueprint': typeof VaBlueprintRoute
   '/api/send-confirmation': typeof ApiSendConfirmationRoute
 }
 export interface FileRoutesById {
@@ -61,6 +69,7 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/refund': typeof RefundRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/va-blueprint': typeof VaBlueprintRoute
   '/api/send-confirmation': typeof ApiSendConfirmationRoute
 }
 export interface FileRouteTypes {
@@ -70,15 +79,23 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/refund'
     | '/sitemap.xml'
+    | '/va-blueprint'
     | '/api/send-confirmation'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/privacy' | '/refund' | '/sitemap.xml' | '/api/send-confirmation'
+  to:
+    | '/'
+    | '/privacy'
+    | '/refund'
+    | '/sitemap.xml'
+    | '/va-blueprint'
+    | '/api/send-confirmation'
   id:
     | '__root__'
     | '/'
     | '/privacy'
     | '/refund'
     | '/sitemap.xml'
+    | '/va-blueprint'
     | '/api/send-confirmation'
   fileRoutesById: FileRoutesById
 }
@@ -87,11 +104,19 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   RefundRoute: typeof RefundRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  VaBlueprintRoute: typeof VaBlueprintRoute
   ApiSendConfirmationRoute: typeof ApiSendConfirmationRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/va-blueprint': {
+      id: '/va-blueprint'
+      path: '/va-blueprint'
+      fullPath: '/va-blueprint'
+      preLoaderRoute: typeof VaBlueprintRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -135,6 +160,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   RefundRoute: RefundRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  VaBlueprintRoute: VaBlueprintRoute,
   ApiSendConfirmationRoute: ApiSendConfirmationRoute,
 }
 export const routeTree = rootRouteImport

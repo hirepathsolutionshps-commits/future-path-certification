@@ -1,0 +1,81 @@
+If you’re not trying to build from scratch, don’t use Prompt 2. Prompt 1 is also too broad because it asks the agent to create a new homepage and restructure the entire app in one go.
+
+Instead, give Replit Agent a surgical prompt that preserves everything already working.
+
+⸻
+
+Replit Merge Prompt (Recommended)
+
+This project already contains a fully working Healthcare Virtual Assistant Blueprint landing page.
+Your job is NOT to rebuild it.
+Do NOT modify or break any existing functionality, especially:
+- Application form
+- Multi step flow
+- Paystack integration
+- Curriculum
+- Pricing
+- Testimonials
+- FAQ
+- Existing styling
+Instead, extend the project into the HirePath Solutions website.
+TASKS
+1. Keep the current Healthcare VA page exactly as it is.
+2. Move it to its own route:
+/va-blueprint
+Do not redesign it.
+Do not rewrite any copy.
+3. Create a brand new Homepage at "/"
+Brand:
+HirePath Solutions
+Tagline:
+Train Smart, Earn More.
+Homepage sections:
+• Sticky navigation
+(Home • About • Programs • Contact)
+• Hero
+Headline:
+Confused About Your Career Path?
+Subheading:
+We train you with in demand skills, build your CV and portfolio, prepare you for interviews, and help you get hired.
+Primary button:
+Explore Programs
+• About section
+Introduce HirePath Solutions as the parent company that helps people discover career paths, learn practical skills, prepare for employment, and connect with opportunities.
+• Programs Grid
+Six program cards.
+Virtual Assistant Blueprint
+Badge:
+Enrolling Now
+Button:
+View Program
+Links to:
+/va-blueprint
+The remaining five cards:
+AI Automation
+UI UX Design
+Cybersecurity
+Crypto
+Faceless YouTube Automation
+Each should display:
+Coming Soon
+Button:
+Join Waitlist
+No need to build these pages.
+4. Footer
+HirePath Solutions
+Train Smart, Earn More.
+Phone
+WhatsApp
+Socials
+IMPORTANT
+The current VA Blueprint page must remain pixel identical.
+Do not rewrite sections.
+Do not alter payment.
+Do not change form logic.
+Do not rename components unless routing requires it.
+Only wrap the existing page into a reusable route and build the homepage around it.
+After completing, verify that:
+/ loads the new homepage
+/va-blueprint loads the original page unchanged.
+
+This approach is much safer because it tells the Replit Agent to treat the existing VA Blueprint as a protected asset. It only adds routing, a homepage, and navigation around it instead of trying to regenerate or refactor the entire project, which greatly reduces the chance of breaking the Paystack flow or the multi-step application form.
