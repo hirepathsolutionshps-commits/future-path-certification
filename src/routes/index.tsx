@@ -260,61 +260,156 @@ function HomePage() {
           transition={{ duration: 11, repeat: Infinity, ease: "easeInOut", delay: 2 }}
           className="pointer-events-none absolute -bottom-12 -left-24 h-80 w-80 rounded-full bg-gold/8 blur-3xl"
         />
-        <div className="mx-auto max-w-5xl px-5 py-20 sm:px-8 sm:py-28 lg:py-36">
-          <div className="mx-auto max-w-3xl text-center">
-            <motion.p
-              {...fade(0.05)}
-              className="text-xs font-semibold uppercase tracking-[0.18em] text-gold"
-            >
-              Career Training, Nigeria
-            </motion.p>
-            <motion.h1
-              {...fade(0.12)}
-              className="mt-5 font-display text-4xl font-semibold leading-[1.05] tracking-tight text-ink sm:text-5xl lg:text-[3.75rem]"
-            >
-              Confused About Your Career Path?
-            </motion.h1>
-            <motion.p
-              {...fade(0.2)}
-              className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-graphite sm:text-lg"
-            >
-              We train you with in-demand skills, build your CV and portfolio, prepare you for
-              interviews, and help you get hired.
-            </motion.p>
+        <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24 lg:py-28">
+          <div className="flex flex-col items-center text-center lg:flex-row lg:items-center lg:gap-16 lg:text-left">
+
+            {/* ── LEFT: text column ── */}
+            <div className="w-full lg:flex-1">
+              <motion.p
+                {...fade(0.05)}
+                className="text-xs font-semibold uppercase tracking-[0.18em] text-gold"
+              >
+                Career Training, Nigeria
+              </motion.p>
+              <motion.h1
+                {...fade(0.12)}
+                className="mt-5 font-display text-4xl font-semibold leading-[1.05] tracking-tight text-ink sm:text-5xl lg:text-[3.5rem]"
+              >
+                Confused About Your Career Path?
+              </motion.h1>
+              <motion.p
+                {...fade(0.2)}
+                className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-graphite sm:text-lg lg:mx-0"
+              >
+                We train you with in-demand skills, build your CV and portfolio, prepare you for
+                interviews, and help you get hired.
+              </motion.p>
+              <motion.div
+                {...fade(0.3)}
+                className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start"
+              >
+                <a
+                  href="#programs"
+                  className="w-full rounded-sm bg-gold px-8 py-3.5 text-sm font-semibold text-ink transition-opacity hover:opacity-90 sm:w-auto"
+                >
+                  Explore Programs
+                </a>
+                <a
+                  href="#about"
+                  className="text-sm font-medium text-ink underline-offset-4 hover:text-gold hover:underline"
+                >
+                  Learn about us →
+                </a>
+              </motion.div>
+
+              {/* Trust strip */}
+              <motion.div
+                {...fade(0.42)}
+                className="mt-12 grid grid-cols-3 divide-x divide-border rounded-md border border-border bg-cream"
+              >
+                {[
+                  { value: "8", label: "Programs" },
+                  { value: "100%", label: "Remote" },
+                  { value: "No Exp", label: "Required" },
+                ].map((s) => (
+                  <div key={s.label} className="px-4 py-5 text-center">
+                    <p className="font-mono text-xl font-bold text-ink sm:text-2xl">{s.value}</p>
+                    <p className="mt-0.5 text-xs text-graphite">{s.label}</p>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+
+            {/* ── RIGHT: floating card composition — desktop only ── */}
             <motion.div
-              {...fade(0.3)}
-              className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
+              {...fade(0.25)}
+              className="relative mt-14 hidden w-[400px] shrink-0 lg:block"
+              style={{ height: 400 }}
             >
-              <a
-                href="#programs"
-                className="w-full rounded-sm bg-gold px-8 py-3.5 text-sm font-semibold text-ink transition-opacity hover:opacity-90 sm:w-auto"
+              {/* Main profile card */}
+              <motion.div
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute right-0 top-10 z-10 w-72 rounded-2xl border border-border bg-white shadow-xl"
               >
-                Explore Programs
-              </a>
-              <a
-                href="#about"
-                className="text-sm font-medium text-ink underline-offset-4 hover:text-gold hover:underline"
+                <div className="p-5">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-gold to-amber-700 text-sm font-bold text-white">
+                      CA
+                    </div>
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-semibold text-ink">Chidinma Adaeze</p>
+                      <p className="truncate text-xs text-graphite">Healthcare VA Blueprint</p>
+                    </div>
+                    <span className="ml-auto shrink-0 rounded-full border border-green-200 bg-green-50 px-2.5 py-0.5 text-[10px] font-semibold text-green-700">
+                      Placed
+                    </span>
+                  </div>
+                  <div className="mt-4 border-t border-border pt-4">
+                    <p className="text-[11px] uppercase tracking-wider text-graphite">Monthly income</p>
+                    <p className="mt-1 font-mono text-3xl font-bold text-ink">
+                      $800<span className="text-base font-normal text-graphite">/mo</span>
+                    </p>
+                    <p className="mt-1 text-xs text-gold">Placed within 3 weeks of graduating</p>
+                  </div>
+                </div>
+                <div className="flex divide-x divide-border border-t border-border">
+                  <div className="flex-1 px-4 py-3 text-center">
+                    <p className="text-[10px] text-graphite">Program</p>
+                    <p className="text-xs font-semibold text-ink">VA Blueprint</p>
+                  </div>
+                  <div className="flex-1 px-4 py-3 text-center">
+                    <p className="text-[10px] text-graphite">Location</p>
+                    <p className="text-xs font-semibold text-ink">Lagos, Remote</p>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Live enrollment badge — dark */}
+              <motion.div
+                animate={{ y: [0, 7, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                className="absolute left-0 top-0 z-20 flex items-center gap-2.5 rounded-xl border border-gold/20 bg-ink px-4 py-3 shadow-lg"
               >
-                Learn about us →
-              </a>
+                <span className="relative flex h-2 w-2 shrink-0">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold opacity-70" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
+                </span>
+                <p className="text-xs font-medium text-background">
+                  <span className="font-bold text-gold">23</span> enrolled this month
+                </p>
+              </motion.div>
+
+              {/* Programs mini card */}
+              <motion.div
+                animate={{ y: [0, 8, 0] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+                className="absolute bottom-4 left-4 z-20 w-52 rounded-xl border border-border bg-white/95 p-4 shadow-lg backdrop-blur-sm"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gold/15">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gold">
+                      <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+                      <polyline points="22 4 12 14.01 9 11.01" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold text-ink">8 Career Programs</p>
+                    <p className="text-[10px] text-graphite">100% remote, no exp needed</p>
+                  </div>
+                </div>
+                <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-border">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: "82%" }}
+                    transition={{ duration: 1.2, delay: 0.8, ease: "easeOut" }}
+                    className="h-full rounded-full bg-gold"
+                  />
+                </div>
+                <p className="mt-1.5 text-[10px] text-graphite">82% placement rate</p>
+              </motion.div>
             </motion.div>
 
-            {/* Trust strip */}
-            <motion.div
-              {...fade(0.42)}
-              className="mt-14 grid grid-cols-3 divide-x divide-border rounded-md border border-border bg-cream"
-            >
-              {[
-                { value: "8", label: "Programs" },
-                { value: "100%", label: "Remote" },
-                { value: "No Exp", label: "Required" },
-              ].map((s) => (
-                <div key={s.label} className="px-4 py-5 text-center">
-                  <p className="font-mono text-xl font-bold text-ink sm:text-2xl">{s.value}</p>
-                  <p className="mt-0.5 text-xs text-graphite">{s.label}</p>
-                </div>
-              ))}
-            </motion.div>
           </div>
         </div>
         <div className="h-px w-full bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
