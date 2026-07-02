@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion, useReducedMotion } from "framer-motion";
-import { useState } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 const TITLE = "HirePath Solutions | Train Smart, Earn More";
 const DESCRIPTION =
@@ -90,6 +90,68 @@ const PROGRAMS = [
     available: false,
   },
 ];
+
+const ENROLLMENTS = [
+  { name: "Chidinma O.", time: "2 min ago" },
+  { name: "Oluwaseun A.", time: "11 min ago" },
+  { name: "Fatima B.", time: "28 min ago" },
+  { name: "Emeka N.", time: "44 min ago" },
+  { name: "Adaeze M.", time: "1 hr ago" },
+];
+
+function LiveNotification() {
+  const reduce = useReducedMotion();
+  const [index, setIndex] = useState(0);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const showTimer = setTimeout(() => setVisible(true), 3500);
+    return () => clearTimeout(showTimer);
+  }, []);
+
+  useEffect(() => {
+    if (!visible) return;
+    const hideTimer = setTimeout(() => setVisible(false), 5000);
+    return () => clearTimeout(hideTimer);
+  }, [visible, index]);
+
+  useEffect(() => {
+    if (visible) return;
+    const nextTimer = setTimeout(() => {
+      setIndex((i) => (i + 1) % ENROLLMENTS.length);
+      setVisible(true);
+    }, 9000);
+    return () => clearTimeout(nextTimer);
+  }, [visible]);
+
+  const person = ENROLLMENTS[index];
+
+  return (
+    <div className="pointer-events-none fixed bottom-6 left-4 z-50 sm:left-6">
+      <AnimatePresence>
+        {visible && (
+          <motion.div
+            initial={reduce ? false : { opacity: 0, y: 16, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.96 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="flex items-center gap-3 rounded-xl border border-border bg-background px-4 py-3 shadow-lg"
+          >
+            <span className="relative flex h-2.5 w-2.5 shrink-0">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold opacity-60" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-gold" />
+            </span>
+            <div className="text-xs leading-snug">
+              <span className="font-semibold text-ink">{person.name}</span>
+              <span className="text-graphite"> enrolled in VA Blueprint</span>
+              <span className="ml-1.5 text-graphite/60">{person.time}</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 const NAV_LINKS = [
   { label: "Home", href: "#top" },
@@ -187,6 +249,17 @@ function HomePage() {
 
       {/* ── HERO ── */}
       <section className="relative overflow-hidden bg-background">
+        {/* Ambient floating orbs */}
+        <motion.div
+          animate={{ y: [0, -28, 0], x: [0, 12, 0] }}
+          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+          className="pointer-events-none absolute -right-24 top-0 h-96 w-96 rounded-full bg-gold/10 blur-3xl"
+        />
+        <motion.div
+          animate={{ y: [0, 22, 0], x: [0, -10, 0] }}
+          transition={{ duration: 11, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          className="pointer-events-none absolute -bottom-12 -left-24 h-80 w-80 rounded-full bg-gold/8 blur-3xl"
+        />
         <div className="mx-auto max-w-5xl px-5 py-20 sm:px-8 sm:py-28 lg:py-36">
           <div className="mx-auto max-w-3xl text-center">
             <motion.p
@@ -441,6 +514,8 @@ function HomePage() {
           </div>
         </div>
       </footer>
+
+      <LiveNotification />
     </div>
   );
 }

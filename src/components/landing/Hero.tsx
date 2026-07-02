@@ -23,7 +23,11 @@ export function Hero() {
     <section id="top" className="relative overflow-hidden bg-background">
       <div className="mx-auto max-w-5xl px-5 py-16 sm:px-8 sm:py-24 lg:py-28">
         <div className="mx-auto max-w-3xl text-center">
-          <motion.p {...fade(0.05)} className="eyebrow text-gold">
+          <motion.p {...fade(0.05)} className="eyebrow inline-flex items-center justify-center gap-2 text-gold">
+            <span className="relative flex h-2 w-2 shrink-0">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
+            </span>
             New Cohort, 6 Weeks
           </motion.p>
           <motion.h1
