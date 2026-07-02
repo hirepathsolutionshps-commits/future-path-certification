@@ -130,7 +130,7 @@ export function ApplicationForm() {
     }
 
     if (!window.PaystackPop) {
-      toast.error("Payment script not ready — please wait a moment and try again.");
+      toast.error("Payment script not ready. Please wait a moment and try again.");
       return;
     }
 
@@ -145,7 +145,7 @@ export function ApplicationForm() {
       firstname: parsed.data.name.split(" ")[0],
       metadata: { schedule_type: parsed.data.schedule_type },
       onClose: () => {
-        toast.info("Payment cancelled — your progress is saved.");
+        toast.info("Payment cancelled. Your progress is saved.");
       },
       callback: async (response) => {
         setSubmitting(true);

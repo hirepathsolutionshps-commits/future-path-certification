@@ -132,7 +132,7 @@ export async function sendConfirmationEmail(data: ConfirmationEmailData): Promis
     body: JSON.stringify({
       from: FROM,
       to: [data.email],
-      subject: `Your seat is confirmed, ${data.name.split(" ")[0]}! — Hire Path Solutions`,
+      subject: `Your seat is confirmed, ${data.name.split(" ")[0]}! Hire Path Solutions`,
       html: buildHtml(data),
     }),
   });

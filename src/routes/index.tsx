@@ -267,7 +267,7 @@ function HomePage() {
               </p>
               <p>
                 We don't just hand you a certificate. We help you build a real portfolio, sharpen
-                your interview skills, and connect you with opportunities — remote and local — so
+                your interview skills, and connect you with opportunities, remote and local, so
                 you can start earning faster.
               </p>
               <p>
@@ -291,7 +291,7 @@ function HomePage() {
               Programs built for the real world
             </h2>
             <p className="mx-auto mt-4 max-w-lg text-base text-graphite">
-              Every program is hands-on, market-tested, and designed to get you job-ready — not
+              Every program is hands-on, market-tested, and designed to get you job-ready. Not
               just certified.
             </p>
           </div>
