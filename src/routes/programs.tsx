@@ -228,6 +228,7 @@ function ProgramsPage() {
               width={32}
               height={32}
               className="h-8 w-8 rounded-[7px]"
+              decoding="async"
             />
             <span className="font-display text-base font-semibold tracking-tight text-ink sm:text-lg">
               HirePath <span className="text-gold">Solutions</span>
@@ -388,7 +389,7 @@ function ProgramsPage() {
         <div className="h-px w-full bg-gold" />
         <div className="mx-auto max-w-5xl px-5 py-16 sm:px-8">
           <div className="flex flex-col items-center text-center">
-            <img src="/logo.png" alt="HirePath Solutions logo" width={48} height={48} className="h-12 w-12 rounded-xl" />
+            <img src="/logo.png" alt="HirePath Solutions logo" width={48} height={48} className="h-12 w-12 rounded-xl" loading="lazy" decoding="async" />
             <p className="mt-4 font-display text-xl font-semibold text-background sm:text-2xl">
               Train Smart, Earn More.
             </p>
@@ -416,7 +417,7 @@ function ProgramsPage() {
 
           <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-background/15 pt-7 sm:flex-row">
             <div className="flex items-center gap-2.5">
-              <img src="/logo.png" alt="" width={20} height={20} className="h-5 w-5 rounded-[4px]" />
+              <img src="/logo.png" alt="" width={20} height={20} className="h-5 w-5 rounded-[4px]" loading="lazy" decoding="async" />
               <span className="text-sm font-medium text-background/70">
                 © {new Date().getFullYear()} HirePath Solutions
               </span>

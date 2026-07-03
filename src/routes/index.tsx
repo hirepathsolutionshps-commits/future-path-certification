@@ -1,7 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { LazyMotion, domAnimation, m, useReducedMotion } from "framer-motion";
-import { useState, useEffect, useRef } from "react";
-import { CareerAssessmentModal } from "@/components/CareerAssessmentModal";
+import { useState, useEffect, useRef, lazy, Suspense } from "react";
+
+// Lazy-load the modal so supabase + form logic are excluded from the
+// homepage's initial JS bundle. The chunk is prefetched on button hover,
+// so it is ready by the time the user clicks.
+const CareerAssessmentModal = lazy(() =>
+  import("@/components/CareerAssessmentModal").then((mod) => ({
+    default: mod.CareerAssessmentModal,
+  }))
+);
 
 const TITLE = "HirePath Solutions | Train Smart, Earn More";
 const DESCRIPTION =
@@ -308,6 +316,12 @@ function HomePage() {
                 >
                   <button
                     onClick={() => setAssessmentOpen(true)}
+                    onMouseEnter={() =>
+                      import("@/components/CareerAssessmentModal")
+                    }
+                    onFocus={() =>
+                      import("@/components/CareerAssessmentModal")
+                    }
                     className="w-full rounded-sm bg-gold px-8 py-3.5 text-sm font-semibold text-ink transition-opacity hover:opacity-90 sm:w-auto"
                   >
                     Get Started
@@ -492,7 +506,7 @@ function HomePage() {
             <div className="h-px w-full bg-gold" />
             <div className="mx-auto max-w-5xl px-5 py-16 sm:px-8">
               <div className="flex flex-col items-center text-center">
-                <img src="/logo.png" alt="HirePath Solutions logo" width={48} height={48} className="h-12 w-12 rounded-xl" />
+                <img src="/logo.png" alt="HirePath Solutions logo" width={48} height={48} className="h-12 w-12 rounded-xl" loading="lazy" decoding="async" />
                 <p className="mt-4 font-display text-xl font-semibold text-background sm:text-2xl">
                   Train Smart, Earn More.
                 </p>
@@ -538,9 +552,11 @@ function HomePage() {
 
       </div>
 
-      {/* ── CAREER ASSESSMENT MODAL ── */}
+      {/* ── CAREER ASSESSMENT MODAL — lazy chunk, downloaded on first open ── */}
       {assessmentOpen && (
-        <CareerAssessmentModal onClose={() => setAssessmentOpen(false)} />
+        <Suspense fallback={null}>
+          <CareerAssessmentModal onClose={() => setAssessmentOpen(false)} />
+        </Suspense>
       )}
 
     </LazyMotion>

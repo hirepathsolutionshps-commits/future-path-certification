@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { lazy, Suspense } from "react";
-import { Toaster } from "@/components/ui/sonner";
 import ogImage from "@/assets/og-image.jpg";
 import { Nav } from "@/components/landing/Nav";
 import { Hero } from "@/components/landing/Hero";
@@ -96,7 +95,6 @@ function VaBlueprint() {
       <Suspense fallback={null}>
         <Footer />
       </Suspense>
-      <Toaster position="top-center" />
     </div>
   );
 }
