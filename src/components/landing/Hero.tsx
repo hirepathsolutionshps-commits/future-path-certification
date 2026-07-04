@@ -91,56 +91,6 @@ export function Hero() {
         <Seal size={148} withText draw />
       </motion.div>
 
-      {/* Earnings card — floating left on large screens only */}
-      <motion.div
-        initial={reduce ? false : { opacity: 0, x: -24 }}
-        animate={reduce ? undefined : { opacity: 1, x: 0 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.55 }}
-        className="pointer-events-none absolute left-6 top-1/2 hidden -translate-y-1/2 xl:block 2xl:left-12"
-      >
-        <motion.div
-          animate={{ y: [0, -9, 0] }}
-          transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
-          className="w-56 overflow-hidden rounded-2xl border border-border bg-white/90 shadow-xl backdrop-blur-sm"
-        >
-          <div className="bg-ink px-4 py-3">
-            <p className="text-[10px] font-semibold uppercase tracking-widest text-gold">Graduate Earnings</p>
-          </div>
-          <div className="p-4">
-            <p className="font-mono text-2xl font-bold text-ink">$600 – $1,200</p>
-            <p className="mt-0.5 text-xs text-graphite">per month, remote</p>
-            <div className="mt-3 space-y-1.5">
-              <div className="flex items-center justify-between text-[10px]">
-                <span className="text-graphite">Placement rate</span>
-                <span className="font-semibold text-ink">82%</span>
-              </div>
-              <div className="h-1.5 w-full overflow-hidden rounded-full bg-border">
-                <div className="h-full w-[82%] rounded-full bg-gold" />
-              </div>
-            </div>
-            <div className="mt-3 flex items-center gap-1.5 rounded-lg bg-green-50 px-2.5 py-1.5">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-green-600">
-                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
-                <polyline points="16 7 22 7 22 13" />
-              </svg>
-              <p className="text-[10px] font-medium text-green-700">Avg. 74% income increase</p>
-            </div>
-          </div>
-        </motion.div>
-
-        <motion.div
-          animate={{ y: [0, 7, 0] }}
-          transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-          className="mt-3 flex items-center gap-2.5 rounded-xl border border-gold/20 bg-ink px-3.5 py-2.5 shadow-md"
-        >
-          <span className="relative flex h-2 w-2 shrink-0">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold opacity-70" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
-          </span>
-          <p className="text-[11px] font-medium text-background">New cohort now open</p>
-        </motion.div>
-      </motion.div>
-
       <div className="h-px w-full bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
     </section>
   );
