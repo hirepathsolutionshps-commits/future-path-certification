@@ -1,0 +1,52 @@
+This updated "Master Prompt" focuses heavily on the **Branded HTML Email** and the design consistency you need. It instructs the AI to create a beautiful, responsive email template within the Supabase Edge Function.
+
+***
+
+### The Final Master Prompt
+
+"Act as a Senior Full-Stack Developer and UI/UX Designer. I need to integrate a professional recruitment section into my existing form on Replit using **React** and **Supabase**.
+
+**1. Branded HTML Email Response (Priority):**
+- Write a **Supabase Edge Function** (TypeScript) using the **Resend API** that triggers when a new applicant is added.
+- The function must send a **highly designed HTML email**.
+- **Design Specifications:**
+  - **Clean & Modern:** Use a minimalist, centered container with plenty of white space.
+  - **Logo:** Include a placeholder for a high-resolution logo at the top.
+  - **Branding:** Use a professional color palette (e.g., Deep Blues or Slate) and a clean Sans-Serif font (like Inter or Roboto).
+  - **Content:** 'Hi [Name], thank you for your application. We have received your CV. It is currently under review by our team, and we will reach back to you after a thorough analysis.'
+  - **Footer:** Include a professional footer with a 'Visit Website' button and contact information.
+
+**2. Dependent Dropdown Section (Nigeria):**
+- Create two dropdowns: 'State' and 'City/LGA'.
+- Provide a complete mapping of all **36 Nigerian States and their LGAs**.
+- The 'City' dropdown must remain disabled until a 'State' is selected.
+- Logic: When the state changes, the city list must refresh immediately.
+
+**3. Nigerian Phone Number Section:**
+- Add a phone input with a fixed prefix of `+234`.
+- The user must only be able to type the **last 10 digits** (e.g., 8031234567).
+- **Strict Validation:** The number must start with 70, 80, 81, 90, or 91 and be exactly 10 digits long.
+- Use a regex to prevent any non-numeric typing.
+
+**4. CV Upload Section (Strict Size Limit):**
+- Add a file upload field for `.pdf` and `.docx` only.
+- **Validation:** If the file is larger than **500KB**, reject it immediately, clear the field, and show an error message.
+
+**5. Database & Integration:**
+- Save `full_name`, `email`, `phone`, `state`, `city`, and `cv_url` into the Supabase table `applicants`.
+- Upload the validated CV to a Supabase Storage bucket named `cv-uploads`.
+
+**Please provide:**
+1. The **React state/logic and JSX code** for these sections.
+2. The **Tailwind CSS** or Inline styles to ensure the form looks clean.
+3. The **Supabase SQL** for the table and storage.
+4. The **Edge Function code** containing the full **HTML/CSS Email Template**."
+
+***
+
+### Pro-Tips for your Replit Setup:
+
+1.  **For the Logo:** In the code the AI gives you, look for the `<img>` tag in the HTML email section. Replace the `src` URL with the direct link to your logo (e.g., `https://yourwebsite.com/logo.png`).
+2.  **For the Font:** Since email clients are picky, the AI will likely use "Web Safe Fonts" like `Helvetica` or `Arial`. If you want a specific custom font, you can ask the AI to include a Google Font `<link>` in the email header.
+3.  **Supabase Secrets:** Inside Replit, go to the **Tools -> Secrets** tab. Add your `RESEND_API_KEY` there so the Edge Function can send the emails securely.
+4.  **CORS:** Ensure your Supabase Storage bucket `cv-uploads` has its **CORS policy** set to allow uploads from your Replit URL, otherwise the CV upload might fail.
