@@ -300,6 +300,160 @@ export async function sendConfirmationEmail(data: ConfirmationEmailData): Promis
   }
 }
 
+// ── Recruitment applicant email ───────────────────────────────────────────────
+
+export interface ApplicantEmailData {
+  full_name: string;
+  email: string;
+  phone: string;
+  state: string;
+  city: string;
+}
+
+function buildApplicantHtml(data: ApplicantEmailData): string {
+  const firstName = data.full_name.split(" ")[0];
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Application Received</title>
+</head>
+<body style="margin:0;padding:0;background:#F7F5F0;font-family:'Inter',Arial,Helvetica,sans-serif;color:#0A0A0A;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#F7F5F0;padding:48px 16px;">
+    <tr>
+      <td align="center">
+        <table width="100%" style="max-width:580px;background:#ffffff;border-radius:10px;border:1px solid #E8E5DF;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.06);">
+
+          <!-- Header -->
+          <tr>
+            <td style="background:#0A0A0A;padding:36px 48px;text-align:center;">
+              <img src="https://hirepathsolutions.com/logo.png" alt="HirePath Solutions" width="48" height="48"
+                   style="border-radius:10px;display:block;margin:0 auto 14px;" />
+              <p style="margin:0;font-size:20px;font-weight:700;color:#C9971C;letter-spacing:-0.3px;font-family:Georgia,serif;">
+                Hire Path Solutions
+              </p>
+              <p style="margin:6px 0 0;font-size:10px;color:#666;text-transform:uppercase;letter-spacing:3px;">
+                Career Training &amp; Placement
+              </p>
+            </td>
+          </tr>
+
+          <!-- Gold rule -->
+          <tr>
+            <td style="height:3px;background:linear-gradient(90deg,transparent,#C9971C,transparent);"></td>
+          </tr>
+
+          <!-- Body -->
+          <tr>
+            <td style="padding:44px 48px 36px;">
+              <p style="margin:0 0 6px;font-size:11px;text-transform:uppercase;letter-spacing:3px;color:#C9971C;font-family:monospace;">
+                Application Received
+              </p>
+              <h1 style="margin:0 0 22px;font-size:26px;font-weight:700;color:#0A0A0A;line-height:1.2;font-family:Georgia,serif;">
+                Hi ${firstName}, we've got your application!
+              </h1>
+              <p style="margin:0 0 20px;font-size:15px;line-height:1.75;color:#444;">
+                Thank you for your application. We have received your CV and it is currently under review by our team.
+                We will reach back to you after a thorough analysis.
+              </p>
+              <p style="margin:0 0 28px;font-size:15px;line-height:1.75;color:#444;">
+                In the meantime, feel free to learn more about our programs or reach out to us directly on WhatsApp.
+              </p>
+
+              <!-- Details card -->
+              <table width="100%" cellpadding="0" cellspacing="0"
+                     style="background:#F7F5F0;border-radius:8px;border:1px solid #E8E5DF;margin-bottom:32px;">
+                <tr>
+                  <td style="padding:24px 28px;">
+                    <table width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td style="padding:7px 0;font-size:12px;color:#999;text-transform:uppercase;letter-spacing:1px;">Name</td>
+                        <td style="padding:7px 0;font-size:13px;color:#0A0A0A;text-align:right;font-weight:600;">${data.full_name}</td>
+                      </tr>
+                      <tr>
+                        <td style="padding:7px 0;font-size:12px;color:#999;text-transform:uppercase;letter-spacing:1px;border-top:1px solid #E8E5DF;">Email</td>
+                        <td style="padding:7px 0;font-size:13px;color:#0A0A0A;text-align:right;border-top:1px solid #E8E5DF;">${data.email}</td>
+                      </tr>
+                      <tr>
+                        <td style="padding:7px 0;font-size:12px;color:#999;text-transform:uppercase;letter-spacing:1px;border-top:1px solid #E8E5DF;">Location</td>
+                        <td style="padding:7px 0;font-size:13px;color:#0A0A0A;text-align:right;border-top:1px solid #E8E5DF;">${data.city}, ${data.state}</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- CTA -->
+              <table cellpadding="0" cellspacing="0" style="margin:0 auto;">
+                <tr>
+                  <td style="border-radius:6px;background:#C9971C;">
+                    <a href="https://hirepathsolutions.com"
+                       style="display:inline-block;padding:14px 32px;font-size:14px;font-weight:600;color:#0A0A0A;text-decoration:none;letter-spacing:0.3px;">
+                      Visit Our Website →
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background:#F7F5F0;border-top:1px solid #E8E5DF;padding:24px 48px;text-align:center;">
+              <p style="margin:0 0 6px;font-size:12px;color:#888;">
+                Hire Path Solutions &nbsp;·&nbsp; Lagos, Nigeria
+              </p>
+              <p style="margin:0;font-size:12px;color:#aaa;">
+                Questions? WhatsApp us at
+                <a href="https://wa.me/2348068579982" style="color:#C9971C;text-decoration:none;">+234 806 857 9982</a>
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+}
+
+export async function sendApplicantEmail(data: ApplicantEmailData): Promise<void> {
+  if (!RESEND_API_KEY) {
+    console.error("[email] RESEND_API_KEY not set — skipping applicant email");
+    return;
+  }
+
+  const [applicantRes, adminRes] = await Promise.all([
+    fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${RESEND_API_KEY}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        from: FROM,
+        to: [data.email],
+        subject: `We received your application, ${data.full_name.split(" ")[0]}!`,
+        html: buildApplicantHtml(data),
+      }),
+    }),
+    fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${RESEND_API_KEY}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        from: FROM,
+        to: [ADMIN_EMAIL],
+        subject: `New Job Application: ${data.full_name} (${data.state})`,
+        html: `<p><strong>${data.full_name}</strong> applied.</p>
+               <p>Email: ${data.email}<br/>Phone: ${data.phone}<br/>Location: ${data.city}, ${data.state}</p>`,
+      }),
+    }),
+  ]);
+
+  if (!applicantRes.ok) console.error("[email] Applicant email error:", await applicantRes.text());
+  else console.log("[email] Applicant confirmation sent to", data.email);
+  if (!adminRes.ok) console.error("[email] Admin notification error:", await adminRes.text());
+}
+
 export async function sendCareerAssessmentEmail(data: CareerAssessmentEmailData): Promise<void> {
   if (!RESEND_API_KEY) {
     console.error("[email] RESEND_API_KEY not set — skipping career assessment email");

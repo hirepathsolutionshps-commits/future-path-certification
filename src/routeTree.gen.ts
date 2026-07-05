@@ -12,11 +12,13 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as VaBlueprintRouteImport } from './routes/va-blueprint'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RefundRouteImport } from './routes/refund'
+import { Route as RecruitmentRouteImport } from './routes/recruitment'
 import { Route as ProgramsRouteImport } from './routes/programs'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiSendConfirmationRouteImport } from './routes/api/send-confirmation'
 import { Route as ApiSendCareerAssessmentRouteImport } from './routes/api/send-career-assessment'
+import { Route as ApiSendApplicantEmailRouteImport } from './routes/api/send-applicant-email'
 
 const VaBlueprintRoute = VaBlueprintRouteImport.update({
   id: '/va-blueprint',
@@ -31,6 +33,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const RefundRoute = RefundRouteImport.update({
   id: '/refund',
   path: '/refund',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecruitmentRoute = RecruitmentRouteImport.update({
+  id: '/recruitment',
+  path: '/recruitment',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProgramsRoute = ProgramsRouteImport.update({
@@ -58,14 +65,21 @@ const ApiSendCareerAssessmentRoute = ApiSendCareerAssessmentRouteImport.update({
   path: '/api/send-career-assessment',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiSendApplicantEmailRoute = ApiSendApplicantEmailRouteImport.update({
+  id: '/api/send-applicant-email',
+  path: '/api/send-applicant-email',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/privacy': typeof PrivacyRoute
   '/programs': typeof ProgramsRoute
+  '/recruitment': typeof RecruitmentRoute
   '/refund': typeof RefundRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/va-blueprint': typeof VaBlueprintRoute
+  '/api/send-applicant-email': typeof ApiSendApplicantEmailRoute
   '/api/send-career-assessment': typeof ApiSendCareerAssessmentRoute
   '/api/send-confirmation': typeof ApiSendConfirmationRoute
 }
@@ -73,9 +87,11 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/privacy': typeof PrivacyRoute
   '/programs': typeof ProgramsRoute
+  '/recruitment': typeof RecruitmentRoute
   '/refund': typeof RefundRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/va-blueprint': typeof VaBlueprintRoute
+  '/api/send-applicant-email': typeof ApiSendApplicantEmailRoute
   '/api/send-career-assessment': typeof ApiSendCareerAssessmentRoute
   '/api/send-confirmation': typeof ApiSendConfirmationRoute
 }
@@ -84,9 +100,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/privacy': typeof PrivacyRoute
   '/programs': typeof ProgramsRoute
+  '/recruitment': typeof RecruitmentRoute
   '/refund': typeof RefundRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/va-blueprint': typeof VaBlueprintRoute
+  '/api/send-applicant-email': typeof ApiSendApplicantEmailRoute
   '/api/send-career-assessment': typeof ApiSendCareerAssessmentRoute
   '/api/send-confirmation': typeof ApiSendConfirmationRoute
 }
@@ -96,9 +114,11 @@ export interface FileRouteTypes {
     | '/'
     | '/privacy'
     | '/programs'
+    | '/recruitment'
     | '/refund'
     | '/sitemap.xml'
     | '/va-blueprint'
+    | '/api/send-applicant-email'
     | '/api/send-career-assessment'
     | '/api/send-confirmation'
   fileRoutesByTo: FileRoutesByTo
@@ -106,9 +126,11 @@ export interface FileRouteTypes {
     | '/'
     | '/privacy'
     | '/programs'
+    | '/recruitment'
     | '/refund'
     | '/sitemap.xml'
     | '/va-blueprint'
+    | '/api/send-applicant-email'
     | '/api/send-career-assessment'
     | '/api/send-confirmation'
   id:
@@ -116,9 +138,11 @@ export interface FileRouteTypes {
     | '/'
     | '/privacy'
     | '/programs'
+    | '/recruitment'
     | '/refund'
     | '/sitemap.xml'
     | '/va-blueprint'
+    | '/api/send-applicant-email'
     | '/api/send-career-assessment'
     | '/api/send-confirmation'
   fileRoutesById: FileRoutesById
@@ -127,9 +151,11 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PrivacyRoute: typeof PrivacyRoute
   ProgramsRoute: typeof ProgramsRoute
+  RecruitmentRoute: typeof RecruitmentRoute
   RefundRoute: typeof RefundRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   VaBlueprintRoute: typeof VaBlueprintRoute
+  ApiSendApplicantEmailRoute: typeof ApiSendApplicantEmailRoute
   ApiSendCareerAssessmentRoute: typeof ApiSendCareerAssessmentRoute
   ApiSendConfirmationRoute: typeof ApiSendConfirmationRoute
 }
@@ -155,6 +181,13 @@ declare module '@tanstack/react-router' {
       path: '/refund'
       fullPath: '/refund'
       preLoaderRoute: typeof RefundRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recruitment': {
+      id: '/recruitment'
+      path: '/recruitment'
+      fullPath: '/recruitment'
+      preLoaderRoute: typeof RecruitmentRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/programs': {
@@ -192,6 +225,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiSendCareerAssessmentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/send-applicant-email': {
+      id: '/api/send-applicant-email'
+      path: '/api/send-applicant-email'
+      fullPath: '/api/send-applicant-email'
+      preLoaderRoute: typeof ApiSendApplicantEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -199,9 +239,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PrivacyRoute: PrivacyRoute,
   ProgramsRoute: ProgramsRoute,
+  RecruitmentRoute: RecruitmentRoute,
   RefundRoute: RefundRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   VaBlueprintRoute: VaBlueprintRoute,
+  ApiSendApplicantEmailRoute: ApiSendApplicantEmailRoute,
   ApiSendCareerAssessmentRoute: ApiSendCareerAssessmentRoute,
   ApiSendConfirmationRoute: ApiSendConfirmationRoute,
 }
