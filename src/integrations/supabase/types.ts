@@ -12,6 +12,105 @@ export type Database = {
   }
   public: {
     Tables: {
+      applicants: {
+        Row: {
+          id: string
+          full_name: string
+          email: string
+          phone: string
+          state: string
+          city: string
+          cv_url: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          full_name: string
+          email: string
+          phone: string
+          state: string
+          city: string
+          cv_url?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          full_name?: string
+          email?: string
+          phone?: string
+          state?: string
+          city?: string
+          cv_url?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
+      career_assessments: {
+        Row: {
+          id: string
+          full_name: string
+          email: string
+          phone: string
+          city: string | null
+          state: string | null
+          education_level: string | null
+          field_of_study: string | null
+          job_title: string | null
+          years_experience: string | null
+          industry: string | null
+          current_skills: string | null
+          skills_to_gain: string | null
+          target_role: string | null
+          work_preference: string | null
+          timeline: string | null
+          contact_method: string | null
+          best_time: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          full_name: string
+          email: string
+          phone: string
+          city?: string | null
+          state?: string | null
+          education_level?: string | null
+          field_of_study?: string | null
+          job_title?: string | null
+          years_experience?: string | null
+          industry?: string | null
+          current_skills?: string | null
+          skills_to_gain?: string | null
+          target_role?: string | null
+          work_preference?: string | null
+          timeline?: string | null
+          contact_method?: string | null
+          best_time?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          full_name?: string
+          email?: string
+          phone?: string
+          city?: string | null
+          state?: string | null
+          education_level?: string | null
+          field_of_study?: string | null
+          job_title?: string | null
+          years_experience?: string | null
+          industry?: string | null
+          current_skills?: string | null
+          skills_to_gain?: string | null
+          target_role?: string | null
+          work_preference?: string | null
+          timeline?: string | null
+          contact_method?: string | null
+          best_time?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
       cohorts: {
         Row: {
           created_at: string
@@ -33,6 +132,30 @@ export type Database = {
           is_active?: boolean
           name?: string
           starts_on?: string | null
+        }
+        Relationships: []
+      }
+      program_waitlist: {
+        Row: {
+          id: string
+          email: string
+          name: string | null
+          program_name: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          email: string
+          name?: string | null
+          program_name?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          email?: string
+          name?: string | null
+          program_name?: string | null
+          created_at?: string
         }
         Relationships: []
       }
