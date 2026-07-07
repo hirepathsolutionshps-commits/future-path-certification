@@ -1,5 +1,5 @@
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const FROM = "Hire Path Solutions <onboarding@resend.dev>";
+const FROM = "Hire Path Solutions <hello@hirepathsolutions.com>";
 const ADMIN_EMAIL = "hirepathsolutions@gmail.com";
 
 export interface ConfirmationEmailData {
