@@ -27,24 +27,19 @@ function createSupabaseFetch(supabaseKey: string): typeof fetch {
 }
 
 
-// HirePath Solutions — correct Supabase project (izmzyjktrpappepzwumt)
+// HirePath Solutions — canonical Supabase project credentials.
+// These are the authoritative values. The anon key is a public key by design
+// (safe to commit) and must always point to the user-owned project.
 const HIREPATH_SUPABASE_URL = "https://izmzyjktrpappepzwumt.supabase.co";
 const HIREPATH_SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml6bXp5amt0cnBhcHBlcHp3dW10Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3Njg4MzMsImV4cCI6MjA5ODM0NDgzM30.BGHZl4zwJ8mGBIhNsF3_l7LylSkUT3TCDOejsOXeQKA";
 
 function createSupabaseClient() {
-  // Use import.meta.env for client-side (Vite build-time replacement)
-  // Fall back to process.env for SSR, then to the hardcoded project values.
-  const SUPABASE_URL =
-    (import.meta.env.VITE_SUPABASE_URL?.startsWith("http") ? import.meta.env.VITE_SUPABASE_URL : null) ||
-    (import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY?.startsWith("http") ? import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY : null) ||
-    process.env.SUPABASE_URL ||
-    HIREPATH_SUPABASE_URL;
-  const SUPABASE_PUBLISHABLE_KEY =
-    (import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY?.startsWith("http") ? null : import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY) ||
-    (import.meta.env.VITE_SUPABASE_URL?.startsWith("http") ? null : import.meta.env.VITE_SUPABASE_URL) ||
-    process.env.SUPABASE_PUBLISHABLE_KEY ||
-    HIREPATH_SUPABASE_ANON_KEY;
+  // Use the hardcoded project values as the primary source of truth so that
+  // a stale .env file (from the original Lovable project) can never override
+  // them at Vite build time or at SSR runtime.
+  const SUPABASE_URL = HIREPATH_SUPABASE_URL;
+  const SUPABASE_PUBLISHABLE_KEY = HIREPATH_SUPABASE_ANON_KEY;
 
   if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
     const missing = [
