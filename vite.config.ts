@@ -12,6 +12,11 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  // Use the Vercel nitro preset so API routes and SSR work on Vercel.
+  // This outputs to .vercel/output which Vercel reads automatically.
+  nitro: {
+    preset: "vercel",
+  },
   vite: {
     server: {
       host: "0.0.0.0",
