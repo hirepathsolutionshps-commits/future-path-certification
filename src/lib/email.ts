@@ -10,6 +10,13 @@ export interface ConfirmationEmailData {
   phone: string;
   scheduleType: "Regular" | "VIP";
   cohortName: string;
+  has_laptop?: boolean;
+}
+
+export interface WaitlistEmailData {
+  name: string;
+  email: string;
+  program_name: string;
 }
 
 export interface CareerAssessmentEmailData {
@@ -328,6 +335,100 @@ function buildCareerAssessmentAdminHtml(data: CareerAssessmentEmailData): string
   return baseShell(body);
 }
 
+// ── Enrollment admin alert ────────────────────────────────────────────────────
+
+function buildEnrollmentAdminHtml(data: ConfirmationEmailData): string {
+  const price = data.scheduleType === "VIP" ? "₦100,000" : "₦50,000";
+
+  const body = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+      <td class="card-body" style="padding:40px 40px 32px;">
+
+        ${eyebrow("New Enrolment")}
+        ${heading(`${data.name} just enrolled`)}
+        ${bodyText(`A new student has completed payment and secured their seat.`)}
+
+        ${dataTable([
+          ["Name",         data.name],
+          ["Email",        data.email],
+          ["Phone",        data.phone],
+          ["Plan",         data.scheduleType],
+          ["Amount Paid",  price],
+          ["Cohort",       data.cohortName],
+          ["Has Laptop",   data.has_laptop ? "Yes" : "No"],
+        ])}
+
+        ${ctaButton(`mailto:${data.email}`, `Reply to ${data.name.split(" ")[0]}`)}
+
+      </td>
+    </tr>
+  </table>`;
+
+  return baseShell(body);
+}
+
+// ── Waitlist admin alert ───────────────────────────────────────────────────────
+
+function buildWaitlistAdminHtml(data: { name: string; email: string; program_name: string }): string {
+  const body = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+      <td class="card-body" style="padding:40px 40px 32px;">
+
+        ${eyebrow("New Waitlist Signup")}
+        ${heading(`${data.name} joined the waitlist`)}
+        ${bodyText(`Someone has expressed interest in an upcoming program.`)}
+
+        ${dataTable([
+          ["Name",    data.name],
+          ["Email",   data.email],
+          ["Program", data.program_name],
+        ])}
+
+        ${ctaButton(`mailto:${data.email}`, `Reply to ${data.name.split(" ")[0]}`)}
+
+      </td>
+    </tr>
+  </table>`;
+
+  return baseShell(body);
+}
+
+// ── Waitlist confirmation to user ─────────────────────────────────────────────
+
+function buildWaitlistApplicantHtml(data: { name: string; email: string; program_name: string }): string {
+  const firstName = data.name.split(" ")[0];
+
+  const body = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+      <td class="card-body" style="padding:40px 40px 32px;">
+
+        ${eyebrow("You're on the list")}
+        ${heading(`Got it, ${firstName}!`)}
+        ${bodyText(`You've been added to the waitlist for <strong style="color:#0A0A0A;">${data.program_name}</strong>. We'll reach out as soon as enrollment opens — you'll be among the first to know.`)}
+
+        ${dataTable([
+          ["Name",    data.name],
+          ["Email",   data.email],
+          ["Program", data.program_name],
+        ])}
+
+        ${bodyText(`In the meantime, feel free to message us if you have any questions.`)}
+
+        ${ctaButton("https://wa.me/2348068579982", "Message Us on WhatsApp")}
+
+        ${divider()}
+
+        <p style="margin:0;font-size:13px;line-height:1.7;color:#888888;font-style:italic;">
+          We're working hard to launch this program. We appreciate your interest and can't wait to have you.
+        </p>
+
+      </td>
+    </tr>
+  </table>`;
+
+  return baseShell(body);
+}
+
 // ── Public API ─────────────────────────────────────────────────────────────────
 
 export async function sendConfirmationEmail(data: ConfirmationEmailData): Promise<void> {
@@ -336,26 +437,82 @@ export async function sendConfirmationEmail(data: ConfirmationEmailData): Promis
     return;
   }
 
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${RESEND_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: FROM,
-      to: [data.email],
-      subject: `You're in, ${data.name.split(" ")[0]}! Your seat is confirmed — Hire Path Solutions`,
-      html: buildConfirmationHtml(data),
+  const [studentRes, adminRes] = await Promise.all([
+    fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: FROM,
+        to: [data.email],
+        subject: `You're in, ${data.name.split(" ")[0]}! Your seat is confirmed — Hire Path Solutions`,
+        html: buildConfirmationHtml(data),
+      }),
     }),
-  });
+    fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: FROM,
+        to: [ADMIN_EMAIL],
+        subject: `New Enrolment: ${data.name} — ${data.scheduleType} Plan`,
+        html: buildEnrollmentAdminHtml(data),
+      }),
+    }),
+  ]);
 
-  if (!res.ok) {
-    const text = await res.text();
-    console.error("[email] Resend error:", res.status, text);
-  } else {
-    console.log("[email] Confirmation sent to", data.email);
+  if (!studentRes.ok) console.error("[email] Student confirmation error:", await studentRes.text());
+  else console.log("[email] Confirmation sent to", data.email);
+
+  if (!adminRes.ok) console.error("[email] Admin enrolment alert error:", await adminRes.text());
+  else console.log("[email] Enrolment admin alert sent");
+}
+
+export async function sendWaitlistEmail(data: WaitlistEmailData): Promise<void> {
+  if (!RESEND_API_KEY) {
+    console.error("[email] RESEND_API_KEY not set — skipping waitlist email");
+    return;
   }
+
+  const [userRes, adminRes] = await Promise.all([
+    fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: FROM,
+        to: [data.email],
+        subject: `You're on the waitlist, ${data.name.split(" ")[0]}! — Hire Path Solutions`,
+        html: buildWaitlistApplicantHtml(data),
+      }),
+    }),
+    fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: FROM,
+        to: [ADMIN_EMAIL],
+        subject: `New Waitlist Signup: ${data.name} — ${data.program_name}`,
+        html: buildWaitlistAdminHtml(data),
+      }),
+    }),
+  ]);
+
+  if (!userRes.ok) console.error("[email] Waitlist user email error:", await userRes.text());
+  else console.log("[email] Waitlist confirmation sent to", data.email);
+
+  if (!adminRes.ok) console.error("[email] Waitlist admin alert error:", await adminRes.text());
+  else console.log("[email] Waitlist admin alert sent");
 }
 
 export async function sendCareerAssessmentEmail(data: CareerAssessmentEmailData): Promise<void> {

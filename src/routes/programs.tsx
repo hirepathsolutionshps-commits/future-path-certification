@@ -129,6 +129,17 @@ function WaitlistModal({
         return;
       }
 
+      // Fire-and-forget: notify admin + send user confirmation email
+      fetch("/api/send-waitlist-notification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          email: form.email.trim().toLowerCase(),
+          program_name: programName,
+        }),
+      }).catch((err) => console.error("[waitlist-email]", err));
+
       setDone(true);
     } catch (err) {
       console.error("[waitlist]", err);

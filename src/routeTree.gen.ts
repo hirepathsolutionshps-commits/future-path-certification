@@ -15,6 +15,7 @@ import { Route as RefundRouteImport } from './routes/refund'
 import { Route as ProgramsRouteImport } from './routes/programs'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiSendWaitlistNotificationRouteImport } from './routes/api/send-waitlist-notification'
 import { Route as ApiSendConfirmationRouteImport } from './routes/api/send-confirmation'
 import { Route as ApiSendCareerAssessmentRouteImport } from './routes/api/send-career-assessment'
 
@@ -48,6 +49,12 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiSendWaitlistNotificationRoute =
+  ApiSendWaitlistNotificationRouteImport.update({
+    id: '/api/send-waitlist-notification',
+    path: '/api/send-waitlist-notification',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiSendConfirmationRoute = ApiSendConfirmationRouteImport.update({
   id: '/api/send-confirmation',
   path: '/api/send-confirmation',
@@ -68,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/va-blueprint': typeof VaBlueprintRoute
   '/api/send-career-assessment': typeof ApiSendCareerAssessmentRoute
   '/api/send-confirmation': typeof ApiSendConfirmationRoute
+  '/api/send-waitlist-notification': typeof ApiSendWaitlistNotificationRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -78,6 +86,7 @@ export interface FileRoutesByTo {
   '/va-blueprint': typeof VaBlueprintRoute
   '/api/send-career-assessment': typeof ApiSendCareerAssessmentRoute
   '/api/send-confirmation': typeof ApiSendConfirmationRoute
+  '/api/send-waitlist-notification': typeof ApiSendWaitlistNotificationRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -89,6 +98,7 @@ export interface FileRoutesById {
   '/va-blueprint': typeof VaBlueprintRoute
   '/api/send-career-assessment': typeof ApiSendCareerAssessmentRoute
   '/api/send-confirmation': typeof ApiSendConfirmationRoute
+  '/api/send-waitlist-notification': typeof ApiSendWaitlistNotificationRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -101,6 +111,7 @@ export interface FileRouteTypes {
     | '/va-blueprint'
     | '/api/send-career-assessment'
     | '/api/send-confirmation'
+    | '/api/send-waitlist-notification'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -111,6 +122,7 @@ export interface FileRouteTypes {
     | '/va-blueprint'
     | '/api/send-career-assessment'
     | '/api/send-confirmation'
+    | '/api/send-waitlist-notification'
   id:
     | '__root__'
     | '/'
@@ -121,6 +133,7 @@ export interface FileRouteTypes {
     | '/va-blueprint'
     | '/api/send-career-assessment'
     | '/api/send-confirmation'
+    | '/api/send-waitlist-notification'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -132,6 +145,7 @@ export interface RootRouteChildren {
   VaBlueprintRoute: typeof VaBlueprintRoute
   ApiSendCareerAssessmentRoute: typeof ApiSendCareerAssessmentRoute
   ApiSendConfirmationRoute: typeof ApiSendConfirmationRoute
+  ApiSendWaitlistNotificationRoute: typeof ApiSendWaitlistNotificationRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -178,6 +192,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/send-waitlist-notification': {
+      id: '/api/send-waitlist-notification'
+      path: '/api/send-waitlist-notification'
+      fullPath: '/api/send-waitlist-notification'
+      preLoaderRoute: typeof ApiSendWaitlistNotificationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/send-confirmation': {
       id: '/api/send-confirmation'
       path: '/api/send-confirmation'
@@ -204,6 +225,7 @@ const rootRouteChildren: RootRouteChildren = {
   VaBlueprintRoute: VaBlueprintRoute,
   ApiSendCareerAssessmentRoute: ApiSendCareerAssessmentRoute,
   ApiSendConfirmationRoute: ApiSendConfirmationRoute,
+  ApiSendWaitlistNotificationRoute: ApiSendWaitlistNotificationRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
