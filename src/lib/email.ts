@@ -1,6 +1,8 @@
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const FROM = "Hire Path Solutions <hello@hirepathsolutions.com>";
 const ADMIN_EMAIL = "hirepathsolutions@gmail.com";
+const LOGO_URL = "https://hirepathsolutions.com/logo.png";
+const SITE_URL = "https://hirepathsolutions.com";
 
 export interface ConfirmationEmailData {
   name: string;
@@ -30,244 +32,300 @@ export interface CareerAssessmentEmailData {
   best_time?: string;
 }
 
+// ── Shared base shell ─────────────────────────────────────────────────────────
+
+function baseShell(contentHtml: string): string {
+  return `<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Hire Path Solutions</title>
+  <!--[if !mso]><!-->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <!--<![endif]-->
+  <style>
+    /* Reset */
+    * { box-sizing: border-box; }
+    body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse; }
+    img { border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; }
+
+    /* Animations — degrade gracefully in unsupported clients */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes goldPulse {
+      0%   { opacity: 0.5; }
+      50%  { opacity: 1; }
+      100% { opacity: 0.5; }
+    }
+    @keyframes shimmer {
+      0%   { background-position: -400px 0; }
+      100% { background-position: 400px 0; }
+    }
+
+    .card-animate {
+      animation: fadeSlideUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .gold-bar-animate {
+      animation: goldPulse 3s ease-in-out 0.7s infinite;
+    }
+
+    /* Responsive */
+    @media screen and (max-width: 600px) {
+      .card-wrap { width: 100% !important; padding: 0 !important; }
+      .card-inner { border-radius: 0 !important; }
+      .card-body { padding: 32px 24px !important; }
+      .card-header { padding: 28px 24px !important; }
+      .card-footer { padding: 20px 24px !important; }
+      .btn-cta { display: block !important; text-align: center !important; }
+    }
+  </style>
+</head>
+<body style="margin:0;padding:0;background-color:#F7F5F0;font-family:'Inter',Arial,sans-serif;color:#0A0A0A;">
+
+  <!-- Outer wrapper -->
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#F7F5F0;padding:48px 16px;">
+    <tr>
+      <td align="center">
+
+        <!-- Card -->
+        <table role="presentation" class="card-wrap card-animate" width="100%" cellpadding="0" cellspacing="0" style="max-width:580px;">
+          <tr>
+            <td class="card-inner" style="background:#ffffff;border-radius:8px;border:1px solid #E8E5DF;overflow:hidden;box-shadow:0 4px 32px rgba(10,10,10,0.06);">
+
+              <!-- Header -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td class="card-header" style="background:#0A0A0A;padding:32px 40px;text-align:center;">
+                    <a href="${SITE_URL}" style="text-decoration:none;display:inline-block;">
+                      <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto;">
+                        <tr>
+                          <td style="vertical-align:middle;padding-right:10px;">
+                            <img src="${LOGO_URL}" alt="Hire Path Solutions" width="36" height="36" style="display:block;border-radius:7px;width:36px;height:36px;" />
+                          </td>
+                          <td style="vertical-align:middle;">
+                            <span style="font-family:Georgia,'Times New Roman',serif;font-size:20px;font-weight:700;color:#ffffff;letter-spacing:-0.3px;display:inline;">
+                              Hire Path <span style="color:#C9971C;">Solutions</span>
+                            </span>
+                          </td>
+                        </tr>
+                      </table>
+                    </a>
+                  </td>
+                </tr>
+
+                <!-- Gold accent bar -->
+                <tr>
+                  <td class="gold-bar-animate" style="height:2px;background:linear-gradient(90deg,transparent 0%,#C9971C 30%,#E8B830 50%,#C9971C 70%,transparent 100%);font-size:0;line-height:0;">&nbsp;</td>
+                </tr>
+              </table>
+
+              <!-- Body -->
+              ${contentHtml}
+
+              <!-- Footer -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="height:1px;background:#E8E5DF;font-size:0;line-height:0;">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td class="card-footer" style="background:#F7F5F0;padding:24px 40px;text-align:center;">
+                    <p style="margin:0 0 6px;font-family:'JetBrains Mono',Courier,monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.2em;color:#888888;">
+                      Hire Path Solutions &nbsp;·&nbsp; Lagos, Nigeria
+                    </p>
+                    <p style="margin:0;font-size:11px;color:#aaaaaa;line-height:1.6;">
+                      <a href="tel:+2348068579982" style="color:#aaaaaa;text-decoration:none;">+234 806 857 9982</a>
+                      &nbsp;·&nbsp;
+                      <a href="${SITE_URL}" style="color:#aaaaaa;text-decoration:none;">hirepathsolutions.com</a>
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+        </table>
+        <!-- /Card -->
+
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+}
+
+// ── Shared UI primitives ───────────────────────────────────────────────────────
+
+function eyebrow(text: string): string {
+  return `<p style="margin:0 0 10px;font-family:'JetBrains Mono',Courier,monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.22em;color:#C9971C;">${text}</p>`;
+}
+
+function heading(text: string): string {
+  return `<h1 style="margin:0 0 20px;font-family:Georgia,'Times New Roman',serif;font-size:28px;font-weight:700;color:#0A0A0A;line-height:1.25;letter-spacing:-0.5px;">${text}</h1>`;
+}
+
+function bodyText(text: string, extra = ""): string {
+  return `<p style="margin:0 0 20px;font-size:15px;line-height:1.75;color:#3D3D3D;${extra}">${text}</p>`;
+}
+
+function dataRow(label: string, value: string, first = false): string {
+  const borderTop = first ? "" : "border-top:1px solid #E8E5DF;";
+  return `<tr>
+    <td style="padding:9px 0;font-family:'JetBrains Mono',Courier,monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:#888888;${borderTop}">${label}</td>
+    <td style="padding:9px 0;font-size:13px;color:#0A0A0A;text-align:right;font-weight:600;${borderTop}">${value}</td>
+  </tr>`;
+}
+
+function dataTable(rows: [string, string][]): string {
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F7F5F0;border-radius:6px;border:1px solid #E8E5DF;margin:0 0 28px;">
+    <tr>
+      <td style="padding:20px 24px;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+          ${rows.map(([l, v], i) => dataRow(l, v, i === 0)).join("")}
+        </table>
+      </td>
+    </tr>
+  </table>`;
+}
+
+function ctaButton(href: string, label: string): string {
+  return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:4px 0 28px;">
+    <tr>
+      <td style="border-radius:4px;background:#0A0A0A;">
+        <a href="${href}" class="btn-cta" style="display:inline-block;background:#0A0A0A;color:#C9971C;font-family:'JetBrains Mono',Courier,monospace;font-size:11px;font-weight:500;text-decoration:none;padding:14px 32px;border-radius:4px;letter-spacing:0.15em;text-transform:uppercase;">${label}</a>
+      </td>
+    </tr>
+  </table>`;
+}
+
+function divider(): string {
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0;">
+    <tr>
+      <td style="height:1px;background:linear-gradient(90deg,transparent,#E8E5DF 20%,#E8E5DF 80%,transparent);font-size:0;line-height:0;">&nbsp;</td>
+    </tr>
+  </table>`;
+}
+
 // ── VA Blueprint confirmation email ───────────────────────────────────────────
 
 function buildConfirmationHtml(data: ConfirmationEmailData): string {
   const price = data.scheduleType === "VIP" ? "₦100,000" : "₦50,000";
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Application Confirmed</title>
-</head>
-<body style="margin:0;padding:0;background:#F7F5F0;font-family:'Inter',Arial,sans-serif;color:#0A0A0A;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#F7F5F0;padding:40px 16px;">
+  const firstName = data.name.split(" ")[0];
+
+  const body = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0">
     <tr>
-      <td align="center">
-        <table width="100%" style="max-width:560px;background:#ffffff;border-radius:8px;border:1px solid #E8E5DF;overflow:hidden;">
-          <tr>
-            <td style="background:#0A0A0A;padding:32px 40px;text-align:center;">
-              <p style="margin:0;font-family:Georgia,serif;font-size:22px;font-weight:700;color:#C9971C;letter-spacing:-0.5px;">
-                Hire Path Solutions
-              </p>
-              <p style="margin:6px 0 0;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:3px;">
-                Healthcare VA Training
-              </p>
-            </td>
-          </tr>
-          <tr>
-            <td style="height:3px;background:linear-gradient(90deg,transparent,#C9971C,transparent);"></td>
-          </tr>
-          <tr>
-            <td style="padding:40px 40px 32px;">
-              <p style="margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:3px;color:#C9971C;font-family:monospace;">
-                Application Confirmed
-              </p>
-              <h1 style="margin:0 0 24px;font-family:Georgia,serif;font-size:26px;font-weight:700;color:#0A0A0A;line-height:1.2;">
-                Welcome aboard, ${data.name.split(" ")[0]}!
-              </h1>
-              <p style="margin:0 0 24px;font-size:15px;line-height:1.7;color:#3D3D3D;">
-                Your application and payment have been received. You have officially secured your seat in the <strong>${data.cohortName}</strong>.
-              </p>
-              <table width="100%" cellpadding="0" cellspacing="0" style="background:#F7F5F0;border-radius:6px;border:1px solid #E8E5DF;margin-bottom:28px;">
-                <tr>
-                  <td style="padding:24px 28px;">
-                    <table width="100%" cellpadding="0" cellspacing="0">
-                      <tr>
-                        <td style="padding:6px 0;font-size:13px;color:#888;">Name</td>
-                        <td style="padding:6px 0;font-size:13px;color:#0A0A0A;text-align:right;font-weight:600;">${data.name}</td>
-                      </tr>
-                      <tr>
-                        <td style="padding:6px 0;font-size:13px;color:#888;border-top:1px solid #E8E5DF;">Email</td>
-                        <td style="padding:6px 0;font-size:13px;color:#0A0A0A;text-align:right;border-top:1px solid #E8E5DF;">${data.email}</td>
-                      </tr>
-                      <tr>
-                        <td style="padding:6px 0;font-size:13px;color:#888;border-top:1px solid #E8E5DF;">Phone</td>
-                        <td style="padding:6px 0;font-size:13px;color:#0A0A0A;text-align:right;border-top:1px solid #E8E5DF;">${data.phone}</td>
-                      </tr>
-                      <tr>
-                        <td style="padding:6px 0;font-size:13px;color:#888;border-top:1px solid #E8E5DF;">Plan</td>
-                        <td style="padding:6px 0;font-size:13px;color:#0A0A0A;text-align:right;border-top:1px solid #E8E5DF;font-weight:600;">${data.scheduleType}</td>
-                      </tr>
-                      <tr>
-                        <td style="padding:6px 0;font-size:13px;color:#888;border-top:1px solid #E8E5DF;">Amount Paid</td>
-                        <td style="padding:6px 0;font-size:14px;color:#C9971C;text-align:right;border-top:1px solid #E8E5DF;font-weight:700;font-family:monospace;">${price}</td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-              </table>
-              <p style="margin:0 0 24px;font-size:15px;line-height:1.7;color:#3D3D3D;">
-                Our team will reach out via <strong>WhatsApp or phone</strong> within 24 hours to send you onboarding details and your cohort start date.
-              </p>
-              <table width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td align="center" style="padding:8px 0 28px;">
-                    <a href="https://wa.me/2348068579982" style="display:inline-block;background:#0A0A0A;color:#C9971C;font-size:13px;font-weight:700;text-decoration:none;padding:14px 32px;border-radius:4px;letter-spacing:0.5px;">
-                      Message Us on WhatsApp
-                    </a>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <td style="background:#F7F5F0;border-top:1px solid #E8E5DF;padding:24px 40px;text-align:center;">
-              <p style="margin:0;font-size:12px;color:#888;line-height:1.6;">
-                Hire Path Solutions &middot; Lagos, Nigeria<br/>
-                08068579982
-              </p>
-            </td>
-          </tr>
-        </table>
+      <td class="card-body" style="padding:40px 40px 32px;">
+
+        ${eyebrow("Application Confirmed")}
+        ${heading(`Welcome aboard, ${firstName}!`)}
+        ${bodyText(`Your application and payment have been received. You have officially secured your seat in the <strong style="color:#0A0A0A;">${data.cohortName}</strong>. We're thrilled to have you.`)}
+
+        ${dataTable([
+          ["Name",         data.name],
+          ["Email",        data.email],
+          ["Phone",        data.phone],
+          ["Plan",         data.scheduleType],
+          ["Amount Paid",  price],
+        ])}
+
+        ${bodyText(`Our team will reach out via <strong>WhatsApp or phone</strong> within 24 hours with your onboarding details and cohort start date.`)}
+
+        ${ctaButton("https://wa.me/2348068579982", "Message Us on WhatsApp")}
+
+        ${divider()}
+
+        <p style="margin:0;font-size:13px;line-height:1.7;color:#888888;font-style:italic;">
+          If you have any questions before then, reply to this email or message us directly on WhatsApp. We're here for you.
+        </p>
+
       </td>
     </tr>
-  </table>
-</body>
-</html>`;
+  </table>`;
+
+  return baseShell(body);
 }
 
-// ── Career assessment emails ───────────────────────────────────────────────────
+// ── Career assessment — applicant email ───────────────────────────────────────
 
 function buildCareerAssessmentApplicantHtml(data: CareerAssessmentEmailData): string {
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>We Received Your Assessment</title>
-</head>
-<body style="margin:0;padding:0;background:#F7F5F0;font-family:'Inter',Arial,sans-serif;color:#0A0A0A;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#F7F5F0;padding:40px 16px;">
+  const firstName = data.full_name.split(" ")[0];
+
+  const body = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0">
     <tr>
-      <td align="center">
-        <table width="100%" style="max-width:560px;background:#ffffff;border-radius:8px;border:1px solid #E8E5DF;overflow:hidden;">
-          <tr>
-            <td style="background:#0A0A0A;padding:32px 40px;text-align:center;">
-              <p style="margin:0;font-family:Georgia,serif;font-size:22px;font-weight:700;color:#C9971C;letter-spacing:-0.5px;">
-                Hire Path Solutions
-              </p>
-              <p style="margin:6px 0 0;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:3px;">
-                Career Development
-              </p>
-            </td>
-          </tr>
-          <tr>
-            <td style="height:3px;background:linear-gradient(90deg,transparent,#C9971C,transparent);"></td>
-          </tr>
-          <tr>
-            <td style="padding:40px 40px 32px;">
-              <p style="margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:3px;color:#C9971C;font-family:monospace;">
-                Assessment Received
-              </p>
-              <h1 style="margin:0 0 24px;font-family:Georgia,serif;font-size:26px;font-weight:700;color:#0A0A0A;line-height:1.2;">
-                Thanks, ${data.full_name.split(" ")[0]}!
-              </h1>
-              <p style="margin:0 0 24px;font-size:15px;line-height:1.7;color:#3D3D3D;">
-                We have received your career assessment. One of our career coaches will review your profile and reach out within <strong>24 to 48 hours</strong> with your personalized career plan and next steps.
-              </p>
-              <p style="margin:0 0 28px;font-size:15px;line-height:1.7;color:#3D3D3D;">
-                In the meantime, feel free to message us on WhatsApp if you have any questions.
-              </p>
-              <table width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td align="center" style="padding:8px 0 28px;">
-                    <a href="https://wa.me/2348068579982" style="display:inline-block;background:#0A0A0A;color:#C9971C;font-size:13px;font-weight:700;text-decoration:none;padding:14px 32px;border-radius:4px;letter-spacing:0.5px;">
-                      Message Us on WhatsApp
-                    </a>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <td style="background:#F7F5F0;border-top:1px solid #E8E5DF;padding:24px 40px;text-align:center;">
-              <p style="margin:0;font-size:12px;color:#888;line-height:1.6;">
-                Hire Path Solutions &middot; Lagos, Nigeria<br/>
-                08068579982
-              </p>
-            </td>
-          </tr>
-        </table>
+      <td class="card-body" style="padding:40px 40px 32px;">
+
+        ${eyebrow("Assessment Received")}
+        ${heading(`Thanks, ${firstName}!`)}
+        ${bodyText(`We've received your career assessment and are reviewing your profile. One of our career coaches will reach out within <strong>24 – 48 hours</strong> with your personalised career plan and next steps.`)}
+
+        ${dataTable([
+          ["Name",  data.full_name],
+          ["Email", data.email],
+          ["Phone", data.phone],
+        ])}
+
+        ${bodyText(`In the meantime, feel free to message us on WhatsApp if you have any questions — we're always happy to help.`)}
+
+        ${ctaButton("https://wa.me/2348068579982", "Message Us on WhatsApp")}
+
+        ${divider()}
+
+        <p style="margin:0;font-size:13px;line-height:1.7;color:#888888;font-style:italic;">
+          You're one step closer to building the career you deserve. We'll be in touch soon.
+        </p>
+
       </td>
     </tr>
-  </table>
-</body>
-</html>`;
+  </table>`;
+
+  return baseShell(body);
 }
 
+// ── Career assessment — admin email ───────────────────────────────────────────
+
 function buildCareerAssessmentAdminHtml(data: CareerAssessmentEmailData): string {
-  const rows = [
-    ["Name", data.full_name],
-    ["Email", data.email],
-    ["Phone", data.phone],
-    ["Location", [data.city, data.state].filter(Boolean).join(", ") || "N/A"],
-    ["Education", data.education_level || "N/A"],
-    ["Field of Study", data.field_of_study || "N/A"],
-    ["Job Title", data.job_title || "N/A"],
-    ["Years of Experience", data.years_experience || "N/A"],
-    ["Industry", data.industry || "N/A"],
-    ["Current Skills", data.current_skills || "N/A"],
-    ["Skills to Gain", data.skills_to_gain || "N/A"],
-    ["Target Role", data.target_role || "N/A"],
-    ["Work Preference", data.work_preference || "N/A"],
-    ["Timeline", data.timeline || "N/A"],
-    ["Preferred Contact", data.contact_method || "N/A"],
-    ["Best Time to Reach", data.best_time || "N/A"],
+  const rows: [string, string][] = [
+    ["Name",              data.full_name],
+    ["Email",             data.email],
+    ["Phone",             data.phone],
+    ["Location",          [data.city, data.state].filter(Boolean).join(", ") || "—"],
+    ["Education",         data.education_level   || "—"],
+    ["Field of Study",    data.field_of_study    || "—"],
+    ["Job Title",         data.job_title         || "—"],
+    ["Experience",        data.years_experience  || "—"],
+    ["Industry",          data.industry          || "—"],
+    ["Current Skills",    data.current_skills    || "—"],
+    ["Skills to Gain",    data.skills_to_gain    || "—"],
+    ["Target Role",       data.target_role       || "—"],
+    ["Work Preference",   data.work_preference   || "—"],
+    ["Timeline",          data.timeline          || "—"],
+    ["Preferred Contact", data.contact_method    || "—"],
+    ["Best Time",         data.best_time         || "—"],
   ];
 
-  const rowsHtml = rows
-    .map(
-      ([label, value], i) => `
-      <tr>
-        <td style="padding:7px 0;font-size:13px;color:#888;${i > 0 ? "border-top:1px solid #E8E5DF;" : ""}">${label}</td>
-        <td style="padding:7px 0;font-size:13px;color:#0A0A0A;text-align:right;font-weight:500;${i > 0 ? "border-top:1px solid #E8E5DF;" : ""}">${value}</td>
-      </tr>`
-    )
-    .join("");
-
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>New Career Assessment</title>
-</head>
-<body style="margin:0;padding:0;background:#F7F5F0;font-family:'Inter',Arial,sans-serif;color:#0A0A0A;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#F7F5F0;padding:40px 16px;">
+  const body = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0">
     <tr>
-      <td align="center">
-        <table width="100%" style="max-width:600px;background:#ffffff;border-radius:8px;border:1px solid #E8E5DF;overflow:hidden;">
-          <tr>
-            <td style="background:#0A0A0A;padding:28px 36px;">
-              <p style="margin:0;font-size:13px;text-transform:uppercase;letter-spacing:3px;color:#C9971C;font-family:monospace;">New Career Assessment</p>
-              <h1 style="margin:8px 0 0;font-family:Georgia,serif;font-size:22px;font-weight:700;color:#fff;line-height:1.2;">
-                ${data.full_name}
-              </h1>
-            </td>
-          </tr>
-          <tr>
-            <td style="height:3px;background:linear-gradient(90deg,transparent,#C9971C,transparent);"></td>
-          </tr>
-          <tr>
-            <td style="padding:32px 36px;">
-              <table width="100%" cellpadding="0" cellspacing="0" style="background:#F7F5F0;border-radius:6px;border:1px solid #E8E5DF;">
-                <tr>
-                  <td style="padding:20px 24px;">
-                    <table width="100%" cellpadding="0" cellspacing="0">
-                      ${rowsHtml}
-                    </table>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-        </table>
+      <td class="card-body" style="padding:40px 40px 32px;">
+
+        ${eyebrow("New Submission")}
+        ${heading(`Career Assessment`)}
+        ${bodyText(`A new career assessment has been submitted. Full details are below.`)}
+
+        ${dataTable(rows)}
+
+        ${ctaButton(`mailto:${data.email}`, `Reply to ${data.full_name.split(" ")[0]}`)}
+
       </td>
     </tr>
-  </table>
-</body>
-</html>`;
+  </table>`;
+
+  return baseShell(body);
 }
 
 // ── Public API ─────────────────────────────────────────────────────────────────
@@ -287,7 +345,7 @@ export async function sendConfirmationEmail(data: ConfirmationEmailData): Promis
     body: JSON.stringify({
       from: FROM,
       to: [data.email],
-      subject: `Your seat is confirmed, ${data.name.split(" ")[0]}! Hire Path Solutions`,
+      subject: `You're in, ${data.name.split(" ")[0]}! Your seat is confirmed — Hire Path Solutions`,
       html: buildConfirmationHtml(data),
     }),
   });
@@ -306,7 +364,6 @@ export async function sendCareerAssessmentEmail(data: CareerAssessmentEmailData)
     return;
   }
 
-  // Send both emails in parallel
   const [applicantRes, adminRes] = await Promise.all([
     fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -317,7 +374,7 @@ export async function sendCareerAssessmentEmail(data: CareerAssessmentEmailData)
       body: JSON.stringify({
         from: FROM,
         to: [data.email],
-        subject: `We received your career assessment, ${data.full_name.split(" ")[0]}!`,
+        subject: `We received your assessment, ${data.full_name.split(" ")[0]}! — Hire Path Solutions`,
         html: buildCareerAssessmentApplicantHtml(data),
       }),
     }),
