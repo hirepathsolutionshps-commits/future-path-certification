@@ -1,6 +1,6 @@
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const FROM = "Hire Path Solutions <hello@hirepathsolutions.com>";
-const ADMIN_EMAIL = "hirepathsolutions@gmail.com";
+const ADMIN_EMAIL = "Hirepathsolutionshps@gmail.com";
 const LOGO_URL = "https://hirepathsolutions.com/logo.png";
 const SITE_URL = "https://hirepathsolutions.com";
 
