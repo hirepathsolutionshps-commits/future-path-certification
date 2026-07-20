@@ -15,9 +15,11 @@ import { Route as RefundRouteImport } from './routes/refund'
 import { Route as ProgramsRouteImport } from './routes/programs'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiVerifyPaymentRouteImport } from './routes/api/verify-payment'
 import { Route as ApiSendWaitlistNotificationRouteImport } from './routes/api/send-waitlist-notification'
 import { Route as ApiSendConfirmationRouteImport } from './routes/api/send-confirmation'
 import { Route as ApiSendCareerAssessmentRouteImport } from './routes/api/send-career-assessment'
+import { Route as ApiPaystackWebhookRouteImport } from './routes/api/paystack-webhook'
 
 const VaBlueprintRoute = VaBlueprintRouteImport.update({
   id: '/va-blueprint',
@@ -49,6 +51,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiVerifyPaymentRoute = ApiVerifyPaymentRouteImport.update({
+  id: '/api/verify-payment',
+  path: '/api/verify-payment',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiSendWaitlistNotificationRoute =
   ApiSendWaitlistNotificationRouteImport.update({
     id: '/api/send-waitlist-notification',
@@ -65,6 +72,11 @@ const ApiSendCareerAssessmentRoute = ApiSendCareerAssessmentRouteImport.update({
   path: '/api/send-career-assessment',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPaystackWebhookRoute = ApiPaystackWebhookRouteImport.update({
+  id: '/api/paystack-webhook',
+  path: '/api/paystack-webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -73,9 +85,11 @@ export interface FileRoutesByFullPath {
   '/refund': typeof RefundRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/va-blueprint': typeof VaBlueprintRoute
+  '/api/paystack-webhook': typeof ApiPaystackWebhookRoute
   '/api/send-career-assessment': typeof ApiSendCareerAssessmentRoute
   '/api/send-confirmation': typeof ApiSendConfirmationRoute
   '/api/send-waitlist-notification': typeof ApiSendWaitlistNotificationRoute
+  '/api/verify-payment': typeof ApiVerifyPaymentRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -84,9 +98,11 @@ export interface FileRoutesByTo {
   '/refund': typeof RefundRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/va-blueprint': typeof VaBlueprintRoute
+  '/api/paystack-webhook': typeof ApiPaystackWebhookRoute
   '/api/send-career-assessment': typeof ApiSendCareerAssessmentRoute
   '/api/send-confirmation': typeof ApiSendConfirmationRoute
   '/api/send-waitlist-notification': typeof ApiSendWaitlistNotificationRoute
+  '/api/verify-payment': typeof ApiVerifyPaymentRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -96,9 +112,11 @@ export interface FileRoutesById {
   '/refund': typeof RefundRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/va-blueprint': typeof VaBlueprintRoute
+  '/api/paystack-webhook': typeof ApiPaystackWebhookRoute
   '/api/send-career-assessment': typeof ApiSendCareerAssessmentRoute
   '/api/send-confirmation': typeof ApiSendConfirmationRoute
   '/api/send-waitlist-notification': typeof ApiSendWaitlistNotificationRoute
+  '/api/verify-payment': typeof ApiVerifyPaymentRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -109,9 +127,11 @@ export interface FileRouteTypes {
     | '/refund'
     | '/sitemap.xml'
     | '/va-blueprint'
+    | '/api/paystack-webhook'
     | '/api/send-career-assessment'
     | '/api/send-confirmation'
     | '/api/send-waitlist-notification'
+    | '/api/verify-payment'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -120,9 +140,11 @@ export interface FileRouteTypes {
     | '/refund'
     | '/sitemap.xml'
     | '/va-blueprint'
+    | '/api/paystack-webhook'
     | '/api/send-career-assessment'
     | '/api/send-confirmation'
     | '/api/send-waitlist-notification'
+    | '/api/verify-payment'
   id:
     | '__root__'
     | '/'
@@ -131,9 +153,11 @@ export interface FileRouteTypes {
     | '/refund'
     | '/sitemap.xml'
     | '/va-blueprint'
+    | '/api/paystack-webhook'
     | '/api/send-career-assessment'
     | '/api/send-confirmation'
     | '/api/send-waitlist-notification'
+    | '/api/verify-payment'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -143,9 +167,11 @@ export interface RootRouteChildren {
   RefundRoute: typeof RefundRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   VaBlueprintRoute: typeof VaBlueprintRoute
+  ApiPaystackWebhookRoute: typeof ApiPaystackWebhookRoute
   ApiSendCareerAssessmentRoute: typeof ApiSendCareerAssessmentRoute
   ApiSendConfirmationRoute: typeof ApiSendConfirmationRoute
   ApiSendWaitlistNotificationRoute: typeof ApiSendWaitlistNotificationRoute
+  ApiVerifyPaymentRoute: typeof ApiVerifyPaymentRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -192,6 +218,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/verify-payment': {
+      id: '/api/verify-payment'
+      path: '/api/verify-payment'
+      fullPath: '/api/verify-payment'
+      preLoaderRoute: typeof ApiVerifyPaymentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/send-waitlist-notification': {
       id: '/api/send-waitlist-notification'
       path: '/api/send-waitlist-notification'
@@ -213,6 +246,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiSendCareerAssessmentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/paystack-webhook': {
+      id: '/api/paystack-webhook'
+      path: '/api/paystack-webhook'
+      fullPath: '/api/paystack-webhook'
+      preLoaderRoute: typeof ApiPaystackWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -223,9 +263,11 @@ const rootRouteChildren: RootRouteChildren = {
   RefundRoute: RefundRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   VaBlueprintRoute: VaBlueprintRoute,
+  ApiPaystackWebhookRoute: ApiPaystackWebhookRoute,
   ApiSendCareerAssessmentRoute: ApiSendCareerAssessmentRoute,
   ApiSendConfirmationRoute: ApiSendConfirmationRoute,
   ApiSendWaitlistNotificationRoute: ApiSendWaitlistNotificationRoute,
+  ApiVerifyPaymentRoute: ApiVerifyPaymentRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

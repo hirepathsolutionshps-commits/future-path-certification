@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 import { Reveal } from "@/components/Reveal";
 import { CtaButton } from "./CtaButton";
 
@@ -150,35 +149,31 @@ export function ApplicationForm() {
       callback: async (response) => {
         setSubmitting(true);
         try {
-          const { error } = await supabase.from("students").insert({
-            name: parsed.data.name,
-            phone: parsed.data.phone,
-            email: parsed.data.email,
-            has_laptop: parsed.data.has_laptop,
-            schedule_type: parsed.data.schedule_type,
-            cohort_id: cohort?.id ?? null,
-            payment_ref: response.reference,
-            paid: true,
-          });
-
-          if (error) {
-            console.error("[db]", error);
-            toast.error("Payment received but registration had an issue. Contact us on WhatsApp.");
-            setSubmitting(false);
-            return;
-          }
-
-          await fetch("/api/send-confirmation", {
+          // Verify payment server-side, save to Supabase, and send email — all in one call
+          const res = await fetch("/api/verify-payment", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
+              reference: response.reference,
               name: parsed.data.name,
               email: parsed.data.email,
               phone: parsed.data.phone,
-              scheduleType: parsed.data.schedule_type,
-              cohortName: cohort?.name ?? "Healthcare VA Program",
+              has_laptop: parsed.data.has_laptop,
+              schedule_type: parsed.data.schedule_type,
+              cohort_id: cohort?.id ?? null,
+              cohort_name: cohort?.name ?? "Healthcare VA Program",
             }),
           });
+
+          if (!res.ok) {
+            const body = await res.json().catch(() => ({}));
+            console.error("[verify-payment]", body);
+            toast.error(
+              "Payment received but verification had an issue. Please contact us on WhatsApp — your seat is safe.",
+            );
+            setSubmitting(false);
+            return;
+          }
 
           setDone(true);
           toast.success("You're in! Check your email for confirmation.");
