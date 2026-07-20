@@ -147,14 +147,20 @@ export const Route = createFileRoute("/api/verify-payment")({
           // Payment succeeded — don't block the user, just log
         }
 
-        // 5. Send confirmation email (fire-and-forget — don't block response)
-        sendConfirmationEmail({
-          name: payload.name,
-          email: payload.email,
-          phone: payload.phone,
-          scheduleType: payload.schedule_type,
-          cohortName: payload.cohort_name,
-        }).catch((err) => console.error("[verify-payment] Email error:", err));
+        // 5. Send confirmation email — await so we can log the outcome
+        try {
+          await sendConfirmationEmail({
+            name: payload.name,
+            email: payload.email,
+            phone: payload.phone,
+            scheduleType: payload.schedule_type,
+            cohortName: payload.cohort_name,
+          });
+          console.log("[verify-payment] Confirmation email dispatched for", payload.email);
+        } catch (err) {
+          // Log but don't block — payment already verified and saved
+          console.error("[verify-payment] Email send threw:", err);
+        }
 
         return json({ ok: true });
       },

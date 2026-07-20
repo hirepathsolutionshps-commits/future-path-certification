@@ -16,6 +16,7 @@ import { Route as ProgramsRouteImport } from './routes/programs'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiVerifyPaymentRouteImport } from './routes/api/verify-payment'
+import { Route as ApiTestEmailRouteImport } from './routes/api/test-email'
 import { Route as ApiSendWaitlistNotificationRouteImport } from './routes/api/send-waitlist-notification'
 import { Route as ApiSendConfirmationRouteImport } from './routes/api/send-confirmation'
 import { Route as ApiSendCareerAssessmentRouteImport } from './routes/api/send-career-assessment'
@@ -56,6 +57,11 @@ const ApiVerifyPaymentRoute = ApiVerifyPaymentRouteImport.update({
   path: '/api/verify-payment',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiTestEmailRoute = ApiTestEmailRouteImport.update({
+  id: '/api/test-email',
+  path: '/api/test-email',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiSendWaitlistNotificationRoute =
   ApiSendWaitlistNotificationRouteImport.update({
     id: '/api/send-waitlist-notification',
@@ -89,6 +95,7 @@ export interface FileRoutesByFullPath {
   '/api/send-career-assessment': typeof ApiSendCareerAssessmentRoute
   '/api/send-confirmation': typeof ApiSendConfirmationRoute
   '/api/send-waitlist-notification': typeof ApiSendWaitlistNotificationRoute
+  '/api/test-email': typeof ApiTestEmailRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
 }
 export interface FileRoutesByTo {
@@ -102,6 +109,7 @@ export interface FileRoutesByTo {
   '/api/send-career-assessment': typeof ApiSendCareerAssessmentRoute
   '/api/send-confirmation': typeof ApiSendConfirmationRoute
   '/api/send-waitlist-notification': typeof ApiSendWaitlistNotificationRoute
+  '/api/test-email': typeof ApiTestEmailRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
 }
 export interface FileRoutesById {
@@ -116,6 +124,7 @@ export interface FileRoutesById {
   '/api/send-career-assessment': typeof ApiSendCareerAssessmentRoute
   '/api/send-confirmation': typeof ApiSendConfirmationRoute
   '/api/send-waitlist-notification': typeof ApiSendWaitlistNotificationRoute
+  '/api/test-email': typeof ApiTestEmailRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
 }
 export interface FileRouteTypes {
@@ -131,6 +140,7 @@ export interface FileRouteTypes {
     | '/api/send-career-assessment'
     | '/api/send-confirmation'
     | '/api/send-waitlist-notification'
+    | '/api/test-email'
     | '/api/verify-payment'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -144,6 +154,7 @@ export interface FileRouteTypes {
     | '/api/send-career-assessment'
     | '/api/send-confirmation'
     | '/api/send-waitlist-notification'
+    | '/api/test-email'
     | '/api/verify-payment'
   id:
     | '__root__'
@@ -157,6 +168,7 @@ export interface FileRouteTypes {
     | '/api/send-career-assessment'
     | '/api/send-confirmation'
     | '/api/send-waitlist-notification'
+    | '/api/test-email'
     | '/api/verify-payment'
   fileRoutesById: FileRoutesById
 }
@@ -171,6 +183,7 @@ export interface RootRouteChildren {
   ApiSendCareerAssessmentRoute: typeof ApiSendCareerAssessmentRoute
   ApiSendConfirmationRoute: typeof ApiSendConfirmationRoute
   ApiSendWaitlistNotificationRoute: typeof ApiSendWaitlistNotificationRoute
+  ApiTestEmailRoute: typeof ApiTestEmailRoute
   ApiVerifyPaymentRoute: typeof ApiVerifyPaymentRoute
 }
 
@@ -225,6 +238,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiVerifyPaymentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/test-email': {
+      id: '/api/test-email'
+      path: '/api/test-email'
+      fullPath: '/api/test-email'
+      preLoaderRoute: typeof ApiTestEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/send-waitlist-notification': {
       id: '/api/send-waitlist-notification'
       path: '/api/send-waitlist-notification'
@@ -267,6 +287,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiSendCareerAssessmentRoute: ApiSendCareerAssessmentRoute,
   ApiSendConfirmationRoute: ApiSendConfirmationRoute,
   ApiSendWaitlistNotificationRoute: ApiSendWaitlistNotificationRoute,
+  ApiTestEmailRoute: ApiTestEmailRoute,
   ApiVerifyPaymentRoute: ApiVerifyPaymentRoute,
 }
 export const routeTree = rootRouteImport
