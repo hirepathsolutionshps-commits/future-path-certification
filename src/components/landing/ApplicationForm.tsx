@@ -147,40 +147,46 @@ export function ApplicationForm() {
       onClose: () => {
         toast.info("Payment cancelled. Your progress is saved.");
       },
-      callback: async (response) => {
+      // Paystack inline.js rejects async functions — use a plain function
+      // that fires an async IIFE internally so it returns undefined.
+      callback: (response) => {
         setSubmitting(true);
-        try {
-          // Verify payment server-side, save to Supabase, and send email — all in one call
-          const res = await fetch("/api/verify-payment", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              reference: response.reference,
-              name: parsed.data.name,
-              email: parsed.data.email,
-              phone: parsed.data.phone,
-              has_laptop: parsed.data.has_laptop,
-              schedule_type: parsed.data.schedule_type,
-              cohort_id: cohort?.id ?? null,
-              cohort_name: cohort?.name ?? "Healthcare VA Program",
-            }),
-          });
+        (async () => {
+          try {
+            // Verify payment server-side, save to Supabase, and send email — all in one call
+            const res = await fetch("/api/verify-payment", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                reference: response.reference,
+                name: parsed.data.name,
+                email: parsed.data.email,
+                phone: parsed.data.phone,
+                has_laptop: parsed.data.has_laptop,
+                schedule_type: parsed.data.schedule_type,
+                cohort_id: cohort?.id ?? null,
+                cohort_name: cohort?.name ?? "Healthcare VA Program",
+              }),
+            });
 
-          if (!res.ok) {
-            const body = await res.json().catch(() => ({}));
-            console.error("[verify-payment]", body);
-            toast.error(
-              "Payment received but verification had an issue. Please contact us on WhatsApp — your seat is safe.",
-            );
+            if (!res.ok) {
+              const body = await res.json().catch(() => ({}));
+              console.error("[verify-payment]", body);
+              toast.error(
+                "Payment received but verification had an issue. Please contact us on WhatsApp — your seat is safe.",
+              );
+              return;
+            }
+
+            setDone(true);
+            toast.success("You're in! Check your email for confirmation.");
+          } catch (err) {
+            console.error("[verify-payment]", err);
+            toast.error("Something went wrong. Contact us on WhatsApp — your payment is safe.");
+          } finally {
             setSubmitting(false);
-            return;
           }
-
-          setDone(true);
-          toast.success("You're in! Check your email for confirmation.");
-        } finally {
-          setSubmitting(false);
-        }
+        })();
       },
     });
 
