@@ -14,7 +14,11 @@ export const Route = createFileRoute("/programs")({
       { name: "description", content: DESCRIPTION },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESCRIPTION },
+      { property: "og:url", content: "https://hirepathsolutions.com/programs" },
+      { name: "twitter:title", content: TITLE },
+      { name: "twitter:description", content: DESCRIPTION },
     ],
+    links: [{ rel: "canonical", href: "https://hirepathsolutions.com/programs" }],
   }),
   component: ProgramsPage,
 });
@@ -24,52 +28,57 @@ const WA_LINK = "https://wa.me/2348068579982";
 const PROGRAMS = [
   {
     id: "va-blueprint",
-    title: "Virtual Assistant Blueprint",
+    title: "VA Blueprint — Healthcare Virtual Assistant",
     description:
-      "Become a remote Healthcare VA serving US and UK clients. 6 week intensive. No experience needed.",
+      "Become a remote Healthcare VA serving US and UK clients. 6-week intensive. No experience needed.",
     badge: "Enrolling Now",
     badgeVariant: "gold" as const,
     cta: "View Program",
+    href: "/va-blueprint",
     available: true,
   },
   {
     id: "ai-automation",
     title: "AI Automation",
     description:
-      "Learn to build AI powered workflows and automations that businesses pay premium rates for.",
+      "Learn to build AI-powered workflows and automations that businesses pay premium rates for.",
     badge: "Coming Soon",
     badgeVariant: "muted" as const,
-    cta: "Join Waitlist",
+    cta: "Learn More",
+    href: "/programs/ai-automation",
     available: false,
   },
   {
     id: "ui-ux",
     title: "UI/UX Design",
     description:
-      "Master product design from wireframes to high fidelity prototypes and land your first design job.",
+      "Master product design from wireframes to high-fidelity prototypes and land your first design job.",
     badge: "Coming Soon",
     badgeVariant: "muted" as const,
-    cta: "Join Waitlist",
+    cta: "Learn More",
+    href: "/programs/ui-ux-design",
     available: false,
   },
   {
     id: "cybersecurity",
     title: "Cybersecurity",
     description:
-      "Enter one of the world's fastest growing fields. Learn threat analysis, ethical hacking, and more.",
+      "Enter one of the world's fastest-growing fields. Learn threat analysis, ethical hacking, and more.",
     badge: "Coming Soon",
     badgeVariant: "muted" as const,
-    cta: "Join Waitlist",
+    cta: "Learn More",
+    href: "/programs/cybersecurity",
     available: false,
   },
   {
     id: "crypto",
-    title: "Crypto",
+    title: "Crypto Trading",
     description:
       "Understand blockchain, DeFi, and crypto trading strategies from fundamentals to advanced practice.",
     badge: "Coming Soon",
     badgeVariant: "muted" as const,
-    cta: "Join Waitlist",
+    cta: "Learn More",
+    href: "/programs/crypto-trading",
     available: false,
   },
   {
@@ -79,7 +88,8 @@ const PROGRAMS = [
       "Build a monetised YouTube channel without showing your face using AI tools and proven frameworks.",
     badge: "Coming Soon",
     badgeVariant: "muted" as const,
-    cta: "Join Waitlist",
+    cta: "Learn More",
+    href: "/programs/youtube-automation",
     available: false,
   },
 ];
@@ -375,18 +385,18 @@ function ProgramsPage() {
                 <div className="mt-6">
                   {p.available ? (
                     <Link
-                      to="/va-blueprint"
+                      to={p.href as "/va-blueprint"}
                       className="inline-flex w-full items-center justify-center rounded-sm bg-gold px-5 py-2.5 text-sm font-semibold text-ink transition-opacity hover:opacity-90"
                     >
                       {p.cta}
                     </Link>
                   ) : (
-                    <button
-                      onClick={() => setWaitlistProgram(p.title)}
+                    <a
+                      href={p.href}
                       className="inline-flex w-full items-center justify-center rounded-sm border border-border bg-cream px-5 py-2.5 text-sm font-medium text-graphite transition-colors hover:border-gold/50 hover:text-ink"
                     >
                       {p.cta}
-                    </button>
+                    </a>
                   )}
                 </div>
               </div>

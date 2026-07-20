@@ -1,0 +1,86 @@
+# HirePath Solutions — SEO Implementation Prompt
+
+You're working on the hirepathsolutions.com codebase — the public marketing site for HirePath Solutions (HPS), a Nigerian career training company. It offers 6 programs: VA Blueprint (Healthcare Virtual Assistant training), AI Automation, UI/UX Design, Cybersecurity, Crypto Trading, and YouTube Automation — training Nigerians for remote roles paid in USD/GBP by US and UK clients. Brand colors are black #000000, white #FFFFFF, gold-yellow #F5A623. Tagline: "Train Smart, Earn More."
+
+## The problem
+Right now the whole site is one page with anchor-link sections (#about, #programs, #contact) and a single generic meta title/description shared by everything. That means:
+- No individual program can rank in Google for its own keywords, because none of them have their own URL
+- The homepage meta description doesn't mention Nigeria, virtual assistant, healthcare, remote, or any term people actually search
+- There's no sitemap.xml, robots.txt, or schema.org structured data that I can find
+- If this is a client-rendered SPA, content past the hero may not be visible to crawlers at all — this is the same class of problem I already fixed on my other site, De Dreams Hotel, by adding static meta tags and JSON-LD per page
+
+## Step 0 — Audit before touching anything
+Tell me first:
+1. What this site is actually built with (Next.js App Router, Next.js Pages Router, Vite + React Router, plain static HTML, something else)
+2. Whether content beyond the hero section is server-rendered/static, or only mounted client-side via JS
+3. Whether a sitemap.xml or robots.txt already exists anywhere in the repo
+
+Then work through the tasks below in order. Build after each numbered task and confirm no errors before moving to the next. Commit in small, reviewable chunks — not one giant commit.
+
+## 1. Give each program its own URL
+Create a real route/page for each program instead of an anchor section:
+- /programs/va-blueprint (prioritize this one — it's the flagship)
+- /programs/ai-automation
+- /programs/ui-ux-design
+- /programs/cybersecurity
+- /programs/crypto-trading
+- /programs/youtube-automation
+
+Keep the homepage's existing #programs section as an overview that links out to these. This is additive — don't remove or redesign the current homepage.
+
+## 2. Unique metadata per page, rendered server-side
+Every page needs its own `<title>` and `<meta name="description">`, set through the framework's real metadata mechanism so it's present in the initial HTML response — not just injected client-side after JS runs. (Next.js: the Metadata API / `generateMetadata` per route, not a `next/head` hack. Vite/React with no SSR: this is the same problem as De Dreams Hotel — add prerendering, or generate static per-route HTML, so the tags exist without JS executing.)
+
+**Homepage:**
+- Title: `HirePath Solutions | Career & Remote Skills Training Nigeria`
+- Description: `Career and remote-work skills training in Nigeria. Learn Healthcare VA, AI Automation, UI/UX & more — get certified and hired by US & UK clients.`
+
+**VA Blueprint page** (use this copy as-is — it's targeting a researched gap, not a guess):
+- Title: `Healthcare Virtual Assistant Training in Nigeria | HirePath VA Blueprint`
+- Description: `Become a Healthcare Virtual Assistant from Nigeria. Train for remote roles with US & UK clients — no experience required. Start HirePath's VA Blueprint today.`
+- H1: `Become a Healthcare Virtual Assistant — Trained in Nigeria, Hired by US & UK Clients`
+- Weave these into the body copy naturally, not stuffed: healthcare virtual assistant training Nigeria, become a healthcare virtual assistant, medical virtual assistant course, remote healthcare VA jobs, HIPAA compliant virtual assistant training, virtual assistant training with job placement
+
+**Other 5 program pages** — draft a unique title/description each, following the pattern `[Program] Training in Nigeria | HirePath Solutions` (e.g. `AI Automation Training in Nigeria | HirePath Solutions`). These haven't been keyword-researched individually yet — just make sure each is unique and specific rather than reusing the homepage tag. I'll refine the copy later.
+
+## 3. Structured data (JSON-LD)
+Add an `Organization` schema block on the homepage (name, logo, url, `sameAs` for any social profiles), and a `Course` schema block on each program page. Example for VA Blueprint:
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "VA Blueprint — Healthcare Virtual Assistant Training",
+  "description": "Healthcare virtual assistant training for Nigerians seeking remote roles with US and UK clients.",
+  "provider": {
+    "@type": "Organization",
+    "name": "HirePath Solutions",
+    "sameAs": "https://hirepathsolutions.com"
+  },
+  "hasCourseInstance": {
+    "@type": "CourseInstance",
+    "courseMode": "online"
+  }
+}
+```
+
+Duplicate this pattern for the other 5 programs with their own name/description.
+
+## 4. Technical basics
+- Generate sitemap.xml covering the homepage + all 6 program pages
+- Add robots.txt allowing crawling of everything except any student portal/auth/admin routes, and reference the sitemap in it
+- Self-referencing canonical tag on every page
+- Update Open Graph and Twitter card tags per page to match its own title/description instead of reusing one global set
+
+## 5. Quick on-page wins while you're in there
+- One `<h1>` per page, matching that page's topic
+- Alt text on every image (describe what's shown, not "image1.png")
+- Internal links between program pages and the homepage use descriptive anchor text, not "click here"
+
+## Guardrails
+- Don't touch visual design or brand colors
+- Everything here is additive — the current homepage experience should keep working exactly as it does now
+- If I paste you a Google Search Console verification tag or file afterward, add it so it survives future deploys
+
+## When you're done
+Give me a summary: which files changed, the final sitemap.xml path, and anywhere you had to guess at content so I know what to double-check before this goes GitHub → Vercel.

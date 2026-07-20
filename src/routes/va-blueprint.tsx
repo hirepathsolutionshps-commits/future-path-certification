@@ -13,9 +13,9 @@ const ApplicationForm = lazy(() => import("@/components/landing/ApplicationForm"
 const Faq = lazy(() => import("@/components/landing/Faq").then(m => ({ default: m.Faq })));
 const Footer = lazy(() => import("@/components/landing/Footer").then(m => ({ default: m.Footer })));
 
-const TITLE = "Healthcare Virtual Assistant Blueprint | Hire Path Solutions";
+const TITLE = "Healthcare Virtual Assistant Training in Nigeria | HirePath VA Blueprint";
 const DESCRIPTION =
-  "6-week training to become a remote Healthcare Virtual Assistant for US & UK clients. Work from anywhere, get paid in dollars from Lagos. No experience required.";
+  "Become a Healthcare Virtual Assistant from Nigeria. Train for remote roles with US & UK clients — no experience required. Start HirePath's VA Blueprint today.";
 
 export const Route = createFileRoute("/va-blueprint")({
   head: () => ({
@@ -24,13 +24,13 @@ export const Route = createFileRoute("/va-blueprint")({
       { name: "description", content: DESCRIPTION },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESCRIPTION },
-      { property: "og:url", content: "/va-blueprint" },
+      { property: "og:url", content: "https://hirepathsolutions.com/va-blueprint" },
       { property: "og:image", content: ogImage },
       { name: "twitter:title", content: TITLE },
       { name: "twitter:description", content: DESCRIPTION },
       { name: "twitter:image", content: ogImage },
     ],
-    links: [{ rel: "canonical", href: "/va-blueprint" }],
+    links: [{ rel: "canonical", href: "https://hirepathsolutions.com/va-blueprint" }],
     scripts: [
       {
         type: "application/ld+json",

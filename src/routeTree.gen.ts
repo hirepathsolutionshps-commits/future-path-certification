@@ -15,6 +15,11 @@ import { Route as RefundRouteImport } from './routes/refund'
 import { Route as ProgramsRouteImport } from './routes/programs'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProgramsYoutubeAutomationRouteImport } from './routes/programs/youtube-automation'
+import { Route as ProgramsUiUxDesignRouteImport } from './routes/programs/ui-ux-design'
+import { Route as ProgramsCybersecurityRouteImport } from './routes/programs/cybersecurity'
+import { Route as ProgramsCryptoTradingRouteImport } from './routes/programs/crypto-trading'
+import { Route as ProgramsAiAutomationRouteImport } from './routes/programs/ai-automation'
 import { Route as ApiVerifyPaymentRouteImport } from './routes/api/verify-payment'
 import { Route as ApiTestEmailRouteImport } from './routes/api/test-email'
 import { Route as ApiSendWaitlistNotificationRouteImport } from './routes/api/send-waitlist-notification'
@@ -52,6 +57,32 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProgramsYoutubeAutomationRoute =
+  ProgramsYoutubeAutomationRouteImport.update({
+    id: '/youtube-automation',
+    path: '/youtube-automation',
+    getParentRoute: () => ProgramsRoute,
+  } as any)
+const ProgramsUiUxDesignRoute = ProgramsUiUxDesignRouteImport.update({
+  id: '/ui-ux-design',
+  path: '/ui-ux-design',
+  getParentRoute: () => ProgramsRoute,
+} as any)
+const ProgramsCybersecurityRoute = ProgramsCybersecurityRouteImport.update({
+  id: '/cybersecurity',
+  path: '/cybersecurity',
+  getParentRoute: () => ProgramsRoute,
+} as any)
+const ProgramsCryptoTradingRoute = ProgramsCryptoTradingRouteImport.update({
+  id: '/crypto-trading',
+  path: '/crypto-trading',
+  getParentRoute: () => ProgramsRoute,
+} as any)
+const ProgramsAiAutomationRoute = ProgramsAiAutomationRouteImport.update({
+  id: '/ai-automation',
+  path: '/ai-automation',
+  getParentRoute: () => ProgramsRoute,
+} as any)
 const ApiVerifyPaymentRoute = ApiVerifyPaymentRouteImport.update({
   id: '/api/verify-payment',
   path: '/api/verify-payment',
@@ -87,7 +118,7 @@ const ApiPaystackWebhookRoute = ApiPaystackWebhookRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/privacy': typeof PrivacyRoute
-  '/programs': typeof ProgramsRoute
+  '/programs': typeof ProgramsRouteWithChildren
   '/refund': typeof RefundRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/va-blueprint': typeof VaBlueprintRoute
@@ -97,11 +128,16 @@ export interface FileRoutesByFullPath {
   '/api/send-waitlist-notification': typeof ApiSendWaitlistNotificationRoute
   '/api/test-email': typeof ApiTestEmailRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
+  '/programs/ai-automation': typeof ProgramsAiAutomationRoute
+  '/programs/crypto-trading': typeof ProgramsCryptoTradingRoute
+  '/programs/cybersecurity': typeof ProgramsCybersecurityRoute
+  '/programs/ui-ux-design': typeof ProgramsUiUxDesignRoute
+  '/programs/youtube-automation': typeof ProgramsYoutubeAutomationRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/privacy': typeof PrivacyRoute
-  '/programs': typeof ProgramsRoute
+  '/programs': typeof ProgramsRouteWithChildren
   '/refund': typeof RefundRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/va-blueprint': typeof VaBlueprintRoute
@@ -111,12 +147,17 @@ export interface FileRoutesByTo {
   '/api/send-waitlist-notification': typeof ApiSendWaitlistNotificationRoute
   '/api/test-email': typeof ApiTestEmailRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
+  '/programs/ai-automation': typeof ProgramsAiAutomationRoute
+  '/programs/crypto-trading': typeof ProgramsCryptoTradingRoute
+  '/programs/cybersecurity': typeof ProgramsCybersecurityRoute
+  '/programs/ui-ux-design': typeof ProgramsUiUxDesignRoute
+  '/programs/youtube-automation': typeof ProgramsYoutubeAutomationRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/privacy': typeof PrivacyRoute
-  '/programs': typeof ProgramsRoute
+  '/programs': typeof ProgramsRouteWithChildren
   '/refund': typeof RefundRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/va-blueprint': typeof VaBlueprintRoute
@@ -126,6 +167,11 @@ export interface FileRoutesById {
   '/api/send-waitlist-notification': typeof ApiSendWaitlistNotificationRoute
   '/api/test-email': typeof ApiTestEmailRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
+  '/programs/ai-automation': typeof ProgramsAiAutomationRoute
+  '/programs/crypto-trading': typeof ProgramsCryptoTradingRoute
+  '/programs/cybersecurity': typeof ProgramsCybersecurityRoute
+  '/programs/ui-ux-design': typeof ProgramsUiUxDesignRoute
+  '/programs/youtube-automation': typeof ProgramsYoutubeAutomationRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -142,6 +188,11 @@ export interface FileRouteTypes {
     | '/api/send-waitlist-notification'
     | '/api/test-email'
     | '/api/verify-payment'
+    | '/programs/ai-automation'
+    | '/programs/crypto-trading'
+    | '/programs/cybersecurity'
+    | '/programs/ui-ux-design'
+    | '/programs/youtube-automation'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -156,6 +207,11 @@ export interface FileRouteTypes {
     | '/api/send-waitlist-notification'
     | '/api/test-email'
     | '/api/verify-payment'
+    | '/programs/ai-automation'
+    | '/programs/crypto-trading'
+    | '/programs/cybersecurity'
+    | '/programs/ui-ux-design'
+    | '/programs/youtube-automation'
   id:
     | '__root__'
     | '/'
@@ -170,12 +226,17 @@ export interface FileRouteTypes {
     | '/api/send-waitlist-notification'
     | '/api/test-email'
     | '/api/verify-payment'
+    | '/programs/ai-automation'
+    | '/programs/crypto-trading'
+    | '/programs/cybersecurity'
+    | '/programs/ui-ux-design'
+    | '/programs/youtube-automation'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PrivacyRoute: typeof PrivacyRoute
-  ProgramsRoute: typeof ProgramsRoute
+  ProgramsRoute: typeof ProgramsRouteWithChildren
   RefundRoute: typeof RefundRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   VaBlueprintRoute: typeof VaBlueprintRoute
@@ -231,6 +292,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/programs/youtube-automation': {
+      id: '/programs/youtube-automation'
+      path: '/youtube-automation'
+      fullPath: '/programs/youtube-automation'
+      preLoaderRoute: typeof ProgramsYoutubeAutomationRouteImport
+      parentRoute: typeof ProgramsRoute
+    }
+    '/programs/ui-ux-design': {
+      id: '/programs/ui-ux-design'
+      path: '/ui-ux-design'
+      fullPath: '/programs/ui-ux-design'
+      preLoaderRoute: typeof ProgramsUiUxDesignRouteImport
+      parentRoute: typeof ProgramsRoute
+    }
+    '/programs/cybersecurity': {
+      id: '/programs/cybersecurity'
+      path: '/cybersecurity'
+      fullPath: '/programs/cybersecurity'
+      preLoaderRoute: typeof ProgramsCybersecurityRouteImport
+      parentRoute: typeof ProgramsRoute
+    }
+    '/programs/crypto-trading': {
+      id: '/programs/crypto-trading'
+      path: '/crypto-trading'
+      fullPath: '/programs/crypto-trading'
+      preLoaderRoute: typeof ProgramsCryptoTradingRouteImport
+      parentRoute: typeof ProgramsRoute
+    }
+    '/programs/ai-automation': {
+      id: '/programs/ai-automation'
+      path: '/ai-automation'
+      fullPath: '/programs/ai-automation'
+      preLoaderRoute: typeof ProgramsAiAutomationRouteImport
+      parentRoute: typeof ProgramsRoute
+    }
     '/api/verify-payment': {
       id: '/api/verify-payment'
       path: '/api/verify-payment'
@@ -276,10 +372,30 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface ProgramsRouteChildren {
+  ProgramsAiAutomationRoute: typeof ProgramsAiAutomationRoute
+  ProgramsCryptoTradingRoute: typeof ProgramsCryptoTradingRoute
+  ProgramsCybersecurityRoute: typeof ProgramsCybersecurityRoute
+  ProgramsUiUxDesignRoute: typeof ProgramsUiUxDesignRoute
+  ProgramsYoutubeAutomationRoute: typeof ProgramsYoutubeAutomationRoute
+}
+
+const ProgramsRouteChildren: ProgramsRouteChildren = {
+  ProgramsAiAutomationRoute: ProgramsAiAutomationRoute,
+  ProgramsCryptoTradingRoute: ProgramsCryptoTradingRoute,
+  ProgramsCybersecurityRoute: ProgramsCybersecurityRoute,
+  ProgramsUiUxDesignRoute: ProgramsUiUxDesignRoute,
+  ProgramsYoutubeAutomationRoute: ProgramsYoutubeAutomationRoute,
+}
+
+const ProgramsRouteWithChildren = ProgramsRoute._addFileChildren(
+  ProgramsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PrivacyRoute: PrivacyRoute,
-  ProgramsRoute: ProgramsRoute,
+  ProgramsRoute: ProgramsRouteWithChildren,
   RefundRoute: RefundRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   VaBlueprintRoute: VaBlueprintRoute,
