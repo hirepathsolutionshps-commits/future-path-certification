@@ -1,4 +1,4 @@
-const RESEND_API_KEY = process.env.RESEND_API_KEY;
+// Read lazily inside each function so the secret is always current at call time
 const FROM = "Hire Path Solutions <hello@hirepathsolutions.com>";
 const ADMIN_EMAIL = "Hirepathsolutionshps@gmail.com";
 const LOGO_URL = "https://hirepathsolutions.com/logo.png";
@@ -432,6 +432,7 @@ function buildWaitlistApplicantHtml(data: { name: string; email: string; program
 // ── Public API ─────────────────────────────────────────────────────────────────
 
 export async function sendConfirmationEmail(data: ConfirmationEmailData): Promise<void> {
+  const RESEND_API_KEY = process.env.RESEND_API_KEY;
   if (!RESEND_API_KEY) {
     console.error("[email] RESEND_API_KEY not set — skipping email");
     return;
@@ -474,6 +475,7 @@ export async function sendConfirmationEmail(data: ConfirmationEmailData): Promis
 }
 
 export async function sendWaitlistEmail(data: WaitlistEmailData): Promise<void> {
+  const RESEND_API_KEY = process.env.RESEND_API_KEY;
   if (!RESEND_API_KEY) {
     console.error("[email] RESEND_API_KEY not set — skipping waitlist email");
     return;
@@ -516,6 +518,7 @@ export async function sendWaitlistEmail(data: WaitlistEmailData): Promise<void> 
 }
 
 export async function sendCareerAssessmentEmail(data: CareerAssessmentEmailData): Promise<void> {
+  const RESEND_API_KEY = process.env.RESEND_API_KEY;
   if (!RESEND_API_KEY) {
     console.error("[email] RESEND_API_KEY not set — skipping career assessment email");
     return;
