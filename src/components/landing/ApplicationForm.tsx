@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 import { Reveal } from "@/components/Reveal";
 import { CtaButton } from "./CtaButton";
 
