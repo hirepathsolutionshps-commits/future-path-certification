@@ -1,0 +1,360 @@
+import { useEffect, useRef, useState } from "react";
+import { z } from "zod";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { Reveal } from "@/components/Reveal";
+import { CtaButton } from "@/components/landing/CtaButton";
+
+declare global {
+  interface Window {
+    PaystackPop: {
+      setup: (opts: {
+        key: string;
+        email: string;
+        amount: number;
+        currency: string;
+        ref: string;
+        firstname: string;
+        metadata?: Record<string, unknown>;
+        onClose: () => void;
+        callback: (response: { reference: string }) => void;
+      }) => { openIframe: () => void };
+    };
+  }
+}
+
+const PAYSTACK_KEY = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY as string;
+const GVA_PRICE_KOBO = 60_000 * 100;
+
+const schema = z.object({
+  name: z.string().trim().min(2, "Please enter your full name").max(120),
+  phone: z
+    .string()
+    .trim()
+    .min(7, "Enter a valid phone number")
+    .max(40)
+    .regex(/^[0-9+()\-\s]+$/, "Phone can only contain numbers and + - ( )"),
+  email: z.string().trim().email("Enter a valid email").max(255),
+  has_laptop: z.boolean(),
+});
+
+type FormState = {
+  name: string;
+  phone: string;
+  email: string;
+  has_laptop: boolean | null;
+};
+
+const empty: FormState = { name: "", phone: "", email: "", has_laptop: null };
+
+const inputCls =
+  "w-full rounded-sm border border-input bg-background px-4 py-3 text-ink placeholder:text-graphite/50 focus-visible:border-gold focus-visible:outline-none";
+
+function usePaystackScript() {
+  const loaded = useRef(false);
+  useEffect(() => {
+    if (loaded.current || document.getElementById("paystack-js")) {
+      loaded.current = true;
+      return;
+    }
+    const s = document.createElement("script");
+    s.id = "paystack-js";
+    s.src = "https://js.paystack.co/v1/inline.js";
+    s.async = true;
+    document.head.appendChild(s);
+    loaded.current = true;
+  }, []);
+}
+
+export function GVAApplicationForm() {
+  usePaystackScript();
+  const reduce = useReducedMotion();
+  const [step, setStep] = useState(0);
+  const [form, setForm] = useState<FormState>(empty);
+  const [cohort, setCohort] = useState<{ id: string; name: string } | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    supabase
+      .from("cohorts")
+      .select("id, name")
+      .eq("is_active", true)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (data) setCohort({ id: data.id, name: data.name });
+      });
+  }, []);
+
+  const set = (patch: Partial<FormState>) => setForm((f) => ({ ...f, ...patch }));
+
+  const next = () => {
+    if (step === 0) {
+      const r = schema.pick({ name: true, phone: true, email: true }).safeParse(form);
+      if (!r.success) {
+        toast.error(r.error.issues[0].message);
+        return;
+      }
+    }
+    if (step === 1 && form.has_laptop === null) {
+      toast.error("Please let us know if you have a laptop");
+      return;
+    }
+    setStep((s) => Math.min(s + 1, 2));
+  };
+
+  const handlePayAndSubmit = async () => {
+    const parsed = schema.safeParse(form);
+    if (!parsed.success) {
+      toast.error(parsed.error.issues[0].message);
+      return;
+    }
+
+    if (!window.PaystackPop) {
+      toast.error("Payment script not ready. Please wait a moment and try again.");
+      return;
+    }
+
+    const ref = `hps-gva-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+    const handler = window.PaystackPop.setup({
+      key: PAYSTACK_KEY,
+      email: parsed.data.email,
+      amount: GVA_PRICE_KOBO,
+      currency: "NGN",
+      ref,
+      firstname: parsed.data.name.split(" ")[0],
+      metadata: { program: "general-virtual-assistant" },
+      onClose: () => {
+        toast.info("Payment cancelled. Your progress is saved.");
+      },
+      callback: (response) => {
+        setSubmitting(true);
+        (async () => {
+          try {
+            const res = await fetch("/api/verify-payment", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                reference: response.reference,
+                name: parsed.data.name,
+                email: parsed.data.email,
+                phone: parsed.data.phone,
+                has_laptop: parsed.data.has_laptop,
+                schedule_type: "Regular",
+                program: "general-virtual-assistant",
+                cohort_id: cohort?.id ?? null,
+                cohort_name: cohort?.name ?? "General VA Program",
+              }),
+            });
+
+            if (!res.ok) {
+              const body = await res.json().catch(() => ({}));
+              console.error("[verify-payment]", body);
+              toast.error(
+                "Payment received but verification had an issue. Please contact us on WhatsApp — your seat is safe.",
+              );
+              return;
+            }
+
+            setDone(true);
+            toast.success("You're in! Check your email for confirmation.");
+          } catch (err) {
+            console.error("[verify-payment]", err);
+            toast.error("Something went wrong. Contact us on WhatsApp — your payment is safe.");
+          } finally {
+            setSubmitting(false);
+          }
+        })();
+      },
+    });
+
+    handler.openIframe();
+  };
+
+  const stepAnim = reduce
+    ? {}
+    : {
+        initial: { opacity: 0, x: 16 },
+        animate: { opacity: 1, x: 0 },
+        exit: { opacity: 0, x: -16 },
+        transition: { duration: 0.3 },
+      };
+
+  return (
+    <section id="apply" className="bg-cream">
+      <div className="mx-auto max-w-2xl px-5 py-20 sm:px-8 sm:py-28">
+        <Reveal className="mb-10 text-center">
+          <p className="eyebrow text-gold">Apply Now</p>
+          <h2 className="mt-4 font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+            Start Your Application
+          </h2>
+          <p className="mx-auto mt-4 max-w-md text-graphite">
+            Two quick steps, then pay ₦60,000 securely with Paystack to confirm your seat.
+          </p>
+        </Reveal>
+
+        <Reveal>
+          <div className="rounded-md border border-border bg-card p-6 shadow-sm sm:p-9">
+            {done ? (
+              <div className="py-8 text-center">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gold/15">
+                  <svg
+                    className="h-8 w-8 text-gold"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h3 className="mt-6 font-display text-2xl font-semibold text-ink">
+                  Payment Confirmed!
+                </h3>
+                <p className="mx-auto mt-3 max-w-sm text-graphite">
+                  Welcome, {form.name.split(" ")[0]}! A confirmation email is on its way. Our team
+                  will reach out on WhatsApp within 24 hours with your onboarding details.
+                </p>
+                <a
+                  href="https://wa.me/2348068579982"
+                  className="mt-6 inline-flex items-center gap-2 rounded-sm bg-ink px-5 py-3 text-sm font-semibold text-gold"
+                >
+                  Message Us on WhatsApp
+                </a>
+              </div>
+            ) : (
+              <>
+                <div className="mb-8 flex items-center gap-2">
+                  {[0, 1, 2].map((i) => (
+                    <div
+                      key={i}
+                      className={`h-1 flex-1 rounded-full transition-colors ${
+                        i <= step ? "bg-gold" : "bg-border"
+                      }`}
+                    />
+                  ))}
+                </div>
+                <p className="eyebrow mb-6 text-graphite">Step {step + 1} / 3</p>
+
+                <AnimatePresence mode="wait">
+                  {step === 0 && (
+                    <motion.div key="s0" {...stepAnim} className="space-y-4">
+                      <label className="block">
+                        <span className="mb-1.5 block text-sm font-medium text-ink">Full name</span>
+                        <input
+                          className={inputCls}
+                          value={form.name}
+                          onChange={(e) => set({ name: e.target.value })}
+                          placeholder="Your full name"
+                          autoComplete="name"
+                        />
+                      </label>
+                      <label className="block">
+                        <span className="mb-1.5 block text-sm font-medium text-ink">
+                          Phone / WhatsApp
+                        </span>
+                        <input
+                          className={inputCls}
+                          value={form.phone}
+                          onChange={(e) => set({ phone: e.target.value })}
+                          placeholder="+234 ..."
+                          inputMode="tel"
+                          autoComplete="tel"
+                        />
+                      </label>
+                      <label className="block">
+                        <span className="mb-1.5 block text-sm font-medium text-ink">Email</span>
+                        <input
+                          className={inputCls}
+                          value={form.email}
+                          onChange={(e) => set({ email: e.target.value })}
+                          placeholder="you@email.com"
+                          inputMode="email"
+                          autoComplete="email"
+                        />
+                      </label>
+                    </motion.div>
+                  )}
+
+                  {step === 1 && (
+                    <motion.div key="s1" {...stepAnim}>
+                      <p className="mb-4 text-sm font-medium text-ink">Do you have a laptop?</p>
+                      <div className="grid grid-cols-2 gap-3">
+                        {[
+                          { label: "Yes, I do", val: true },
+                          { label: "Not yet", val: false },
+                        ].map((o) => (
+                          <button
+                            key={o.label}
+                            type="button"
+                            onClick={() => set({ has_laptop: o.val })}
+                            className={`rounded-sm border px-4 py-5 text-sm font-medium transition-colors ${
+                              form.has_laptop === o.val
+                                ? "border-gold bg-gold/10 text-ink"
+                                : "border-input text-graphite hover:border-gold/50"
+                            }`}
+                          >
+                            {o.label}
+                          </button>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {step === 2 && (
+                    <motion.div key="s2" {...stepAnim}>
+                      <div className="rounded-sm border border-gold/40 bg-gold/5 px-5 py-5">
+                        <p className="font-display text-lg font-semibold text-ink">
+                          General VA Program
+                        </p>
+                        <p className="mt-1 text-sm text-graphite">
+                          6-week cohort · July 2025 · Remote
+                        </p>
+                        <p className="mt-4 font-data text-3xl font-bold text-ink">₦60,000</p>
+                        <p className="mt-1 text-xs text-graphite/70">Flat fee, one-time payment</p>
+                      </div>
+                      <p className="mt-4 text-center text-xs text-graphite/70">
+                        You will be taken to a secure Paystack payment page after clicking below.
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                <div className="mt-8 flex items-center justify-between gap-3">
+                  {step > 0 ? (
+                    <button
+                      type="button"
+                      onClick={() => setStep((s) => s - 1)}
+                      className="text-sm font-medium text-graphite hover:text-ink"
+                    >
+                      ← Back
+                    </button>
+                  ) : (
+                    <span />
+                  )}
+                  {step < 2 ? (
+                    <CtaButton onClick={next} variant="ink">
+                      Continue
+                    </CtaButton>
+                  ) : (
+                    <CtaButton
+                      onClick={handlePayAndSubmit}
+                      variant="gold"
+                      disabled={submitting}
+                    >
+                      {submitting ? "Processing…" : "Pay ₦60,000 and Confirm Seat"}
+                    </CtaButton>
+                  )}
+                </div>
+              </>
+            )}
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}

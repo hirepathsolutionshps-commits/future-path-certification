@@ -49,6 +49,11 @@ const EXPECTED_AMOUNTS: Record<string, number> = {
   VIP: 100_000 * 100,
 };
 
+// Programs with a flat fee override (program slug → kobo amount)
+const PROGRAM_FLAT_AMOUNTS: Record<string, number> = {
+  "general-virtual-assistant": 60_000 * 100,
+};
+
 // ── Payload type ───────────────────────────────────────────────────────────────
 interface VerifyPayload {
   reference: string;
@@ -57,6 +62,7 @@ interface VerifyPayload {
   phone: string;
   has_laptop: boolean;
   schedule_type: "Regular" | "VIP";
+  program?: string;
   cohort_id: string | null;
   cohort_name: string;
 }
@@ -118,7 +124,10 @@ export const Route = createFileRoute("/api/verify-payment")({
         }
 
         // 3. Verify amount matches expected
-        const expected = EXPECTED_AMOUNTS[payload.schedule_type];
+        const expected =
+          payload.program && PROGRAM_FLAT_AMOUNTS[payload.program] !== undefined
+            ? PROGRAM_FLAT_AMOUNTS[payload.program]
+            : EXPECTED_AMOUNTS[payload.schedule_type];
         if (paystackData.data.amount !== expected) {
           console.warn(
             `[verify-payment] Amount mismatch: got ${paystackData.data.amount}, expected ${expected}`,
@@ -148,6 +157,10 @@ export const Route = createFileRoute("/api/verify-payment")({
         }
 
         // 5. Send confirmation email — await so we can log the outcome
+        const priceDisplay =
+          payload.program && PROGRAM_FLAT_AMOUNTS[payload.program] !== undefined
+            ? `₦${(PROGRAM_FLAT_AMOUNTS[payload.program] / 100).toLocaleString()}`
+            : undefined;
         try {
           await sendConfirmationEmail({
             name: payload.name,
@@ -155,6 +168,7 @@ export const Route = createFileRoute("/api/verify-payment")({
             phone: payload.phone,
             scheduleType: payload.schedule_type,
             cohortName: payload.cohort_name,
+            priceDisplay,
           });
           console.log("[verify-payment] Confirmation email dispatched for", payload.email);
         } catch (err) {

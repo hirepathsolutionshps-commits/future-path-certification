@@ -15,8 +15,10 @@ import { Route as RefundRouteImport } from './routes/refund'
 import { Route as ProgramsRouteImport } from './routes/programs'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProgramsIndexRouteImport } from './routes/programs/index'
 import { Route as ProgramsYoutubeAutomationRouteImport } from './routes/programs/youtube-automation'
 import { Route as ProgramsUiUxDesignRouteImport } from './routes/programs/ui-ux-design'
+import { Route as ProgramsGeneralVirtualAssistantRouteImport } from './routes/programs/general-virtual-assistant'
 import { Route as ProgramsCybersecurityRouteImport } from './routes/programs/cybersecurity'
 import { Route as ProgramsCryptoTradingRouteImport } from './routes/programs/crypto-trading'
 import { Route as ProgramsAiAutomationRouteImport } from './routes/programs/ai-automation'
@@ -57,6 +59,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProgramsIndexRoute = ProgramsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ProgramsRoute,
+} as any)
 const ProgramsYoutubeAutomationRoute =
   ProgramsYoutubeAutomationRouteImport.update({
     id: '/youtube-automation',
@@ -68,6 +75,12 @@ const ProgramsUiUxDesignRoute = ProgramsUiUxDesignRouteImport.update({
   path: '/ui-ux-design',
   getParentRoute: () => ProgramsRoute,
 } as any)
+const ProgramsGeneralVirtualAssistantRoute =
+  ProgramsGeneralVirtualAssistantRouteImport.update({
+    id: '/general-virtual-assistant',
+    path: '/general-virtual-assistant',
+    getParentRoute: () => ProgramsRoute,
+  } as any)
 const ProgramsCybersecurityRoute = ProgramsCybersecurityRouteImport.update({
   id: '/cybersecurity',
   path: '/cybersecurity',
@@ -131,13 +144,14 @@ export interface FileRoutesByFullPath {
   '/programs/ai-automation': typeof ProgramsAiAutomationRoute
   '/programs/crypto-trading': typeof ProgramsCryptoTradingRoute
   '/programs/cybersecurity': typeof ProgramsCybersecurityRoute
+  '/programs/general-virtual-assistant': typeof ProgramsGeneralVirtualAssistantRoute
   '/programs/ui-ux-design': typeof ProgramsUiUxDesignRoute
   '/programs/youtube-automation': typeof ProgramsYoutubeAutomationRoute
+  '/programs/': typeof ProgramsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/privacy': typeof PrivacyRoute
-  '/programs': typeof ProgramsRouteWithChildren
   '/refund': typeof RefundRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/va-blueprint': typeof VaBlueprintRoute
@@ -150,8 +164,10 @@ export interface FileRoutesByTo {
   '/programs/ai-automation': typeof ProgramsAiAutomationRoute
   '/programs/crypto-trading': typeof ProgramsCryptoTradingRoute
   '/programs/cybersecurity': typeof ProgramsCybersecurityRoute
+  '/programs/general-virtual-assistant': typeof ProgramsGeneralVirtualAssistantRoute
   '/programs/ui-ux-design': typeof ProgramsUiUxDesignRoute
   '/programs/youtube-automation': typeof ProgramsYoutubeAutomationRoute
+  '/programs': typeof ProgramsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -170,8 +186,10 @@ export interface FileRoutesById {
   '/programs/ai-automation': typeof ProgramsAiAutomationRoute
   '/programs/crypto-trading': typeof ProgramsCryptoTradingRoute
   '/programs/cybersecurity': typeof ProgramsCybersecurityRoute
+  '/programs/general-virtual-assistant': typeof ProgramsGeneralVirtualAssistantRoute
   '/programs/ui-ux-design': typeof ProgramsUiUxDesignRoute
   '/programs/youtube-automation': typeof ProgramsYoutubeAutomationRoute
+  '/programs/': typeof ProgramsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -191,13 +209,14 @@ export interface FileRouteTypes {
     | '/programs/ai-automation'
     | '/programs/crypto-trading'
     | '/programs/cybersecurity'
+    | '/programs/general-virtual-assistant'
     | '/programs/ui-ux-design'
     | '/programs/youtube-automation'
+    | '/programs/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/privacy'
-    | '/programs'
     | '/refund'
     | '/sitemap.xml'
     | '/va-blueprint'
@@ -210,8 +229,10 @@ export interface FileRouteTypes {
     | '/programs/ai-automation'
     | '/programs/crypto-trading'
     | '/programs/cybersecurity'
+    | '/programs/general-virtual-assistant'
     | '/programs/ui-ux-design'
     | '/programs/youtube-automation'
+    | '/programs'
   id:
     | '__root__'
     | '/'
@@ -229,8 +250,10 @@ export interface FileRouteTypes {
     | '/programs/ai-automation'
     | '/programs/crypto-trading'
     | '/programs/cybersecurity'
+    | '/programs/general-virtual-assistant'
     | '/programs/ui-ux-design'
     | '/programs/youtube-automation'
+    | '/programs/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -292,6 +315,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/programs/': {
+      id: '/programs/'
+      path: '/'
+      fullPath: '/programs/'
+      preLoaderRoute: typeof ProgramsIndexRouteImport
+      parentRoute: typeof ProgramsRoute
+    }
     '/programs/youtube-automation': {
       id: '/programs/youtube-automation'
       path: '/youtube-automation'
@@ -304,6 +334,13 @@ declare module '@tanstack/react-router' {
       path: '/ui-ux-design'
       fullPath: '/programs/ui-ux-design'
       preLoaderRoute: typeof ProgramsUiUxDesignRouteImport
+      parentRoute: typeof ProgramsRoute
+    }
+    '/programs/general-virtual-assistant': {
+      id: '/programs/general-virtual-assistant'
+      path: '/general-virtual-assistant'
+      fullPath: '/programs/general-virtual-assistant'
+      preLoaderRoute: typeof ProgramsGeneralVirtualAssistantRouteImport
       parentRoute: typeof ProgramsRoute
     }
     '/programs/cybersecurity': {
@@ -376,16 +413,20 @@ interface ProgramsRouteChildren {
   ProgramsAiAutomationRoute: typeof ProgramsAiAutomationRoute
   ProgramsCryptoTradingRoute: typeof ProgramsCryptoTradingRoute
   ProgramsCybersecurityRoute: typeof ProgramsCybersecurityRoute
+  ProgramsGeneralVirtualAssistantRoute: typeof ProgramsGeneralVirtualAssistantRoute
   ProgramsUiUxDesignRoute: typeof ProgramsUiUxDesignRoute
   ProgramsYoutubeAutomationRoute: typeof ProgramsYoutubeAutomationRoute
+  ProgramsIndexRoute: typeof ProgramsIndexRoute
 }
 
 const ProgramsRouteChildren: ProgramsRouteChildren = {
   ProgramsAiAutomationRoute: ProgramsAiAutomationRoute,
   ProgramsCryptoTradingRoute: ProgramsCryptoTradingRoute,
   ProgramsCybersecurityRoute: ProgramsCybersecurityRoute,
+  ProgramsGeneralVirtualAssistantRoute: ProgramsGeneralVirtualAssistantRoute,
   ProgramsUiUxDesignRoute: ProgramsUiUxDesignRoute,
   ProgramsYoutubeAutomationRoute: ProgramsYoutubeAutomationRoute,
+  ProgramsIndexRoute: ProgramsIndexRoute,
 }
 
 const ProgramsRouteWithChildren = ProgramsRoute._addFileChildren(

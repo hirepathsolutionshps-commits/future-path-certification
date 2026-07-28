@@ -1,0 +1,65 @@
+# Replit Agent Prompt: General Virtual Assistant Program Page
+
+Copy everything below into your Replit agent chat.
+
+---
+
+Add a new program page to the HirePath Solutions site: **General Virtual Assistant (GVA)**, following the exact same architecture and conventions as the existing `/programs/va-blueprint` route (Next.js route, Supabase lead capture, Paystack payment, Resend notifications, JSON-LD Course schema).
+
+## 1. Route
+Create `/programs/general-virtual-assistant` as a dedicated program page (same pattern as other `/programs/*` routes).
+
+## 2. Page content
+
+**Hero section**
+- Eyebrow label: "JULY COHORT"
+- H1: "General Virtual Assistant Cohort"
+- Subhead: "Learn in-demand skills, work remotely and build a successful career as a General Virtual Assistant."
+- Price badge: "₦60,000" with "6 WEEKS" duration tag
+- Tagline under CTA: "Your path to freedom, flexibility and financial growth starts here."
+- Primary CTA button: "Enroll Now" (scrolls to / opens the existing lead capture + Paystack flow used on VA Blueprint)
+- Secondary CTA: "Talk to an Advisor" (mailto or WhatsApp link, matching existing pattern)
+
+**Value pillars (3-column feature row, use Lucide icons)**
+- Practical Skills — icon: `Wrench` or `ListChecks`
+- Expert Trainers — icon: `GraduationCap`
+- Job Support — icon: `Briefcase`
+
+Each pillar: short 1-line description (write concise, on-brand copy consistent with tone of other HPS program pages — confident, direct, outcome-focused).
+
+**"We train you and get you hired" section**
+- Section headline: "We Train You And Get You Hired"
+- Short paragraph reinforcing the practical + job-placement-support angle
+- Use the same "REAL RESULTS" proof-point style block used elsewhere on the site (testimonials/stats placeholder if none exist yet)
+
+**Curriculum overview (6-week structure)**
+Generate a reasonable 6-week module breakdown for a General VA program (e.g., Week 1: VA Fundamentals & Remote Work Setup, Week 2: Email/Calendar/Inbox Management, Week 3: Communication & Client Management Tools (Slack, Zoom, Notion), Week 4: Data Entry, Scheduling & Admin Systems, Week 5: Freelance Platforms & Client Acquisition, Week 6: Portfolio, Interview Prep & Job Placement Support) — match the module-card component already used on VA Blueprint.
+
+**Pricing block**
+- ₦60,000 flat fee, July cohort
+- Reuse existing Paystack payment component/config from VA Blueprint, just pointed at a new price ID/amount and program tag
+
+## 3. Backend / data
+- Add `"general-virtual-assistant"` as a valid `program` enum value in Supabase (wherever `va-blueprint` etc. are enumerated — lead capture table, waitlist table, payments table)
+- Lead capture form on this page inserts into the same `program_waitlist` / `career_assessments` tables used elsewhere, tagged with this program slug
+- On successful Paystack payment, trigger the same Resend email flow (internal admin alert to the HPS admin alias + student confirmation email), with copy updated to reference "General Virtual Assistant" instead of the other program name
+
+## 4. SEO
+- Server-side metadata: title "General Virtual Assistant Training | HirePath Solutions", meta description summarizing the 6-week, ₦60,000, remote-work-ready program
+- Add JSON-LD `Course` schema (same shape as used for other programs) with `name`, `description`, `provider` (HirePath Solutions org schema), `offers` (price 60000 NGN)
+- Add this route to `sitemap.xml`
+- Canonical tag pointing to `/programs/general-virtual-assistant`
+
+## 5. Design
+- Brand colors only: Black #000000, White #FFFFFF, Gold-Yellow #F5A623 (do NOT use navy or any other accent)
+- Fonts: Clash Display (headings) / Satoshi (body), consistent with rest of site
+- Reuse existing component library (buttons, cards, section wrappers) — do not introduce new one-off styles
+- Mobile-first, matching responsive breakpoints already in use
+
+## 6. QA checklist before done
+- [ ] Route builds and renders with no console errors
+- [ ] Lead form successfully writes to Supabase with correct program tag
+- [ ] Paystack test payment completes and Resend emails fire correctly
+- [ ] Page appears in sitemap.xml
+- [ ] Lighthouse/SEO metadata present (title, description, JSON-LD validates)
+- [ ] Nav/program listing elsewhere on the site links to this new page

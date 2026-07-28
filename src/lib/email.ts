@@ -11,6 +11,8 @@ export interface ConfirmationEmailData {
   scheduleType: "Regular" | "VIP";
   cohortName: string;
   has_laptop?: boolean;
+  /** Optional override for the displayed price (e.g. "₦60,000" for flat-fee programs). */
+  priceDisplay?: string;
 }
 
 export interface WaitlistEmailData {
@@ -222,7 +224,7 @@ function divider(): string {
 // ── VA Blueprint confirmation email ───────────────────────────────────────────
 
 function buildConfirmationHtml(data: ConfirmationEmailData): string {
-  const price = data.scheduleType === "VIP" ? "₦100,000" : "₦50,000";
+  const price = data.priceDisplay ?? (data.scheduleType === "VIP" ? "₦100,000" : "₦50,000");
   const firstName = data.name.split(" ")[0];
 
   const body = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0">
@@ -338,7 +340,7 @@ function buildCareerAssessmentAdminHtml(data: CareerAssessmentEmailData): string
 // ── Enrollment admin alert ────────────────────────────────────────────────────
 
 function buildEnrollmentAdminHtml(data: ConfirmationEmailData): string {
-  const price = data.scheduleType === "VIP" ? "₦100,000" : "₦50,000";
+  const price = data.priceDisplay ?? (data.scheduleType === "VIP" ? "₦100,000" : "₦50,000");
 
   const body = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0">
     <tr>
