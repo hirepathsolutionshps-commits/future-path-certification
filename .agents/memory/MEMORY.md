@@ -1,1 +1,2 @@
 - [Paystack deployment keys](paystack-deployment-keys.md) — browser checkout needs a build-time `pk_test_`/`pk_live_` key; server verification needs the matching `sk_` key.
+- [Resend deployment key](resend-deployment-key.md) — email confirmation depends on a valid Resend key configured in the deployment environment.
