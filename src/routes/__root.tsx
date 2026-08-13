@@ -99,7 +99,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           url: "https://hirepathsolutions.com",
           logo: "https://hirepathsolutions.com/logo.png",
           description:
-            "Career and remote-work skills training in Nigeria. Healthcare VA, AI Automation, UI/UX Design, Cybersecurity, Crypto Trading, and YouTube Automation programs.",
+            "Career and remote-work skills training in Nigeria. Healthcare VA, AI Automation, UI/UX Design, Cybersecurity, and YouTube Automation programs.",
           address: {
             "@type": "PostalAddress",
             addressLocality: "Lagos",

@@ -82,17 +82,6 @@ const PROGRAMS = [
     available: false,
   },
   {
-    id: "crypto",
-    title: "Crypto Trading",
-    description:
-      "Understand blockchain, DeFi, and crypto trading strategies from fundamentals to advanced practice.",
-    badge: "Coming Soon",
-    badgeVariant: "muted" as const,
-    cta: "Learn More",
-    href: "/programs/crypto-trading",
-    available: false,
-  },
-  {
     id: "faceless-youtube",
     title: "Faceless YouTube Automation",
     description:

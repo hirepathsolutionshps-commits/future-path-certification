@@ -44,7 +44,7 @@ const NAV_LINKS = [
 
 const MARQUEE_ITEMS = [
   "VA Blueprint", "AI Automation", "UI/UX Design", "Cybersecurity",
-  "Crypto Trading", "YouTube Automation", "100% Remote", "No Experience Required",
+  "YouTube Automation", "100% Remote", "No Experience Required",
   "Get Hired Faster", "Earn in Dollars",
 ];
 

@@ -21,7 +21,6 @@ import { Route as ProgramsYoutubeAutomationRouteImport } from './routes/programs
 import { Route as ProgramsUiUxDesignRouteImport } from './routes/programs/ui-ux-design'
 import { Route as ProgramsGeneralVirtualAssistantRouteImport } from './routes/programs/general-virtual-assistant'
 import { Route as ProgramsCybersecurityRouteImport } from './routes/programs/cybersecurity'
-import { Route as ProgramsCryptoTradingRouteImport } from './routes/programs/crypto-trading'
 import { Route as ProgramsAiAutomationRouteImport } from './routes/programs/ai-automation'
 import { Route as ApiVerifyPaystackRouteImport } from './routes/api/verify-paystack'
 import { Route as ApiVerifyPaymentRouteImport } from './routes/api/verify-payment'
@@ -94,11 +93,6 @@ const ProgramsCybersecurityRoute = ProgramsCybersecurityRouteImport.update({
   path: '/cybersecurity',
   getParentRoute: () => ProgramsRoute,
 } as any)
-const ProgramsCryptoTradingRoute = ProgramsCryptoTradingRouteImport.update({
-  id: '/crypto-trading',
-  path: '/crypto-trading',
-  getParentRoute: () => ProgramsRoute,
-} as any)
 const ProgramsAiAutomationRoute = ProgramsAiAutomationRouteImport.update({
   id: '/ai-automation',
   path: '/ai-automation',
@@ -163,7 +157,6 @@ export interface FileRoutesByFullPath {
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
   '/api/verify-paystack': typeof ApiVerifyPaystackRoute
   '/programs/ai-automation': typeof ProgramsAiAutomationRoute
-  '/programs/crypto-trading': typeof ProgramsCryptoTradingRoute
   '/programs/cybersecurity': typeof ProgramsCybersecurityRoute
   '/programs/general-virtual-assistant': typeof ProgramsGeneralVirtualAssistantRoute
   '/programs/ui-ux-design': typeof ProgramsUiUxDesignRoute
@@ -186,7 +179,6 @@ export interface FileRoutesByTo {
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
   '/api/verify-paystack': typeof ApiVerifyPaystackRoute
   '/programs/ai-automation': typeof ProgramsAiAutomationRoute
-  '/programs/crypto-trading': typeof ProgramsCryptoTradingRoute
   '/programs/cybersecurity': typeof ProgramsCybersecurityRoute
   '/programs/general-virtual-assistant': typeof ProgramsGeneralVirtualAssistantRoute
   '/programs/ui-ux-design': typeof ProgramsUiUxDesignRoute
@@ -211,7 +203,6 @@ export interface FileRoutesById {
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
   '/api/verify-paystack': typeof ApiVerifyPaystackRoute
   '/programs/ai-automation': typeof ProgramsAiAutomationRoute
-  '/programs/crypto-trading': typeof ProgramsCryptoTradingRoute
   '/programs/cybersecurity': typeof ProgramsCybersecurityRoute
   '/programs/general-virtual-assistant': typeof ProgramsGeneralVirtualAssistantRoute
   '/programs/ui-ux-design': typeof ProgramsUiUxDesignRoute
@@ -237,7 +228,6 @@ export interface FileRouteTypes {
     | '/api/verify-payment'
     | '/api/verify-paystack'
     | '/programs/ai-automation'
-    | '/programs/crypto-trading'
     | '/programs/cybersecurity'
     | '/programs/general-virtual-assistant'
     | '/programs/ui-ux-design'
@@ -260,7 +250,6 @@ export interface FileRouteTypes {
     | '/api/verify-payment'
     | '/api/verify-paystack'
     | '/programs/ai-automation'
-    | '/programs/crypto-trading'
     | '/programs/cybersecurity'
     | '/programs/general-virtual-assistant'
     | '/programs/ui-ux-design'
@@ -284,7 +273,6 @@ export interface FileRouteTypes {
     | '/api/verify-payment'
     | '/api/verify-paystack'
     | '/programs/ai-automation'
-    | '/programs/crypto-trading'
     | '/programs/cybersecurity'
     | '/programs/general-virtual-assistant'
     | '/programs/ui-ux-design'
@@ -396,13 +384,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProgramsCybersecurityRouteImport
       parentRoute: typeof ProgramsRoute
     }
-    '/programs/crypto-trading': {
-      id: '/programs/crypto-trading'
-      path: '/crypto-trading'
-      fullPath: '/programs/crypto-trading'
-      preLoaderRoute: typeof ProgramsCryptoTradingRouteImport
-      parentRoute: typeof ProgramsRoute
-    }
     '/programs/ai-automation': {
       id: '/programs/ai-automation'
       path: '/ai-automation'
@@ -471,7 +452,6 @@ declare module '@tanstack/react-router' {
 
 interface ProgramsRouteChildren {
   ProgramsAiAutomationRoute: typeof ProgramsAiAutomationRoute
-  ProgramsCryptoTradingRoute: typeof ProgramsCryptoTradingRoute
   ProgramsCybersecurityRoute: typeof ProgramsCybersecurityRoute
   ProgramsGeneralVirtualAssistantRoute: typeof ProgramsGeneralVirtualAssistantRoute
   ProgramsUiUxDesignRoute: typeof ProgramsUiUxDesignRoute
@@ -481,7 +461,6 @@ interface ProgramsRouteChildren {
 
 const ProgramsRouteChildren: ProgramsRouteChildren = {
   ProgramsAiAutomationRoute: ProgramsAiAutomationRoute,
-  ProgramsCryptoTradingRoute: ProgramsCryptoTradingRoute,
   ProgramsCybersecurityRoute: ProgramsCybersecurityRoute,
   ProgramsGeneralVirtualAssistantRoute: ProgramsGeneralVirtualAssistantRoute,
   ProgramsUiUxDesignRoute: ProgramsUiUxDesignRoute,
