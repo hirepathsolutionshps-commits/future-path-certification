@@ -21,7 +21,7 @@ Runs on port 5000.
 - `/sitemap.xml` — Dynamic sitemap
 
 ## Environment
-Supabase credentials are stored in `.env` (SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, and VITE_* variants). The project ID is `ylefcxrrcacymbdvlijo`.
+Supabase credentials are stored as environment variables (SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, and VITE_* variants). The active project ID is `izmzyjktrpappepzwumt` — this is the user-owned project. The original Lovable project (`ylefcxrrcacymbdvlijo`) is no longer used.
 
 ## User preferences
 <!-- Add preferences here as needed -->

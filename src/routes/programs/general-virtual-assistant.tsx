@@ -2,51 +2,72 @@ import { createFileRoute } from "@tanstack/react-router";
 import { lazy, Suspense } from "react";
 import ogImage from "@/assets/og-image.jpg";
 import { Nav } from "@/components/landing/Nav";
-import { Hero } from "@/components/landing/Hero";
-import { Stats } from "@/components/landing/Stats";
+import { GVAHero } from "@/components/gva/GVAHero";
 
-const Curriculum = lazy(() => import("@/components/landing/Curriculum").then(m => ({ default: m.Curriculum })));
-const Benefits = lazy(() => import("@/components/landing/Benefits").then(m => ({ default: m.Benefits })));
-const Pricing = lazy(() => import("@/components/landing/Pricing").then(m => ({ default: m.Pricing })));
-const Testimonials = lazy(() => import("@/components/landing/Testimonials").then(m => ({ default: m.Testimonials })));
-const ApplicationForm = lazy(() => import("@/components/landing/ApplicationForm").then(m => ({ default: m.ApplicationForm })));
-const Faq = lazy(() => import("@/components/landing/Faq").then(m => ({ default: m.Faq })));
-const Footer = lazy(() => import("@/components/landing/Footer").then(m => ({ default: m.Footer })));
+const GVACurriculum = lazy(() =>
+  import("@/components/gva/GVACurriculum").then((m) => ({ default: m.GVACurriculum })),
+);
+const GVABenefits = lazy(() =>
+  import("@/components/gva/GVABenefits").then((m) => ({ default: m.GVABenefits })),
+);
+const GVAPricing = lazy(() =>
+  import("@/components/gva/GVAPricing").then((m) => ({ default: m.GVAPricing })),
+);
+const GVATestimonials = lazy(() =>
+  import("@/components/gva/GVATestimonials").then((m) => ({ default: m.GVATestimonials })),
+);
+const GVAApplicationForm = lazy(() =>
+  import("@/components/gva/GVAApplicationForm").then((m) => ({ default: m.GVAApplicationForm })),
+);
+const GVAFaq = lazy(() =>
+  import("@/components/gva/GVAFaq").then((m) => ({ default: m.GVAFaq })),
+);
+const Footer = lazy(() =>
+  import("@/components/landing/Footer").then((m) => ({ default: m.Footer })),
+);
 
-const TITLE = "Healthcare Virtual Assistant Training in Nigeria | HirePath VA Blueprint";
+const TITLE = "General Virtual Assistant Training | HirePath Solutions";
 const DESCRIPTION =
-  "Become a Healthcare Virtual Assistant from Nigeria. Train for remote roles with US & UK clients — no experience required. Start HirePath's VA Blueprint today.";
+  "Become a General Virtual Assistant in 6 weeks. Learn in-demand remote skills, land paying clients, and build a flexible career — ₦60,000 flat fee. July cohort now enrolling.";
 
-export const Route = createFileRoute("/va-blueprint")({
+export const Route = createFileRoute("/programs/general-virtual-assistant")({
   head: () => ({
     meta: [
       { title: TITLE },
       { name: "description", content: DESCRIPTION },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESCRIPTION },
-      { property: "og:url", content: "https://hirepathsolutions.com/va-blueprint" },
+      {
+        property: "og:url",
+        content: "https://hirepathsolutions.com/programs/general-virtual-assistant",
+      },
       { property: "og:image", content: ogImage },
       { name: "twitter:title", content: TITLE },
       { name: "twitter:description", content: DESCRIPTION },
       { name: "twitter:image", content: ogImage },
     ],
-    links: [{ rel: "canonical", href: "https://hirepathsolutions.com/va-blueprint" }],
+    links: [
+      {
+        rel: "canonical",
+        href: "https://hirepathsolutions.com/programs/general-virtual-assistant",
+      },
+    ],
     scripts: [
       {
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Course",
-          name: "Healthcare Virtual Assistant Training",
+          name: "General Virtual Assistant Training",
           description: DESCRIPTION,
           provider: {
             "@type": "Organization",
             name: "Hire Path Solutions",
-            sameAs: "/",
+            sameAs: "https://hirepathsolutions.com",
           },
           offers: {
             "@type": "Offer",
-            price: "50000",
+            price: "60000",
             priceCurrency: "NGN",
             availability: "https://schema.org/InStock",
           },
@@ -59,37 +80,36 @@ export const Route = createFileRoute("/va-blueprint")({
       },
     ],
   }),
-  component: VaBlueprint,
+  component: GeneralVirtualAssistant,
 });
 
 function SectionFallback() {
   return <div className="h-32" />;
 }
 
-function VaBlueprint() {
+function GeneralVirtualAssistant() {
   return (
     <div className="min-h-screen bg-background">
       <Nav />
       <main>
-        <Hero />
-        <Stats />
+        <GVAHero />
         <Suspense fallback={<SectionFallback />}>
-          <Curriculum />
+          <GVACurriculum />
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
-          <Benefits />
+          <GVABenefits />
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
-          <Pricing />
+          <GVAPricing />
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
-          <Testimonials />
+          <GVATestimonials />
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
-          <ApplicationForm />
+          <GVAApplicationForm />
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
-          <Faq />
+          <GVAFaq />
         </Suspense>
       </main>
       <Suspense fallback={null}>

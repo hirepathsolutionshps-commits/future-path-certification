@@ -11,9 +11,9 @@ const CareerAssessmentModal = lazy(() =>
   }))
 );
 
-const TITLE = "HirePath Solutions | Train Smart, Earn More";
+const TITLE = "HirePath Solutions | Career & Remote Skills Training Nigeria";
 const DESCRIPTION =
-  "HirePath Solutions helps students, professionals, and job seekers acquire in demand skills, optimize their career profiles, and access better paying opportunities.";
+  "Career and remote-work skills training in Nigeria. Learn Healthcare VA, AI Automation, UI/UX & more — get certified and hired by US & UK clients.";
 
 const WA_LINK = "https://wa.me/2348068579982";
 
@@ -24,11 +24,11 @@ export const Route = createFileRoute("/")({
       { name: "description", content: DESCRIPTION },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESCRIPTION },
-      { property: "og:url", content: "/" },
+      { property: "og:url", content: "https://hirepathsolutions.com/" },
       { name: "twitter:title", content: TITLE },
       { name: "twitter:description", content: DESCRIPTION },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [{ rel: "canonical", href: "https://hirepathsolutions.com/" }],
   }),
   component: HomePage,
 });

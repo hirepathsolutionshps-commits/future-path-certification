@@ -16,10 +16,21 @@ import { Route as RecruitmentRouteImport } from './routes/recruitment'
 import { Route as ProgramsRouteImport } from './routes/programs'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProgramsIndexRouteImport } from './routes/programs/index'
+import { Route as ProgramsYoutubeAutomationRouteImport } from './routes/programs/youtube-automation'
+import { Route as ProgramsUiUxDesignRouteImport } from './routes/programs/ui-ux-design'
+import { Route as ProgramsGeneralVirtualAssistantRouteImport } from './routes/programs/general-virtual-assistant'
+import { Route as ProgramsCybersecurityRouteImport } from './routes/programs/cybersecurity'
+import { Route as ProgramsCryptoTradingRouteImport } from './routes/programs/crypto-trading'
+import { Route as ProgramsAiAutomationRouteImport } from './routes/programs/ai-automation'
 import { Route as ApiVerifyPaystackRouteImport } from './routes/api/verify-paystack'
+import { Route as ApiVerifyPaymentRouteImport } from './routes/api/verify-payment'
+import { Route as ApiTestEmailRouteImport } from './routes/api/test-email'
+import { Route as ApiSendWaitlistNotificationRouteImport } from './routes/api/send-waitlist-notification'
 import { Route as ApiSendConfirmationRouteImport } from './routes/api/send-confirmation'
 import { Route as ApiSendCareerAssessmentRouteImport } from './routes/api/send-career-assessment'
 import { Route as ApiSendApplicantEmailRouteImport } from './routes/api/send-applicant-email'
+import { Route as ApiPaystackWebhookRouteImport } from './routes/api/paystack-webhook'
 
 const VaBlueprintRoute = VaBlueprintRouteImport.update({
   id: '/va-blueprint',
@@ -56,11 +67,64 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProgramsIndexRoute = ProgramsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ProgramsRoute,
+} as any)
+const ProgramsYoutubeAutomationRoute =
+  ProgramsYoutubeAutomationRouteImport.update({
+    id: '/youtube-automation',
+    path: '/youtube-automation',
+    getParentRoute: () => ProgramsRoute,
+  } as any)
+const ProgramsUiUxDesignRoute = ProgramsUiUxDesignRouteImport.update({
+  id: '/ui-ux-design',
+  path: '/ui-ux-design',
+  getParentRoute: () => ProgramsRoute,
+} as any)
+const ProgramsGeneralVirtualAssistantRoute =
+  ProgramsGeneralVirtualAssistantRouteImport.update({
+    id: '/general-virtual-assistant',
+    path: '/general-virtual-assistant',
+    getParentRoute: () => ProgramsRoute,
+  } as any)
+const ProgramsCybersecurityRoute = ProgramsCybersecurityRouteImport.update({
+  id: '/cybersecurity',
+  path: '/cybersecurity',
+  getParentRoute: () => ProgramsRoute,
+} as any)
+const ProgramsCryptoTradingRoute = ProgramsCryptoTradingRouteImport.update({
+  id: '/crypto-trading',
+  path: '/crypto-trading',
+  getParentRoute: () => ProgramsRoute,
+} as any)
+const ProgramsAiAutomationRoute = ProgramsAiAutomationRouteImport.update({
+  id: '/ai-automation',
+  path: '/ai-automation',
+  getParentRoute: () => ProgramsRoute,
+} as any)
 const ApiVerifyPaystackRoute = ApiVerifyPaystackRouteImport.update({
   id: '/api/verify-paystack',
   path: '/api/verify-paystack',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiVerifyPaymentRoute = ApiVerifyPaymentRouteImport.update({
+  id: '/api/verify-payment',
+  path: '/api/verify-payment',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTestEmailRoute = ApiTestEmailRouteImport.update({
+  id: '/api/test-email',
+  path: '/api/test-email',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSendWaitlistNotificationRoute =
+  ApiSendWaitlistNotificationRouteImport.update({
+    id: '/api/send-waitlist-notification',
+    path: '/api/send-waitlist-notification',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiSendConfirmationRoute = ApiSendConfirmationRouteImport.update({
   id: '/api/send-confirmation',
   path: '/api/send-confirmation',
@@ -76,46 +140,83 @@ const ApiSendApplicantEmailRoute = ApiSendApplicantEmailRouteImport.update({
   path: '/api/send-applicant-email',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPaystackWebhookRoute = ApiPaystackWebhookRouteImport.update({
+  id: '/api/paystack-webhook',
+  path: '/api/paystack-webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/privacy': typeof PrivacyRoute
-  '/programs': typeof ProgramsRoute
+  '/programs': typeof ProgramsRouteWithChildren
   '/recruitment': typeof RecruitmentRoute
   '/refund': typeof RefundRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/va-blueprint': typeof VaBlueprintRoute
+  '/api/paystack-webhook': typeof ApiPaystackWebhookRoute
   '/api/send-applicant-email': typeof ApiSendApplicantEmailRoute
   '/api/send-career-assessment': typeof ApiSendCareerAssessmentRoute
   '/api/send-confirmation': typeof ApiSendConfirmationRoute
+  '/api/send-waitlist-notification': typeof ApiSendWaitlistNotificationRoute
+  '/api/test-email': typeof ApiTestEmailRoute
+  '/api/verify-payment': typeof ApiVerifyPaymentRoute
   '/api/verify-paystack': typeof ApiVerifyPaystackRoute
+  '/programs/ai-automation': typeof ProgramsAiAutomationRoute
+  '/programs/crypto-trading': typeof ProgramsCryptoTradingRoute
+  '/programs/cybersecurity': typeof ProgramsCybersecurityRoute
+  '/programs/general-virtual-assistant': typeof ProgramsGeneralVirtualAssistantRoute
+  '/programs/ui-ux-design': typeof ProgramsUiUxDesignRoute
+  '/programs/youtube-automation': typeof ProgramsYoutubeAutomationRoute
+  '/programs/': typeof ProgramsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/privacy': typeof PrivacyRoute
-  '/programs': typeof ProgramsRoute
   '/recruitment': typeof RecruitmentRoute
   '/refund': typeof RefundRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/va-blueprint': typeof VaBlueprintRoute
+  '/api/paystack-webhook': typeof ApiPaystackWebhookRoute
   '/api/send-applicant-email': typeof ApiSendApplicantEmailRoute
   '/api/send-career-assessment': typeof ApiSendCareerAssessmentRoute
   '/api/send-confirmation': typeof ApiSendConfirmationRoute
+  '/api/send-waitlist-notification': typeof ApiSendWaitlistNotificationRoute
+  '/api/test-email': typeof ApiTestEmailRoute
+  '/api/verify-payment': typeof ApiVerifyPaymentRoute
   '/api/verify-paystack': typeof ApiVerifyPaystackRoute
+  '/programs/ai-automation': typeof ProgramsAiAutomationRoute
+  '/programs/crypto-trading': typeof ProgramsCryptoTradingRoute
+  '/programs/cybersecurity': typeof ProgramsCybersecurityRoute
+  '/programs/general-virtual-assistant': typeof ProgramsGeneralVirtualAssistantRoute
+  '/programs/ui-ux-design': typeof ProgramsUiUxDesignRoute
+  '/programs/youtube-automation': typeof ProgramsYoutubeAutomationRoute
+  '/programs': typeof ProgramsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/privacy': typeof PrivacyRoute
-  '/programs': typeof ProgramsRoute
+  '/programs': typeof ProgramsRouteWithChildren
   '/recruitment': typeof RecruitmentRoute
   '/refund': typeof RefundRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/va-blueprint': typeof VaBlueprintRoute
+  '/api/paystack-webhook': typeof ApiPaystackWebhookRoute
   '/api/send-applicant-email': typeof ApiSendApplicantEmailRoute
   '/api/send-career-assessment': typeof ApiSendCareerAssessmentRoute
   '/api/send-confirmation': typeof ApiSendConfirmationRoute
+  '/api/send-waitlist-notification': typeof ApiSendWaitlistNotificationRoute
+  '/api/test-email': typeof ApiTestEmailRoute
+  '/api/verify-payment': typeof ApiVerifyPaymentRoute
   '/api/verify-paystack': typeof ApiVerifyPaystackRoute
+  '/programs/ai-automation': typeof ProgramsAiAutomationRoute
+  '/programs/crypto-trading': typeof ProgramsCryptoTradingRoute
+  '/programs/cybersecurity': typeof ProgramsCybersecurityRoute
+  '/programs/general-virtual-assistant': typeof ProgramsGeneralVirtualAssistantRoute
+  '/programs/ui-ux-design': typeof ProgramsUiUxDesignRoute
+  '/programs/youtube-automation': typeof ProgramsYoutubeAutomationRoute
+  '/programs/': typeof ProgramsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -127,23 +228,44 @@ export interface FileRouteTypes {
     | '/refund'
     | '/sitemap.xml'
     | '/va-blueprint'
+    | '/api/paystack-webhook'
     | '/api/send-applicant-email'
     | '/api/send-career-assessment'
     | '/api/send-confirmation'
+    | '/api/send-waitlist-notification'
+    | '/api/test-email'
+    | '/api/verify-payment'
     | '/api/verify-paystack'
+    | '/programs/ai-automation'
+    | '/programs/crypto-trading'
+    | '/programs/cybersecurity'
+    | '/programs/general-virtual-assistant'
+    | '/programs/ui-ux-design'
+    | '/programs/youtube-automation'
+    | '/programs/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/privacy'
-    | '/programs'
     | '/recruitment'
     | '/refund'
     | '/sitemap.xml'
     | '/va-blueprint'
+    | '/api/paystack-webhook'
     | '/api/send-applicant-email'
     | '/api/send-career-assessment'
     | '/api/send-confirmation'
+    | '/api/send-waitlist-notification'
+    | '/api/test-email'
+    | '/api/verify-payment'
     | '/api/verify-paystack'
+    | '/programs/ai-automation'
+    | '/programs/crypto-trading'
+    | '/programs/cybersecurity'
+    | '/programs/general-virtual-assistant'
+    | '/programs/ui-ux-design'
+    | '/programs/youtube-automation'
+    | '/programs'
   id:
     | '__root__'
     | '/'
@@ -153,23 +275,38 @@ export interface FileRouteTypes {
     | '/refund'
     | '/sitemap.xml'
     | '/va-blueprint'
+    | '/api/paystack-webhook'
     | '/api/send-applicant-email'
     | '/api/send-career-assessment'
     | '/api/send-confirmation'
+    | '/api/send-waitlist-notification'
+    | '/api/test-email'
+    | '/api/verify-payment'
     | '/api/verify-paystack'
+    | '/programs/ai-automation'
+    | '/programs/crypto-trading'
+    | '/programs/cybersecurity'
+    | '/programs/general-virtual-assistant'
+    | '/programs/ui-ux-design'
+    | '/programs/youtube-automation'
+    | '/programs/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PrivacyRoute: typeof PrivacyRoute
-  ProgramsRoute: typeof ProgramsRoute
+  ProgramsRoute: typeof ProgramsRouteWithChildren
   RecruitmentRoute: typeof RecruitmentRoute
   RefundRoute: typeof RefundRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   VaBlueprintRoute: typeof VaBlueprintRoute
+  ApiPaystackWebhookRoute: typeof ApiPaystackWebhookRoute
   ApiSendApplicantEmailRoute: typeof ApiSendApplicantEmailRoute
   ApiSendCareerAssessmentRoute: typeof ApiSendCareerAssessmentRoute
   ApiSendConfirmationRoute: typeof ApiSendConfirmationRoute
+  ApiSendWaitlistNotificationRoute: typeof ApiSendWaitlistNotificationRoute
+  ApiTestEmailRoute: typeof ApiTestEmailRoute
+  ApiVerifyPaymentRoute: typeof ApiVerifyPaymentRoute
   ApiVerifyPaystackRoute: typeof ApiVerifyPaystackRoute
 }
 
@@ -224,11 +361,81 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/programs/': {
+      id: '/programs/'
+      path: '/'
+      fullPath: '/programs/'
+      preLoaderRoute: typeof ProgramsIndexRouteImport
+      parentRoute: typeof ProgramsRoute
+    }
+    '/programs/youtube-automation': {
+      id: '/programs/youtube-automation'
+      path: '/youtube-automation'
+      fullPath: '/programs/youtube-automation'
+      preLoaderRoute: typeof ProgramsYoutubeAutomationRouteImport
+      parentRoute: typeof ProgramsRoute
+    }
+    '/programs/ui-ux-design': {
+      id: '/programs/ui-ux-design'
+      path: '/ui-ux-design'
+      fullPath: '/programs/ui-ux-design'
+      preLoaderRoute: typeof ProgramsUiUxDesignRouteImport
+      parentRoute: typeof ProgramsRoute
+    }
+    '/programs/general-virtual-assistant': {
+      id: '/programs/general-virtual-assistant'
+      path: '/general-virtual-assistant'
+      fullPath: '/programs/general-virtual-assistant'
+      preLoaderRoute: typeof ProgramsGeneralVirtualAssistantRouteImport
+      parentRoute: typeof ProgramsRoute
+    }
+    '/programs/cybersecurity': {
+      id: '/programs/cybersecurity'
+      path: '/cybersecurity'
+      fullPath: '/programs/cybersecurity'
+      preLoaderRoute: typeof ProgramsCybersecurityRouteImport
+      parentRoute: typeof ProgramsRoute
+    }
+    '/programs/crypto-trading': {
+      id: '/programs/crypto-trading'
+      path: '/crypto-trading'
+      fullPath: '/programs/crypto-trading'
+      preLoaderRoute: typeof ProgramsCryptoTradingRouteImport
+      parentRoute: typeof ProgramsRoute
+    }
+    '/programs/ai-automation': {
+      id: '/programs/ai-automation'
+      path: '/ai-automation'
+      fullPath: '/programs/ai-automation'
+      preLoaderRoute: typeof ProgramsAiAutomationRouteImport
+      parentRoute: typeof ProgramsRoute
+    }
     '/api/verify-paystack': {
       id: '/api/verify-paystack'
       path: '/api/verify-paystack'
       fullPath: '/api/verify-paystack'
       preLoaderRoute: typeof ApiVerifyPaystackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/verify-payment': {
+      id: '/api/verify-payment'
+      path: '/api/verify-payment'
+      fullPath: '/api/verify-payment'
+      preLoaderRoute: typeof ApiVerifyPaymentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/test-email': {
+      id: '/api/test-email'
+      path: '/api/test-email'
+      fullPath: '/api/test-email'
+      preLoaderRoute: typeof ApiTestEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/send-waitlist-notification': {
+      id: '/api/send-waitlist-notification'
+      path: '/api/send-waitlist-notification'
+      fullPath: '/api/send-waitlist-notification'
+      preLoaderRoute: typeof ApiSendWaitlistNotificationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/send-confirmation': {
@@ -252,20 +459,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiSendApplicantEmailRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/paystack-webhook': {
+      id: '/api/paystack-webhook'
+      path: '/api/paystack-webhook'
+      fullPath: '/api/paystack-webhook'
+      preLoaderRoute: typeof ApiPaystackWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
+
+interface ProgramsRouteChildren {
+  ProgramsAiAutomationRoute: typeof ProgramsAiAutomationRoute
+  ProgramsCryptoTradingRoute: typeof ProgramsCryptoTradingRoute
+  ProgramsCybersecurityRoute: typeof ProgramsCybersecurityRoute
+  ProgramsGeneralVirtualAssistantRoute: typeof ProgramsGeneralVirtualAssistantRoute
+  ProgramsUiUxDesignRoute: typeof ProgramsUiUxDesignRoute
+  ProgramsYoutubeAutomationRoute: typeof ProgramsYoutubeAutomationRoute
+  ProgramsIndexRoute: typeof ProgramsIndexRoute
+}
+
+const ProgramsRouteChildren: ProgramsRouteChildren = {
+  ProgramsAiAutomationRoute: ProgramsAiAutomationRoute,
+  ProgramsCryptoTradingRoute: ProgramsCryptoTradingRoute,
+  ProgramsCybersecurityRoute: ProgramsCybersecurityRoute,
+  ProgramsGeneralVirtualAssistantRoute: ProgramsGeneralVirtualAssistantRoute,
+  ProgramsUiUxDesignRoute: ProgramsUiUxDesignRoute,
+  ProgramsYoutubeAutomationRoute: ProgramsYoutubeAutomationRoute,
+  ProgramsIndexRoute: ProgramsIndexRoute,
+}
+
+const ProgramsRouteWithChildren = ProgramsRoute._addFileChildren(
+  ProgramsRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PrivacyRoute: PrivacyRoute,
-  ProgramsRoute: ProgramsRoute,
+  ProgramsRoute: ProgramsRouteWithChildren,
   RecruitmentRoute: RecruitmentRoute,
   RefundRoute: RefundRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   VaBlueprintRoute: VaBlueprintRoute,
+  ApiPaystackWebhookRoute: ApiPaystackWebhookRoute,
   ApiSendApplicantEmailRoute: ApiSendApplicantEmailRoute,
   ApiSendCareerAssessmentRoute: ApiSendCareerAssessmentRoute,
   ApiSendConfirmationRoute: ApiSendConfirmationRoute,
+  ApiSendWaitlistNotificationRoute: ApiSendWaitlistNotificationRoute,
+  ApiTestEmailRoute: ApiTestEmailRoute,
+  ApiVerifyPaymentRoute: ApiVerifyPaymentRoute,
   ApiVerifyPaystackRoute: ApiVerifyPaystackRoute,
 }
 export const routeTree = rootRouteImport

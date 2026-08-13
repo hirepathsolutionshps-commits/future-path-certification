@@ -94,17 +94,24 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
-          "@type": "LocalBusiness",
+          "@type": "Organization",
           name: "Hire Path Solutions",
+          url: "https://hirepathsolutions.com",
+          logo: "https://hirepathsolutions.com/logo.png",
           description:
-            "Training program turning students into remote Healthcare Virtual Assistants for US and UK clients.",
+            "Career and remote-work skills training in Nigeria. Healthcare VA, AI Automation, UI/UX Design, Cybersecurity, Crypto Trading, and YouTube Automation programs.",
           address: {
             "@type": "PostalAddress",
             addressLocality: "Lagos",
             addressCountry: "NG",
           },
-          areaServed: ["US", "GB", "NG"],
-          telephone: "+234",
+          contactPoint: {
+            "@type": "ContactPoint",
+            telephone: "+2348068579982",
+            contactType: "customer service",
+            availableLanguage: "English",
+          },
+          sameAs: ["https://wa.me/2348068579982"],
         }),
       },
     ],
