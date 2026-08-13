@@ -436,8 +436,7 @@ function buildWaitlistApplicantHtml(data: { name: string; email: string; program
 export async function sendConfirmationEmail(data: ConfirmationEmailData): Promise<void> {
   const RESEND_API_KEY = process.env.RESEND_API_KEY;
   if (!RESEND_API_KEY) {
-    console.error("[email] RESEND_API_KEY not set — skipping email");
-    return;
+    throw new Error("RESEND_API_KEY is not configured");
   }
 
   const [studentRes, adminRes] = await Promise.all([
@@ -469,11 +468,17 @@ export async function sendConfirmationEmail(data: ConfirmationEmailData): Promis
     }),
   ]);
 
-  if (!studentRes.ok) console.error("[email] Student confirmation error:", await studentRes.text());
+  const studentError = studentRes.ok ? null : await studentRes.text();
+  if (studentError) console.error("[email] Student confirmation error:", studentError);
   else console.log("[email] Confirmation sent to", data.email);
 
-  if (!adminRes.ok) console.error("[email] Admin enrolment alert error:", await adminRes.text());
+  const adminError = adminRes.ok ? null : await adminRes.text();
+  if (adminError) console.error("[email] Admin enrolment alert error:", adminError);
   else console.log("[email] Enrolment admin alert sent");
+
+  if (studentError || adminError) {
+    throw new Error("Resend rejected one or more confirmation emails");
+  }
 }
 
 export async function sendWaitlistEmail(data: WaitlistEmailData): Promise<void> {
