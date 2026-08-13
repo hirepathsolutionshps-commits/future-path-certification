@@ -24,7 +24,15 @@
     }
   }
 
-  const PAYSTACK_KEY = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY as string;
+  // Paystack's inline checkout must receive the publishable browser key.
+  // Never use PAYSTACK_SECRET_KEY here; that key belongs on the server only.
+  const PAYSTACK_KEY = String(
+    import.meta.env.VITE_PAYSTACK_PUBLIC_KEY ?? "",
+  ).trim();
+
+  function isValidPaystackPublicKey(key: string): boolean {
+    return /^pk_(test|live)_[A-Za-z0-9]+$/.test(key);
+  }
 
   const PRICES: Record<"Regular" | "VIP", number> = {
     Regular: 50000 * 100,
@@ -166,6 +174,16 @@
 
       if (!form.schedule_type) {
         toast.error("Please choose a schedule");
+        return;
+      }
+
+      if (!isValidPaystackPublicKey(PAYSTACK_KEY)) {
+        toast.error(
+          "Payment is temporarily unavailable. Please contact us or try again later.",
+        );
+        console.error(
+          "[paystack] Invalid VITE_PAYSTACK_PUBLIC_KEY. Expected a Paystack public key beginning with pk_test_ or pk_live_.",
+        );
         return;
       }
 
