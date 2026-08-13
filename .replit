@@ -38,3 +38,8 @@ externalPort = 80
 deploymentTarget = "autoscale"
 run = ["bun", ".output/server/index.mjs"]
 build = ["bun", "run", "build"]
+
+[userenv]
+
+[userenv.shared]
+VITE_PAYSTACK_PUBLIC_KEY = "pk_live_bea9090b74913ce95df01e8655fe35f2358dad35"
