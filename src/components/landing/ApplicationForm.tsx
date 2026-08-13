@@ -63,24 +63,38 @@ const empty: FormState = {
 const inputCls =
   "w-full rounded-sm border border-input bg-background px-4 py-3 text-ink placeholder:text-graphite/50 focus-visible:border-gold focus-visible:outline-none";
 
-function usePaystackScript() {
-  const loaded = useRef(false);
-  useEffect(() => {
-    if (loaded.current || document.getElementById("paystack-js")) {
-      loaded.current = true;
+let paystackScriptPromise: Promise<void> | null = null;
+
+function loadPaystackScript(): Promise<void> {
+  if (typeof window !== "undefined" && window.PaystackPop) {
+    return Promise.resolve();
+  }
+
+  if (paystackScriptPromise) return paystackScriptPromise;
+
+  paystackScriptPromise = new Promise((resolve, reject) => {
+    const existing = document.getElementById("paystack-js") as HTMLScriptElement | null;
+    if (existing) {
+      existing.addEventListener("load", () => resolve(), { once: true });
+      existing.addEventListener("error", () => reject(new Error("Paystack failed to load")), {
+        once: true,
+      });
       return;
     }
-    const s = document.createElement("script");
-    s.id = "paystack-js";
-    s.src = "https://js.paystack.co/v1/inline.js";
-    s.async = true;
-    document.head.appendChild(s);
-    loaded.current = true;
-  }, []);
+
+    const script = document.createElement("script");
+    script.id = "paystack-js";
+    script.src = "https://js.paystack.co/v1/inline.js";
+    script.async = true;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("Paystack failed to load"));
+    document.head.appendChild(script);
+  });
+
+  return paystackScriptPromise;
 }
 
 export function ApplicationForm() {
-  usePaystackScript();
   const reduce = useReducedMotion();
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<FormState>(empty);
@@ -130,7 +144,16 @@ export function ApplicationForm() {
     }
 
     if (!window.PaystackPop) {
-      toast.error("Payment script not ready. Please wait a moment and try again.");
+      try {
+        await loadPaystackScript();
+      } catch {
+        toast.error("Paystack could not load. Please check your connection and try again.");
+        return;
+      }
+    }
+
+    if (!window.PaystackPop) {
+      toast.error("Paystack is unavailable. Please try again in a moment.");
       return;
     }
 
