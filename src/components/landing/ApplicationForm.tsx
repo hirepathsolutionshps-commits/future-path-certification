@@ -150,6 +150,23 @@ export function ApplicationForm() {
       callback: async (response) => {
         setSubmitting(true);
         try {
+           const verification = await fetch("/api/verify-paystack", {
+             method: "POST",
+             headers: { "Content-Type": "application/json" },
+             body: JSON.stringify({
+               reference: response.reference,
+               email: parsed.data.email,
+               scheduleType: parsed.data.schedule_type,
+             }),
+           });
+
+           if (!verification.ok) {
+             toast.error(
+               "We couldn't verify the payment yet. Please contact us before trying again.",
+             );
+             return;
+           }
+
           const { error } = await supabase.from("students").insert({
             name: parsed.data.name,
             phone: parsed.data.phone,

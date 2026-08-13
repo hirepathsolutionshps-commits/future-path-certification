@@ -16,6 +16,7 @@ import { Route as RecruitmentRouteImport } from './routes/recruitment'
 import { Route as ProgramsRouteImport } from './routes/programs'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiVerifyPaystackRouteImport } from './routes/api/verify-paystack'
 import { Route as ApiSendConfirmationRouteImport } from './routes/api/send-confirmation'
 import { Route as ApiSendCareerAssessmentRouteImport } from './routes/api/send-career-assessment'
 import { Route as ApiSendApplicantEmailRouteImport } from './routes/api/send-applicant-email'
@@ -55,6 +56,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiVerifyPaystackRoute = ApiVerifyPaystackRouteImport.update({
+  id: '/api/verify-paystack',
+  path: '/api/verify-paystack',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiSendConfirmationRoute = ApiSendConfirmationRouteImport.update({
   id: '/api/send-confirmation',
   path: '/api/send-confirmation',
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/api/send-applicant-email': typeof ApiSendApplicantEmailRoute
   '/api/send-career-assessment': typeof ApiSendCareerAssessmentRoute
   '/api/send-confirmation': typeof ApiSendConfirmationRoute
+  '/api/verify-paystack': typeof ApiVerifyPaystackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -94,6 +101,7 @@ export interface FileRoutesByTo {
   '/api/send-applicant-email': typeof ApiSendApplicantEmailRoute
   '/api/send-career-assessment': typeof ApiSendCareerAssessmentRoute
   '/api/send-confirmation': typeof ApiSendConfirmationRoute
+  '/api/verify-paystack': typeof ApiVerifyPaystackRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -107,6 +115,7 @@ export interface FileRoutesById {
   '/api/send-applicant-email': typeof ApiSendApplicantEmailRoute
   '/api/send-career-assessment': typeof ApiSendCareerAssessmentRoute
   '/api/send-confirmation': typeof ApiSendConfirmationRoute
+  '/api/verify-paystack': typeof ApiVerifyPaystackRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -121,6 +130,7 @@ export interface FileRouteTypes {
     | '/api/send-applicant-email'
     | '/api/send-career-assessment'
     | '/api/send-confirmation'
+    | '/api/verify-paystack'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -133,6 +143,7 @@ export interface FileRouteTypes {
     | '/api/send-applicant-email'
     | '/api/send-career-assessment'
     | '/api/send-confirmation'
+    | '/api/verify-paystack'
   id:
     | '__root__'
     | '/'
@@ -145,6 +156,7 @@ export interface FileRouteTypes {
     | '/api/send-applicant-email'
     | '/api/send-career-assessment'
     | '/api/send-confirmation'
+    | '/api/verify-paystack'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -158,6 +170,7 @@ export interface RootRouteChildren {
   ApiSendApplicantEmailRoute: typeof ApiSendApplicantEmailRoute
   ApiSendCareerAssessmentRoute: typeof ApiSendCareerAssessmentRoute
   ApiSendConfirmationRoute: typeof ApiSendConfirmationRoute
+  ApiVerifyPaystackRoute: typeof ApiVerifyPaystackRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -211,6 +224,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/verify-paystack': {
+      id: '/api/verify-paystack'
+      path: '/api/verify-paystack'
+      fullPath: '/api/verify-paystack'
+      preLoaderRoute: typeof ApiVerifyPaystackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/send-confirmation': {
       id: '/api/send-confirmation'
       path: '/api/send-confirmation'
@@ -246,6 +266,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiSendApplicantEmailRoute: ApiSendApplicantEmailRoute,
   ApiSendCareerAssessmentRoute: ApiSendCareerAssessmentRoute,
   ApiSendConfirmationRoute: ApiSendConfirmationRoute,
+  ApiVerifyPaystackRoute: ApiVerifyPaystackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
