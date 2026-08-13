@@ -1,0 +1,1 @@
+- [Paystack deployment keys](paystack-deployment-keys.md) — browser checkout needs a build-time `pk_test_`/`pk_live_` key; server verification needs the matching `sk_` key.
