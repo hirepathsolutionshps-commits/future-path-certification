@@ -54,7 +54,7 @@ function baseShell(contentHtml: string): string {
   <!--[if !mso]><!-->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Fira+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <!--<![endif]-->
   <style>
     /* Reset */
@@ -96,7 +96,7 @@ function baseShell(contentHtml: string): string {
     }
   </style>
 </head>
-<body style="margin:0;padding:0;background-color:#F7F5F0;font-family:'Inter',Arial,sans-serif;color:#0A0A0A;">
+<body style="margin:0;padding:0;background-color:#F7F5F0;font-family:'Fira Sans',Arial,sans-serif;color:#0A0A0A;">
 
   <!-- Outer wrapper -->
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#F7F5F0;padding:48px 16px;">
@@ -543,7 +543,7 @@ function buildApplicantHtml(data: ApplicantEmailData): string {
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Application Received</title>
 </head>
-<body style="margin:0;padding:0;background:#F7F5F0;font-family:'Inter',Arial,Helvetica,sans-serif;color:#0A0A0A;">
+<body style="margin:0;padding:0;background:#F7F5F0;font-family:'Fira Sans',Arial,Helvetica,sans-serif;color:#0A0A0A;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#F7F5F0;padding:48px 16px;">
     <tr>
       <td align="center">
