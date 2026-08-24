@@ -2,7 +2,7 @@ import { CtaButton } from "./CtaButton";
 
 export function Nav() {
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-md">
+    <header className="sticky top-0 z-50 nav-material">
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
         <a href="#top" className="flex items-center gap-2.5" aria-label="Hire Path Solutions home">
           <img
@@ -20,6 +20,11 @@ export function Nav() {
           Apply Now
         </CtaButton>
       </nav>
+      {/* Scroll edge effect: content softly fades under floating chrome instead of a hard 1px rule */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-full h-4 bg-gradient-to-b from-background/70 to-transparent"
+      />
     </header>
   );
 }

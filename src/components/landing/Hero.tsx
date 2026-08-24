@@ -16,8 +16,9 @@ export function Hero() {
       : {
           initial: { opacity: 0, y: 20 },
           animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const, delay },
+          transition: { type: "spring" as const, bounce: 0, duration: 0.5, delay },
         };
+
 
   return (
     <section id="top" className="relative overflow-hidden bg-background" style={{ backgroundImage: "radial-gradient(circle, rgba(201,151,28,0.06) 1px, transparent 1px)", backgroundSize: "28px 28px" }}>

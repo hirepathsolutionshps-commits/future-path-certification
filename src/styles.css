@@ -130,6 +130,24 @@
   }
 }
 
+@layer base {
+  /* Size-specific tracking + leading (Apple typography discipline).
+     Large display text reads too loose as it grows; body stays near 0. */
+  h1 {
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+  }
+  h2 {
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  h3,
+  h4 {
+    letter-spacing: -0.012em;
+    line-height: 1.2;
+  }
+}
+
 @layer components {
   .font-data {
     font-family: var(--font-mono);
@@ -144,7 +162,34 @@
     font-size: 0.72rem;
     font-weight: 500;
   }
+
+  /* Translucent floating chrome — content scrolls underneath the material,
+     with a bright bottom edge where light catches it. */
+  .nav-material {
+    background-color: color-mix(in oklab, var(--background) 68%, transparent);
+    backdrop-filter: blur(22px) saturate(180%);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+    border-bottom: 1px solid color-mix(in oklab, var(--ink) 8%, transparent);
+  }
 }
+
+/* Materials collapse gracefully when the user asks for less transparency */
+@media (prefers-reduced-transparency: reduce) {
+  .nav-material {
+    background-color: var(--background);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .nav-material {
+    background-color: var(--background);
+    backdrop-filter: none;
+    border-bottom-color: var(--ink);
+  }
+}
+
 
 /* The single pricing "shine" sweep — runs once when triggered */
 @keyframes gold-shine {
