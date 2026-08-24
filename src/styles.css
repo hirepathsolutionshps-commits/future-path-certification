@@ -8,8 +8,8 @@
  * Hire Path Solutions — "Verified Credibility" design system.
  *
  * Palette: white + warm off-white surfaces, near-black ink, antique brass gold
- * accent, graphite secondary text. Typography: Fraunces (display serif),
- * Inter (body), JetBrains Mono (numbers/data).
+ * accent, graphite secondary text. Typography: DM Serif Display (display serif),
+ * Fira Sans (body), JetBrains Mono (numbers/data).
  */
 
 @theme inline {
@@ -46,8 +46,8 @@
   --color-gold-soft: var(--gold-soft);
   --color-graphite: var(--graphite);
 
-  --font-display: "Fraunces", ui-serif, Georgia, serif;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "DM Serif Display", ui-serif, Georgia, serif;
+  --font-sans: "Fira Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
